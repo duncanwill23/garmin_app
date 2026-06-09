@@ -15,24 +15,12 @@
             <iq:product id="fr955"/>
         </iq:products>
         <iq:permissions>
-            <!-- Record a native activity + write custom FIT fields -->
-            <!-- Read HR zones / age for %HRmax target band -->
-            <!-- NOTE: no Positioning permission on purpose (indoor, saves battery) -->
-            <iq:uses-permission id="Ant"/>
-            <iq:uses-permission id="Background"/>
-            <iq:uses-permission id="BluetoothLowEnergy"/>
-            <iq:uses-permission id="Communications"/>
-            <iq:uses-permission id="ComplicationPublisher"/>
+            <!-- Record native activity + custom FIT fields -->
             <iq:uses-permission id="Fit"/>
             <iq:uses-permission id="FitContributor"/>
-            <iq:uses-permission id="Notifications"/>
-            <iq:uses-permission id="PersistedContent"/>
-            <iq:uses-permission id="PersistedLocations"/>
-            <iq:uses-permission id="Positioning"/>
-            <iq:uses-permission id="PushNotification"/>
-            <iq:uses-permission id="Sensor"/>
+            <!-- Body Battery, Stress, skin temp via SensorHistory -->
             <iq:uses-permission id="SensorHistory"/>
-            <iq:uses-permission id="SensorLogging"/>
+            <!-- HR zones and age-based HRmax fallback -->
             <iq:uses-permission id="UserProfile"/>
         </iq:permissions>
         <iq:languages>

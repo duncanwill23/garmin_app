@@ -83,6 +83,19 @@ module TrendStore {
         return daysIntoProgram() >= Config.INDUCTION_STABILIZE_DAYS;
     }
 
+    // Number of sessions recorded (size of history value array).
+    function sessionCount() {
+        var h = Storage.getValue(KEY_ACCL_HIST_V);
+        if (h == null) { return 0; }
+        return (h has :size) ? h.size() : 0;
+    }
+
+    // Days since last session as a Number; 0 if no previous session.
+    function daysSinceLastNum() {
+        var d = daysSinceLast();
+        return (d == null) ? 0 : d;
+    }
+
     // -----------------------------------------------------------------------
     // Acclimation score (leaky integrator)
     // -----------------------------------------------------------------------

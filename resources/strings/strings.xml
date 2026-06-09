@@ -9,11 +9,6 @@
   <string id="ModalityDry">DRY SAUNA</string>
   <string id="ModalitySteam">STEAM (est.)</string>
 
-  <!-- Screening / safety -->
-  <string id="ScreenTitle">Before you start</string>
-  <string id="ScreenBody">Heat exposure carries real risks. Confirm you have no cardiac condition, are not pregnant, have no fever/illness, no alcohol, and no thermoregulation-impairing meds. See a doctor if unsure.</string>
-  <string id="ScreenConfirm">I confirm</string>
-
   <!-- Proxy disclaimer (must stay visible in coaching copy) -->
   <string id="ProxyNote">HR proxy — not core temp</string>
   <string id="SteamNote">Steam scoring is extrapolated / lower-confidence.</string>
@@ -23,4 +18,17 @@
   <string id="MenuResume">Resume</string>
   <string id="MenuSave">Save</string>
   <string id="MenuDiscard">Discard</string>
+
+  <!-- Idle options menu -->
+  <string id="MenuOptions">Options</string>
+  <string id="MenuSuggestion">Suggestion</string>
+  <string id="MenuCustom">Custom</string>
+  <string id="MenuRaceDate">Set race date</string>
+  <string id="MenuCancelWorkout">Cancel workout</string>
+
+  <!-- Suggestion / workout UI -->
+  <string id="UseThisWorkout">START to use</string>
+  <string id="BuildingBaseline">building baseline</string>
+  <string id="SuggestionProgression">Progression</string>
+  <string id="SuggestionRace">Race prep</string>
 </strings>

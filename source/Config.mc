@@ -76,6 +76,37 @@ module Config {
     // --- Rest phase guidance ---
     const REST_TARGET_SEC = 3 * 60;  // suggested rest between rounds (~3 min)
 
+    // --- Workout step types ---
+    enum { STEP_HEAT=0, STEP_REST=1, STEP_COOLDOWN=2 }
+
+    // --- Workout kinds ---
+    enum { WORKOUT_PROGRESSION=0, WORKOUT_RACE=1, WORKOUT_CUSTOM=2 }
+
+    // --- Explanation copy keys (§11) ---
+    enum { COPY_CALIBRATION=0, COPY_INDUCTION_BUILD=1, COPY_INDUCTION_FULL=2,
+           COPY_MAINTENANCE=3, COPY_POST_GAP=4, COPY_READINESS_TRIM=5,
+           COPY_READINESS_REST=6, COPY_RACE_BUILD=7, COPY_RACE_TAPER=8,
+           COPY_RACE_INSUFFICIENT=9 }
+
+    // --- Readiness bands ---
+    enum { READINESS_FULL=0, READINESS_TRIM=1, READINESS_SHORT=2, READINESS_REST=3 }
+
+    // --- Workout defaults ---
+    const PRESET_ROUNDS_DEFAULT   = 3;
+    const PRESET_HEAT_MIN_DEFAULT = 12;
+    const PRESET_REST_MIN_DEFAULT = 3;
+    const CALIBRATION_SESSIONS    = 5;
+
+    // --- Race periodization ---
+    const RACE_WINDOW_DAYS  = 35;   // race suggestion appears within ~5 weeks
+    const RACE_TAPER_DAYS   = 7;    // final week = taper
+    const RACE_TARGET_ACCL  = 80.0; // % to peak at by race day
+
+    // --- Acute HR alerts (advisory only — never block dose) ---
+    const HR_HIGH_PCT      = 0.92;   // momentary spike → one-shot warning
+    const HR_SUSTAINED_PCT = 0.85;   // sustained elevation threshold
+    const HR_SUSTAINED_SEC = 12 * 60; // 12 continuous min above sustained threshold
+
     // --- Modality accent colors (IDLE screen carousel) ---
     // Sauna (dry) — warm
     const COLOR_DRY_PRIMARY   = 0xF2A623;  // amber

@@ -1,6 +1,7 @@
 using Toybox.WatchUi;
 using Toybox.Graphics;
 using Toybox.Activity;
+using Toybox.Attention;
 using Toybox.SensorHistory;
 using Toybox.UserProfile;
 using Toybox.Time;
@@ -30,6 +31,20 @@ class HeatAccView extends WatchUi.View {
     private var _phaseElapsed   = 0;  // seconds since last phase transition
     private var _restStartHr    = null;
     private var _roundRecovery  = null;  // bpm drop in first 60 s of rest
+
+    // HR alert state (advisory only — never blocks dose)
+    private var _sustainedHighSec = 0;
+    private var _highVibrated     = false;
+    private var _alertBanner      = null;  // null = no alert
+
+    // Armed workout (set by IdleMenuDelegate, consumed by startSession)
+    private var _armedWorkout = null;
+
+    // Workout execution mode (§12)
+    private var _workout      = null;
+    private var _stepIndex    = 0;
+    private var _workoutMode  = false;
+    private var _totalSteps   = 0;
 
     // Per-session sample arrays (collected every 5 s, used for post-session graphs)
     private var _sampleT;
@@ -70,8 +85,20 @@ class HeatAccView extends WatchUi.View {
         _modality = m;
         Storage.setValue("last_modality", m);
     }
-    function modality()     { return _modality; }
-    function getState()     { return _state; }
+    function modality()       { return _modality; }
+    function getState()       { return _state; }
+    function armedWorkout()   { return _armedWorkout; }
+
+    function armWorkout(w) {
+        _armedWorkout = w;
+        if (w != null && (w has :modality)) { _modality = w.modality; }
+        WatchUi.requestUpdate();
+    }
+
+    function cancelWorkout() {
+        _armedWorkout = null;
+        WatchUi.requestUpdate();
+    }
 
     // -----------------------------------------------------------------------
     // Session control (called by delegate and StopMenuDelegate)
@@ -80,6 +107,18 @@ class HeatAccView extends WatchUi.View {
     function startSession() {
         if (_state != Config.STATE_IDLE) { return; }
         TrendStore.startProgramIfNeeded();
+
+        // Consume armed workout (null = free session)
+        _workout     = _armedWorkout;
+        _armedWorkout = null;
+        if (_workout != null && (_workout has :modality)) {
+            _modality = _workout.modality;
+        }
+        _workoutMode = (_workout != null);
+        _stepIndex   = 0;
+        _totalSteps  = (_workout != null && (_workout.steps has :size))
+            ? _workout.steps.size() : 0;
+
         _dose    = new DoseEngine(_hrMax, _modality);
         _dose.startNewRound();
         _session = new SessionManager();
@@ -89,10 +128,13 @@ class HeatAccView extends WatchUi.View {
         _round          = 1;
         _restStartHr    = null;
         _roundRecovery  = null;
-        _sampleT        = [];
-        _sampleHR       = [];
-        _sampleTemp     = [];
-        _samplePhase    = [];
+        _sampleT           = [];
+        _sampleHR          = [];
+        _sampleTemp        = [];
+        _samplePhase       = [];
+        _sustainedHighSec  = 0;
+        _highVibrated      = false;
+        _alertBanner       = null;
         _state = Config.STATE_HEAT;
         startTimer();
     }
@@ -161,10 +203,12 @@ class HeatAccView extends WatchUi.View {
         WatchUi.requestUpdate();
     }
 
-    // Lap button: toggle HEAT ↔ REST.
-    // HEAT→REST: write heat-round FIT lap, capture rest-start HR.
-    // REST→HEAT: write rest FIT lap (with recovery if available), start next round.
+    // Lap button: toggle HEAT ↔ REST (free) or skip current step (workout mode).
     function markLap() {
+        if (_workoutMode) {
+            advanceStep();
+            return;
+        }
         if (_state == Config.STATE_HEAT) {
             _session.addLap(_dose.roundAvgHr(), _dose.roundMaxHr(),
                 _dose.roundDose(), _dose.driftBpmPerMin(), null);
@@ -183,6 +227,50 @@ class HeatAccView extends WatchUi.View {
             _dose.startNewRound();
             _state = Config.STATE_HEAT;
         }
+        WatchUi.requestUpdate();
+    }
+
+    // Advance to the next workout step (or fall through to free mode on last step).
+    private function advanceStep() {
+        // Write FIT lap for the completed step
+        if (_state == Config.STATE_HEAT) {
+            _session.addLap(_dose.roundAvgHr(), _dose.roundMaxHr(),
+                _dose.roundDose(), _dose.driftBpmPerMin(), null);
+        } else {
+            _session.addLap(null, null, null, null, _roundRecovery);
+        }
+
+        _stepIndex++;
+        if (_stepIndex >= _totalSteps) {
+            // Last step done — fall through to free count-up mode
+            _workoutMode = false;
+            _workout     = null;
+            _alertBanner = "Workout done — free mode";
+            vibrateOnce();
+            WatchUi.requestUpdate();
+            return;
+        }
+
+        // Load next step
+        var nextStep = _workout.steps[_stepIndex];
+        if (nextStep instanceof WorkoutStep && nextStep.type == Config.STEP_HEAT) {
+            _round++;
+            _phaseElapsed  = 0;
+            _restStartHr   = null;
+            _roundRecovery = null;
+            _dose.startNewRound();
+            _state = Config.STATE_HEAT;
+            _alertBanner = "Round " + _round;
+        } else {
+            var info = Activity.getActivityInfo();
+            _restStartHr   = (info != null && (info has :currentHeartRate))
+                ? info.currentHeartRate : null;
+            _roundRecovery = null;
+            _phaseElapsed  = 0;
+            _state = Config.STATE_REST;
+            _alertBanner = "Rest";
+        }
+        vibrateOnce();
         WatchUi.requestUpdate();
     }
 
@@ -208,9 +296,7 @@ class HeatAccView extends WatchUi.View {
         if (_state == Config.STATE_HEAT) {
             _dose.addSample(hr, _sessionElapsed);
             _session.onSecond(_dose.inBand(hr), _dose.pctHrMax(hr));
-            if (SafetyGate.sessionAtCap(_sessionElapsed)) {
-                // TODO: push a cap-warning dialog.
-            }
+            checkHrAlerts(hr);
         } else if (_state == Config.STATE_REST) {
             // Recording continues; no dose accrual.
             _session.onSecond(false, _dose.pctHrMax(hr));
@@ -218,6 +304,16 @@ class HeatAccView extends WatchUi.View {
             if (_roundRecovery == null && _phaseElapsed == 60
                     && _restStartHr != null && hr != null) {
                 _roundRecovery = _restStartHr - hr;  // positive = HR dropped
+            }
+        }
+
+        // Workout mode: auto-advance when step duration elapses.
+        if (_workoutMode && _workout != null && _stepIndex < _totalSteps) {
+            var curStep = _workout.steps[_stepIndex];
+            if (curStep instanceof WorkoutStep && curStep.durationSec != null
+                    && _phaseElapsed >= curStep.durationSec) {
+                advanceStep();
+                return;  // advanceStep calls requestUpdate
             }
         }
 
@@ -270,9 +366,19 @@ class HeatAccView extends WatchUi.View {
 
     // HEAT screen: round banner · HR · %HRmax (green when in zone) · time/dose · skin temp · proxy tag
     private function drawHeatScreen(dc, h, cx, hr, hrStr) {
+        // Steam "est." honesty tag (CLAUDE.md hard rule)
+        if (_modality == Config.MODALITY_STEAM) {
+            dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(cx, h * 0.02, Graphics.FONT_XTINY,
+                "steam · est.", Graphics.TEXT_JUSTIFY_CENTER);
+        }
+
         dc.setColor(Graphics.COLOR_ORANGE, Graphics.COLOR_TRANSPARENT);
+        var heatHeader = _workoutMode
+            ? "R" + _round + "/" + (_totalSteps / 2 + 1) + "  HEAT"
+            : "HEAT  R" + _round;
         dc.drawText(cx, h * 0.06, Graphics.FONT_XTINY,
-            "HEAT  R" + _round, Graphics.TEXT_JUSTIFY_CENTER);
+            heatHeader, Graphics.TEXT_JUSTIFY_CENTER);
 
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         dc.drawText(cx, h * 0.18, Graphics.FONT_NUMBER_MEDIUM,
@@ -285,12 +391,23 @@ class HeatAccView extends WatchUi.View {
         dc.drawText(cx, h * 0.52, Graphics.FONT_SMALL,
             pct + "%", Graphics.TEXT_JUSTIFY_CENTER);
 
-        // Phase time · cumulative dose
-        var pmm = (_phaseElapsed / 60).format("%02d");
-        var pss = (_phaseElapsed % 60).format("%02d");
+        // Phase time (countdown in workout mode, count-up in free mode) · dose
+        var timeStr;
+        if (_workoutMode && _workout != null && _stepIndex < _totalSteps) {
+            var curStep = _workout.steps[_stepIndex];
+            if (curStep instanceof WorkoutStep && curStep.durationSec != null) {
+                var rem = curStep.durationSec - _phaseElapsed;
+                if (rem < 0) { rem = 0; }
+                timeStr = (rem / 60).format("%02d") + ":" + (rem % 60).format("%02d");
+            } else {
+                timeStr = (_phaseElapsed / 60).format("%02d") + ":" + (_phaseElapsed % 60).format("%02d");
+            }
+        } else {
+            timeStr = (_phaseElapsed / 60).format("%02d") + ":" + (_phaseElapsed % 60).format("%02d");
+        }
         dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
         dc.drawText(cx, h * 0.66, Graphics.FONT_XTINY,
-            pmm + ":" + pss + "  " + _dose.doseUnits.format("%.0f") + " dose",
+            timeStr + "  " + _dose.doseUnits.format("%.0f") + " dose",
             Graphics.TEXT_JUSTIFY_CENTER);
 
         // Skin temperature (wrist sensor — not core temp)
@@ -302,13 +419,27 @@ class HeatAccView extends WatchUi.View {
                 Graphics.TEXT_JUSTIFY_CENTER);
         }
 
-        // dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
-        // dc.drawText(cx, h * 0.90, Graphics.FONT_XTINY,
-        //     "HR proxy", Graphics.TEXT_JUSTIFY_CENTER);
+        // HR alert banner (advisory — appears above ProxyNote)
+        if (_alertBanner != null) {
+            dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(cx, h * 0.84, Graphics.FONT_XTINY,
+                _alertBanner, Graphics.TEXT_JUSTIFY_CENTER);
+        }
+
+        dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
+        dc.drawText(cx, h * 0.92, Graphics.FONT_XTINY,
+            WatchUi.loadResource(Rez.Strings.ProxyNote), Graphics.TEXT_JUSTIFY_CENTER);
     }
 
     // REST screen: banner · HR · phase time · dose (frozen) · skin temp
     private function drawRestScreen(dc, h, cx, hrStr) {
+        // Steam "est." honesty tag
+        if (_modality == Config.MODALITY_STEAM) {
+            dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(cx, h * 0.02, Graphics.FONT_XTINY,
+                "steam · est.", Graphics.TEXT_JUSTIFY_CENTER);
+        }
+
         dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_TRANSPARENT);
         dc.drawText(cx, h * 0.06, Graphics.FONT_XTINY,
             "REST", Graphics.TEXT_JUSTIFY_CENTER);
@@ -317,11 +448,22 @@ class HeatAccView extends WatchUi.View {
         dc.drawText(cx, h * 0.18, Graphics.FONT_NUMBER_MEDIUM,
             hrStr, Graphics.TEXT_JUSTIFY_CENTER);
 
-        var pmm = (_phaseElapsed / 60).format("%02d");
-        var pss = (_phaseElapsed % 60).format("%02d");
+        var restTimeStr;
+        if (_workoutMode && _workout != null && _stepIndex < _totalSteps) {
+            var curStep = _workout.steps[_stepIndex];
+            if (curStep instanceof WorkoutStep && curStep.durationSec != null) {
+                var rem = curStep.durationSec - _phaseElapsed;
+                if (rem < 0) { rem = 0; }
+                restTimeStr = (rem / 60).format("%02d") + ":" + (rem % 60).format("%02d");
+            } else {
+                restTimeStr = (_phaseElapsed / 60).format("%02d") + ":" + (_phaseElapsed % 60).format("%02d");
+            }
+        } else {
+            restTimeStr = (_phaseElapsed / 60).format("%02d") + ":" + (_phaseElapsed % 60).format("%02d");
+        }
         dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
         dc.drawText(cx, h * 0.52, Graphics.FONT_SMALL,
-            pmm + ":" + pss, Graphics.TEXT_JUSTIFY_CENTER);
+            restTimeStr, Graphics.TEXT_JUSTIFY_CENTER);
 
         // Dose frozen during rest — shown for reference
         dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
@@ -337,42 +479,101 @@ class HeatAccView extends WatchUi.View {
                 tempC.format("%.1f") + "\u00B0C  " + tempF.format("%.1f") + "\u00B0F  skin",
                 Graphics.TEXT_JUSTIFY_CENTER);
         }
+
+        dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
+        dc.drawText(cx, h * 0.90, Graphics.FONT_XTINY,
+            WatchUi.loadResource(Rez.Strings.ProxyNote), Graphics.TEXT_JUSTIFY_CENTER);
     }
 
-    // IDLE screen: carousel modality toggle
-    // Content block centered at h*0.50; chevrons equidistant above/below.
-    // Layout fractions (of h): ▲ 0.24, glyph 0.38, name 0.48, descriptor 0.62, ▼ 0.77
+    // IDLE screen: carousel modality toggle (or armed workout display).
+    // Three dots at top hint at the long-press OPTIONS menu.
+    // Bottom lines: calibration progress or acclimation %, and decay hint.
     private function drawIdleScreen(dc, h, cx) {
         var isDry = (_modality == Config.MODALITY_DRY);
-
         var accentPrimary   = isDry ? Config.COLOR_DRY_PRIMARY   : Config.COLOR_STEAM_PRIMARY;
         var accentSecondary = isDry ? Config.COLOR_DRY_SECONDARY : Config.COLOR_STEAM_SECONDARY;
 
-        var nameLabel = isDry ? "Sauna" : "Steam";
-        var descLabel = isDry ? "dry heat" : "humid heat";
-
-        // Up chevron
+        // Three-dot menu hint (top center)
         dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
-        var upY = (h * 0.24).toNumber();
-        dc.fillPolygon([[cx, upY - 8], [cx - 8, upY + 4], [cx + 8, upY + 4]]);
+        dc.fillCircle(cx - 10, (h * 0.10).toNumber(), 3);
+        dc.fillCircle(cx,      (h * 0.10).toNumber(), 3);
+        dc.fillCircle(cx + 10, (h * 0.10).toNumber(), 3);
 
-        // Heat-wave glyph
-        drawHeatWave(dc, cx, (h * 0.38).toNumber(), accentPrimary, accentSecondary);
+        if (_armedWorkout != null) {
+            // --- Armed workout display ---
+            var wName = (_armedWorkout has :name) ? _armedWorkout.name : "Workout";
+            var wRat  = (_armedWorkout has :rationale) ? _armedWorkout.rationale : "";
+            var wMod  = (_armedWorkout has :modality) ? _armedWorkout.modality : _modality;
+            var modStr = (wMod == Config.MODALITY_STEAM) ? "Steam · est." : "Dry Sauna";
 
-        // Selected modality name — white, prominent
-        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(cx, (h * 0.48).toNumber(), Graphics.FONT_MEDIUM,
-            nameLabel, Graphics.TEXT_JUSTIFY_CENTER);
+            dc.setColor(accentPrimary, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(cx, (h * 0.24).toNumber(), Graphics.FONT_XTINY,
+                modStr, Graphics.TEXT_JUSTIFY_CENTER);
 
-        // Descriptor in accent color
-        dc.setColor(accentPrimary, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(cx, (h * 0.62).toNumber(), Graphics.FONT_XTINY,
-            descLabel, Graphics.TEXT_JUSTIFY_CENTER);
+            dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(cx, (h * 0.34).toNumber(), Graphics.FONT_MEDIUM,
+                wName, Graphics.TEXT_JUSTIFY_CENTER);
 
-        // Down chevron
-        dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
-        var downY = (h * 0.77).toNumber();
-        dc.fillPolygon([[cx, downY + 8], [cx - 8, downY - 4], [cx + 8, downY - 4]]);
+            dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(cx, (h * 0.52).toNumber(), Graphics.FONT_XTINY,
+                wRat, Graphics.TEXT_JUSTIFY_CENTER);
+
+            dc.setColor(Graphics.COLOR_GREEN, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(cx, (h * 0.64).toNumber(), Graphics.FONT_XTINY,
+                WatchUi.loadResource(Rez.Strings.UseThisWorkout),
+                Graphics.TEXT_JUSTIFY_CENTER);
+        } else {
+            // --- Free-mode carousel ---
+            var nameLabel = isDry ? "Sauna" : "Steam";
+            var descLabel = isDry ? "dry heat" : "humid heat  est.";
+
+            // Up chevron
+            dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
+            var upY = (h * 0.24).toNumber();
+            dc.fillPolygon([[cx, upY - 8], [cx - 8, upY + 4], [cx + 8, upY + 4]]);
+
+            // Heat-wave glyph
+            drawHeatWave(dc, cx, (h * 0.38).toNumber(), accentPrimary, accentSecondary);
+
+            // Selected modality name — white, prominent
+            dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(cx, (h * 0.48).toNumber(), Graphics.FONT_MEDIUM,
+                nameLabel, Graphics.TEXT_JUSTIFY_CENTER);
+
+            // Descriptor in accent color
+            dc.setColor(accentPrimary, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(cx, (h * 0.62).toNumber(), Graphics.FONT_XTINY,
+                descLabel, Graphics.TEXT_JUSTIFY_CENTER);
+
+            // Down chevron
+            dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
+            var downY = (h * 0.77).toNumber();
+            dc.fillPolygon([[cx, downY + 8], [cx - 8, downY - 4], [cx + 8, downY - 4]]);
+        }
+
+        // --- Bottom info lines ---
+        var n = TrendStore.sessionCount();
+        if (n < Config.CALIBRATION_SESSIONS) {
+            dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(cx, (h * 0.85).toNumber(), Graphics.FONT_XTINY,
+                WatchUi.loadResource(Rez.Strings.BuildingBaseline) + " (" + n + "/5)",
+                Graphics.TEXT_JUSTIFY_CENTER);
+        } else {
+            var acclPct = TrendStore.currentAcclimation(TrendStore.nowEpoch());
+            dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(cx, (h * 0.85).toNumber(), Graphics.FONT_XTINY,
+                "~" + acclPct.format("%.0f") + "% acclimated",
+                Graphics.TEXT_JUSTIFY_CENTER);
+        }
+
+        var days = TrendStore.daysSinceLastNum();
+        if (days > 3) {
+            var decayPct = (days * Config.DECAY_PCT_PER_DAY * 100.0).toNumber();
+            dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(cx, (h * 0.93).toNumber(), Graphics.FONT_XTINY,
+                "~" + decayPct + "% decayed",
+                Graphics.TEXT_JUSTIFY_CENTER);
+        }
     }
 
     // Three vertical heat-wave strokes centered at (cx, y).
@@ -400,6 +601,43 @@ class HeatAccView extends WatchUi.View {
                 dc.drawLine(x1, y1, x2, y2);
             }
         }
+    }
+
+    // -----------------------------------------------------------------------
+    // HR alert logic (advisory only — dose keeps accruing)
+    // -----------------------------------------------------------------------
+    private function checkHrAlerts(hr) {
+        if (hr == null) { return; }
+        var pct = _dose.pctHrMax(hr);
+        var highThresh      = (Config.HR_HIGH_PCT      * 100).toNumber();
+        var sustainedThresh = (Config.HR_SUSTAINED_PCT * 100).toNumber();
+
+        if (pct >= highThresh) {
+            _sustainedHighSec = 0;
+            if (!_highVibrated) {
+                _highVibrated = true;
+                _alertBanner  = "HR very high";
+                vibrateOnce();
+            }
+        } else if (pct >= sustainedThresh) {
+            _highVibrated = false;
+            _sustainedHighSec++;
+            if (_sustainedHighSec >= Config.HR_SUSTAINED_SEC) {
+                _alertBanner = "high HR — consider cooling";
+                vibrateOnce();
+                _sustainedHighSec = 0;  // re-arm after next threshold crossing
+            }
+        } else {
+            _sustainedHighSec = 0;
+            _highVibrated     = false;
+            _alertBanner      = null;
+        }
+    }
+
+    private function vibrateOnce() {
+        if (!(Toybox has :Attention)) { return; }
+        if (!(Attention has :vibrate)) { return; }
+        Attention.vibrate([new Attention.VibeProfile(50, 300)]);
     }
 
     function onHide() { stopTimer(); }
