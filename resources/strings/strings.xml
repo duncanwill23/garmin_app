@@ -1,0 +1,26 @@
+<strings>
+  <string id="AppName">Heat Acclimation</string>
+
+  <!-- Main screen -->
+  <string id="ElapsedLabel">TIME</string>
+  <string id="HrLabel">HR</string>
+  <string id="DoseLabel">DOSE</string>
+  <string id="InZoneLabel">IN ZONE</string>
+  <string id="ModalityDry">DRY SAUNA</string>
+  <string id="ModalitySteam">STEAM (est.)</string>
+
+  <!-- Screening / safety -->
+  <string id="ScreenTitle">Before you start</string>
+  <string id="ScreenBody">Heat exposure carries real risks. Confirm you have no cardiac condition, are not pregnant, have no fever/illness, no alcohol, and no thermoregulation-impairing meds. See a doctor if unsure.</string>
+  <string id="ScreenConfirm">I confirm</string>
+
+  <!-- Proxy disclaimer (must stay visible in coaching copy) -->
+  <string id="ProxyNote">HR proxy — not core temp</string>
+  <string id="SteamNote">Steam scoring is extrapolated / lower-confidence.</string>
+
+  <!-- Stop menu -->
+  <string id="MenuPaused">Paused</string>
+  <string id="MenuResume">Resume</string>
+  <string id="MenuSave">Save</string>
+  <string id="MenuDiscard">Discard</string>
+</strings>

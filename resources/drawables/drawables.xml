@@ -1,0 +1,10 @@
+<drawables>
+  <!--
+    Launcher icon shown in the watch app list.
+    fr955 / fr965 / fr970 are high-density targets → 80x80 px.
+    files/launcher_icon_60.png is the medium-density fallback.
+    files/launcher_icon_256.png is for the Connect IQ Store listing
+    (uploaded via the developer portal, not referenced here).
+  -->
+  <bitmap id="LauncherIcon" filename="files/launcher_icon_80.png"/>
+</drawables>

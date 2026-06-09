@@ -1,0 +1,7 @@
+bin/
+*.iq
+*.prg
+*.debug.xml
+*.jungle.lock
+.DS_Store
+.vscode/

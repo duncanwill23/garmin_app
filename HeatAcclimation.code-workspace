@@ -1,0 +1,14 @@
+{
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "monkeyC.developerKeyPath": "../../developer_key",
+        "monkeyC.jungleFiles": "../../monkey.jungle",
+        "monkeyC.typeCheckLevel": "Gradual",
+        "monkeyC.compilerWarnings": true,
+        "monkeyC.testDevices": ["fr955"]
+    }
+}

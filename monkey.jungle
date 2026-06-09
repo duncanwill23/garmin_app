@@ -1,0 +1,6 @@
+project.manifest = manifest.xml
+
+# Single-target build for the Forerunner 955.
+# When you add devices, add their resource overrides here if needed.
+base.sourcePath = source
+base.resourcePath = resources
