@@ -54,12 +54,12 @@ module WorkoutSuggester {
             steps    = makeSets(1, 8 * 60, 3 * 60, modality);
             copyKey  = Config.COPY_RACE_TAPER;
             name     = "Race Taper";
-            rationale = "1 x 8 min — maintain without fatigue";
+            rationale = "1x8 · race taper";
         } else {
             steps    = makeSets(3, 12 * 60, 3 * 60, modality);
             copyKey  = Config.COPY_RACE_BUILD;
             name     = "Race Build";
-            rationale = "3 x 12 min — peak acclimation";
+            rationale = "3x12 · race peak";
         }
 
         // Readiness trim applies even in race phase
@@ -75,7 +75,7 @@ module WorkoutSuggester {
         // Insufficient acclimation flag
         if (TrendStore.currentAcclimation(TrendStore.nowEpoch()) < 40.0 && daysToRace < 14) {
             copyKey  = Config.COPY_RACE_INSUFFICIENT;
-            rationale = rationale + " · limited time to build";
+            rationale = rationale + " · limited";
         }
 
         return new Workout(name, modality, steps,
@@ -188,22 +188,22 @@ module WorkoutSuggester {
             steps    = makeSets(2, 8 * 60, 3 * 60, modality);
             copyKey  = Config.COPY_CALIBRATION;
             name     = "Calibration";
-            rationale = "2 x 8 min — baseline (" + (sessionCount + 1) + "/5)";
+            rationale = "2x8 · baseline " + (sessionCount + 1) + "/5";
         } else if (rung == RUNG_BUILD) {
             steps    = makeSets(2, 10 * 60, 3 * 60, modality);
             copyKey  = Config.COPY_INDUCTION_BUILD;
             name     = "Induction";
-            rationale = "2 x 10 min — early induction";
+            rationale = "2x10 · induction";
         } else if (rung == RUNG_MAINTENANCE) {
             steps    = makeSets(2, 10 * 60, 3 * 60, modality);
             copyKey  = Config.COPY_MAINTENANCE;
             name     = "Maintenance";
-            rationale = "2 x 10 min — maintain adaptation";
+            rationale = "2x10 · maintenance";
         } else {
             steps    = makeSets(3, 12 * 60, 3 * 60, modality);
             copyKey  = Config.COPY_INDUCTION_FULL;
             name     = "Full Induction";
-            rationale = "3 x 12 min — full dose";
+            rationale = "3x12 · full dose";
         }
 
         // Override copy key for gap or low readiness
@@ -213,7 +213,7 @@ module WorkoutSuggester {
         } else if (readiness[:band] == Config.READINESS_TRIM ||
                    readiness[:band] == Config.READINESS_SHORT) {
             copyKey  = Config.COPY_READINESS_TRIM;
-            rationale = rationale + " · trimmed for readiness";
+            rationale = rationale + " · readiness";
         }
 
         var dose = estimateDose(steps, modality);

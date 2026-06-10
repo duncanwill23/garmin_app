@@ -39,7 +39,7 @@ class SessionGraphView extends WatchUi.View {
         dc.clear();
 
         var title   = _hrMode ? "Heart Rate" : "Skin Temp";
-        var pageStr = _hrMode ? "3 / 4" : "4 / 4";
+        var pageStr = _hrMode ? "3 / 5" : "4 / 5";
 
         dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
         dc.drawText(cx, h * 0.02, Graphics.FONT_XTINY,

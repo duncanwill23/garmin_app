@@ -28,6 +28,7 @@ class SummaryView extends WatchUi.View {
         dc.drawText(cx, h * 0.04, Graphics.FONT_XTINY,
             "SAVED", Graphics.TEXT_JUSTIFY_CENTER);
 
+
         // Large dose number
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         dc.drawText(cx, h * 0.14, Graphics.FONT_NUMBER_MEDIUM,
@@ -55,9 +56,16 @@ class SummaryView extends WatchUi.View {
         dc.drawText(cx, h * 0.78, Graphics.FONT_XTINY,
             inZoneMin + " min  " + roundStr, Graphics.TEXT_JUSTIFY_CENTER);
 
+        // Steam honesty note — below the rounds line, above the page indicator
+        // if (_data.modality == Config.MODALITY_STEAM) {
+        //     dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_TRANSPARENT);
+        //     dc.drawText(cx, h * 0.84, Graphics.FONT_XTINY,
+        //         WatchUi.loadResource(Rez.Strings.SteamNote), Graphics.TEXT_JUSTIFY_CENTER);
+        // }
+
         // Page indicator
         dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(cx, h * 0.90, Graphics.FONT_XTINY,
-            "1 / 4", Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(cx, h * 0.92, Graphics.FONT_XTINY,
+            "1 / 5", Graphics.TEXT_JUSTIFY_CENTER);
     }
 }

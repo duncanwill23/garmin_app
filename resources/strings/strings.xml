@@ -10,8 +10,8 @@
   <string id="ModalitySteam">STEAM (est.)</string>
 
   <!-- Proxy disclaimer (must stay visible in coaching copy) -->
-  <string id="ProxyNote">HR proxy — not core temp</string>
-  <string id="SteamNote">Steam scoring is extrapolated / lower-confidence.</string>
+  <!-- <string id="ProxyNote">HR proxy — not core temp</string> -->
+  <!-- <string id="SteamNote">Steam scoring is extrapolated / lower-confidence.</string> -->
 
   <!-- Stop menu -->
   <string id="MenuPaused">Paused</string>
@@ -31,4 +31,10 @@
   <string id="BuildingBaseline">building baseline</string>
   <string id="SuggestionProgression">Progression</string>
   <string id="SuggestionRace">Race prep</string>
+
+  <!-- Readiness toggle (idle menu) -->
+  <string id="MenuRunDown">Run down today</string>
+
+  <!-- Custom workout list -->
+  <string id="MenuCustomBuild">Build new…</string>
 </strings>

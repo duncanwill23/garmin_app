@@ -124,6 +124,9 @@ class IdleMenu extends WatchUi.Menu2 {
             WatchUi.loadResource(Rez.Strings.MenuCustom), null, :custom, null));
         addItem(new WatchUi.MenuItem(
             WatchUi.loadResource(Rez.Strings.MenuRaceDate), null, :race_date, null));
+        var isRunDown = Readiness.getManualLow();
+        addItem(new WatchUi.ToggleMenuItem(
+            WatchUi.loadResource(Rez.Strings.MenuRunDown), null, :rundown, isRunDown, null));
         if (view.armedWorkout() != null) {
             addItem(new WatchUi.MenuItem(
                 WatchUi.loadResource(Rez.Strings.MenuCancelWorkout), null, :cancel, null));
@@ -139,16 +142,23 @@ class IdleMenuDelegate extends WatchUi.Menu2InputDelegate {
     }
 
     function onSelect(item) {
-        WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
+        // Do NOT pop the menu before navigating. Keep it in the stack so that
+        // pressing BACK in any sub-view returns here rather than jumping to idle.
+        // "Done" actions (arm workout, save race date) use switchToView to jump
+        // all the way back to the idle screen in one step.
         var id = item.getId();
         if (id == :suggestion) {
             pushSuggestionChooser();
         } else if (id == :custom) {
-            WatchUi.pushView(new CustomView(_view), new CustomDelegate(_view), WatchUi.SLIDE_LEFT);
+            WatchUi.switchToView(new CustomListMenu(), new CustomListDelegate(_view), WatchUi.SLIDE_LEFT);
         } else if (id == :race_date) {
-            WatchUi.pushView(new RaceDateView(_view), new RaceDateDelegate(_view), WatchUi.SLIDE_LEFT);
+            WatchUi.switchToView(new RaceDateView(_view), new RaceDateDelegate(_view), WatchUi.SLIDE_LEFT);
+        } else if (id == :rundown) {
+            // ToggleMenuItem handles its own visual state; we just persist the value.
+            Readiness.setManualLow(!Readiness.getManualLow());
         } else if (id == :cancel) {
             _view.cancelWorkout();
+            WatchUi.popView(WatchUi.SLIDE_DOWN);  // close menu, return to idle
         }
     }
 
@@ -167,21 +177,22 @@ class IdleMenuDelegate extends WatchUi.Menu2InputDelegate {
             ? WorkoutSuggester.suggestRace(modality, readiness, daysToRace) : null;
 
         if (raceWorkout != null && progWorkout != null) {
-            // Offer both; build a chooser menu
+            // Offer both; build a chooser menu — switchToView replaces IdleMenu so it
+            // doesn't stay on the stack when we later arm and return to idle.
             var menu = new WatchUi.Menu2({ :title => "Suggestion" });
             menu.addItem(new WatchUi.MenuItem(
                 WatchUi.loadResource(Rez.Strings.SuggestionProgression), null, :prog, null));
             menu.addItem(new WatchUi.MenuItem(
                 WatchUi.loadResource(Rez.Strings.SuggestionRace) + " · " + daysToRace + "d",
                 null, :race, null));
-            WatchUi.pushView(menu,
+            WatchUi.switchToView(menu,
                 new SuggestionChooserDelegate(_view, progWorkout, raceWorkout),
                 WatchUi.SLIDE_LEFT);
         } else if (raceWorkout != null) {
-            WatchUi.pushView(new SuggestionView(raceWorkout, _view),
+            WatchUi.switchToView(new SuggestionView(raceWorkout),
                 new SuggestionDelegate(raceWorkout, _view), WatchUi.SLIDE_LEFT);
         } else if (progWorkout != null) {
-            WatchUi.pushView(new SuggestionView(progWorkout, _view),
+            WatchUi.switchToView(new SuggestionView(progWorkout),
                 new SuggestionDelegate(progWorkout, _view), WatchUi.SLIDE_LEFT);
         }
         // If both null (READINESS_REST), do nothing — stay on idle
@@ -207,9 +218,8 @@ class SuggestionChooserDelegate extends WatchUi.Menu2InputDelegate {
         _race = race;
     }
     function onSelect(item) {
-        WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
         var workout = (item.getId() == :race) ? _race : _prog;
-        WatchUi.pushView(new SuggestionView(workout),
+        WatchUi.switchToView(new SuggestionView(workout),
             new SuggestionDelegate(workout, _view), WatchUi.SLIDE_LEFT);
     }
     function onBack() {

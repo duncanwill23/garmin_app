@@ -4,17 +4,25 @@ using Toybox.Graphics;
 // ---------------------------------------------------------------------------
 // SuggestionView: 3-screen pager presenting a suggested Workout.
 //
-// Page 1 — Bar chart: alternating HEAT (orange) / REST (blue) blocks.
-// Page 2 — Explanation: copy text from WorkoutSuggester.buildExplanation().
+// Page 1 — Ring: segmented arc ring (red HEAT / blue REST) + center headline.
+// Page 2 — Explanation: scrollable copy text.
 // Page 3 — Benefit: projected acclimation gain + "START to use" CTA.
 //
-// UP/DOWN page through; SELECT on page 3 (or anywhere) arms the workout.
+// Navigation:
+//   DOWN / UP   — page through (or scroll explanation text when on page 2)
+//   SELECT      — arm the workout and jump directly to idle (switchToView)
+//   BACK        — pop this view; returns to whatever pushed it (menu / chooser)
 // ---------------------------------------------------------------------------
 class SuggestionView extends WatchUi.View {
 
     private var _workout;
-    private var _page;      // 0, 1, or 2
+    private var _page;          // 0, 1, or 2
     private var _pageCount = 3;
+
+    // Explanation scroll state (page 1 only)
+    private var _explainLines = null;  // lazily built Array<String>
+    private var _scrollLine   = 0;
+    const EXPLAIN_VISIBLE = 7;         // lines visible at once
 
     function initialize(workout) {
         View.initialize();
@@ -22,10 +30,45 @@ class SuggestionView extends WatchUi.View {
         _page    = 0;
     }
 
-    function getPage()  { return _page; }
-    function nextPage() { _page = (_page + 1) % _pageCount; WatchUi.requestUpdate(); }
-    function prevPage() { _page = (_page + _pageCount - 1) % _pageCount; WatchUi.requestUpdate(); }
+    function getPage() { return _page; }
 
+    function nextPage() {
+        _page = (_page + 1) % _pageCount;
+        _scrollLine   = 0;
+        _explainLines = null;
+        WatchUi.requestUpdate();
+    }
+
+    function prevPage() {
+        _page = (_page + _pageCount - 1) % _pageCount;
+        _scrollLine   = 0;
+        _explainLines = null;
+        WatchUi.requestUpdate();
+    }
+
+    // Explanation scroll helpers
+    function canScrollDown() {
+        var lines = _getExplainLines();
+        return _scrollLine + EXPLAIN_VISIBLE < lines.size();
+    }
+    function canScrollUp() { return _scrollLine > 0; }
+
+    function scrollDown() {
+        if (canScrollDown()) { _scrollLine++; WatchUi.requestUpdate(); }
+    }
+    function scrollUp() {
+        if (canScrollUp()) { _scrollLine--; WatchUi.requestUpdate(); }
+    }
+
+    private function _getExplainLines() {
+        if (_explainLines == null) {
+            var text = WorkoutSuggester.buildExplanation(_workout);
+            _explainLines = _splitLines(text);
+        }
+        return _explainLines;
+    }
+
+    // -----------------------------------------------------------------------
     function onUpdate(dc) {
         var w  = dc.getWidth();
         var h  = dc.getHeight();
@@ -35,96 +78,81 @@ class SuggestionView extends WatchUi.View {
         dc.clear();
 
         if (_page == 0) {
-            drawBarChart(dc, w, h, cx);
+            drawRingPreview(dc, h, cx);
         } else if (_page == 1) {
             drawExplanation(dc, h, cx);
         } else {
             drawBenefit(dc, h, cx);
         }
 
-        // Page indicator (e.g. "1/3")
-        dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(cx, (h * 0.94).toNumber(), Graphics.FONT_XTINY,
-            (_page + 1) + "/" + _pageCount, Graphics.TEXT_JUSTIFY_CENTER);
+        // Page indicator ("1/3" etc.) — hidden when explanation overflows (arrows
+        // shown instead), but always shown on pages 0 and 2.
+        if (_page != 1 || (!canScrollDown() && !canScrollUp())) {
+            dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(cx, (h * 0.94).toNumber(), Graphics.FONT_XTINY,
+                (_page + 1) + "/" + _pageCount, Graphics.TEXT_JUSTIFY_CENTER);
+        }
     }
 
-    // --- Page 1: bar chart of workout steps ---
-    private function drawBarChart(dc, w, h, cx) {
-        var steps = _workout.steps;
-        if (!(steps has :size) || steps.size() == 0) { return; }
+    // --- Page 1: segmented ring preview ---
+    private function drawRingPreview(dc, h, cx) {
+        // Name + modality above the ring
+        // var isDry  = (_workout.modality == Config.MODALITY_DRY);
+        // var modStr = isDry ? "Dry Sauna" : "Steam · est.";
+        // dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+        // dc.drawText(cx, (h * 0.02).toNumber(), Graphics.FONT_XTINY,
+        //     _workout.name + "  " + modStr, Graphics.TEXT_JUSTIFY_CENTER);
 
-        // Header
-        var isDry = (_workout.modality == Config.MODALITY_DRY);
-        var modStr = isDry ? "Dry Sauna" : "Steam · est.";
-        dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(cx, (h * 0.03).toNumber(), Graphics.FONT_XTINY,
-            _workout.name + "  " + modStr, Graphics.TEXT_JUSTIFY_CENTER);
+        // Ring + center headline (N x H / min in heat / total)
+        WorkoutRing.drawPreview(dc, _workout);
 
-        // Compute total duration for proportional widths
-        var totalSec = 0;
-        for (var i = 0; i < steps.size(); i++) {
-            var s = steps[i];
-            if (s instanceof WorkoutStep && s.durationSec != null) {
-                totalSec += s.durationSec;
-            }
-        }
-        if (totalSec == 0) { return; }
-
-        var barAreaW = (w * 0.80).toNumber();
-        var barX0    = ((w - barAreaW) / 2).toNumber();
-        var barY     = (h * 0.20).toNumber();
-        var barH     = (h * 0.30).toNumber();
-        var labelY   = (h * 0.52).toNumber();
-
-        var x = barX0;
-        for (var i = 0; i < steps.size(); i++) {
-            var s = steps[i];
-            if (!(s instanceof WorkoutStep) || s.durationSec == null) { continue; }
-            var bw = (s.durationSec.toFloat() / totalSec.toFloat() * barAreaW).toNumber();
-            if (s.type == Config.STEP_HEAT) {
-                dc.setColor(0xF2A623, Graphics.COLOR_TRANSPARENT); // amber
-            } else {
-                dc.setColor(0x5AA9E6, Graphics.COLOR_TRANSPARENT); // blue
-            }
-            dc.fillRectangle(x, barY, bw - 1, barH);
-
-            // Time label centered under each block
-            var minLabel = (s.durationSec / 60).toString() + "m";
-            dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-            dc.drawText(x + bw / 2, labelY, Graphics.FONT_XTINY,
-                minLabel, Graphics.TEXT_JUSTIFY_CENTER);
-            x += bw;
+        // Race badge below the total-time line (inside ring, safe area)
+        if (_workout.kind == Config.WORKOUT_RACE) {
+            var cy = dc.getHeight() / 2;
+            dc.setColor(Graphics.COLOR_ORANGE, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(cx, cy + (h * 0.27).toNumber(), Graphics.FONT_XTINY,
+                "Race prep", Graphics.TEXT_JUSTIFY_CENTER);
         }
 
-        // Summary line
-        var rounds  = _workout.heatRounds();
-        var heatMin = _workout.totalHeatSec() / 60;
-        var totalMin = totalSec / 60;
-        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(cx, (h * 0.62).toNumber(), Graphics.FONT_XTINY,
-            rounds + " x " + (heatMin / rounds) + " min · " + totalMin + " min total",
-            Graphics.TEXT_JUSTIFY_CENTER);
-
-        // HR range
-        var loHr = (Config.TARGET_HR_LOW_PCT  * 100.0).toNumber();
-        var hiHr = (Config.TARGET_HR_HIGH_PCT * 100.0).toNumber();
-        dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(cx, (h * 0.72).toNumber(), Graphics.FONT_XTINY,
-            loHr + "-" + hiHr + "% HRmax target",
-            Graphics.TEXT_JUSTIFY_CENTER);
+        // HR target hint near bottom (below ring outer edge)
+        // var loHr = (Config.TARGET_HR_LOW_PCT  * 100.0).toNumber();
+        // var hiHr = (Config.TARGET_HR_HIGH_PCT * 100.0).toNumber();
+        // dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
+        // dc.drawText(cx, (h * 0.87).toNumber(), Graphics.FONT_XTINY,
+        //     loHr + "-" + hiHr + "% HRmax target", Graphics.TEXT_JUSTIFY_CENTER);
     }
 
-    // --- Page 2: explanation text ---
+    // --- Page 2: scrollable explanation ---
     private function drawExplanation(dc, h, cx) {
-        var text = WorkoutSuggester.buildExplanation(_workout);
-        // Split on "\n" and draw line by line
-        var lines = splitLines(text);
-        var startY = (h * 0.08).toNumber();
-        var lineH  = (h * 0.13).toNumber();
+        var lines  = _getExplainLines();
+        var lineH  = (h * 0.10).toNumber();   // ~45 px on fr955 — comfortable for FONT_XTINY
+        var startY = (h * 0.10).toNumber();
+
+        // Scroll-up arrow
+        if (canScrollUp()) {
+            dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
+            dc.fillPolygon([[cx, (h * 0.02).toNumber()],
+                            [cx - 7, (h * 0.06).toNumber()],
+                            [cx + 7, (h * 0.06).toNumber()]]);
+        }
+
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-        for (var i = 0; i < lines.size() && i < 6; i++) {
-            dc.drawText(cx, startY + i * lineH, Graphics.FONT_XTINY,
+        for (var i = _scrollLine; i < lines.size() && i < _scrollLine + EXPLAIN_VISIBLE; i++) {
+            dc.drawText(cx, startY + (i - _scrollLine) * lineH, Graphics.FONT_XTINY,
                 lines[i], Graphics.TEXT_JUSTIFY_CENTER);
+        }
+
+        // Scroll-down arrow (doubles as page-forward cue when at bottom)
+        if (canScrollDown()) {
+            dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
+            dc.fillPolygon([[cx, (h * 0.96).toNumber()],
+                            [cx - 7, (h * 0.92).toNumber()],
+                            [cx + 7, (h * 0.92).toNumber()]]);
+        } else {
+            // At the bottom — show page indicator so user knows they can page forward
+            dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(cx, (h * 0.94).toNumber(), Graphics.FONT_XTINY,
+                "2/" + _pageCount, Graphics.TEXT_JUSTIFY_CENTER);
         }
     }
 
@@ -132,26 +160,24 @@ class SuggestionView extends WatchUi.View {
     private function drawBenefit(dc, h, cx) {
         var gain = (_workout has :projectedGainPct) ? _workout.projectedGainPct : 0.0;
         dc.setColor(Graphics.COLOR_GREEN, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(cx, (h * 0.20).toNumber(), Graphics.FONT_MEDIUM,
+        dc.drawText(cx, (h * 0.20).toNumber(), Graphics.FONT_NUMBER_MEDIUM,
             "+" + gain.format("%.0f") + "%",
             Graphics.TEXT_JUSTIFY_CENTER);
 
         dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(cx, (h * 0.40).toNumber(), Graphics.FONT_XTINY,
-            "projected acclimation gain",
-            Graphics.TEXT_JUSTIFY_CENTER);
-        dc.drawText(cx, (h * 0.50).toNumber(), Graphics.FONT_XTINY,
-            "(estimate — based on full dose)",
-            Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(cx, (h * 0.52).toNumber(), Graphics.FONT_XTINY,
+            "projected acclimation gain", Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(cx, (h * 0.60).toNumber(), Graphics.FONT_XTINY,
+            "(estimate — full dose in target band)", Graphics.TEXT_JUSTIFY_CENTER);
 
         dc.setColor(Graphics.COLOR_GREEN, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(cx, (h * 0.70).toNumber(), Graphics.FONT_XTINY,
+        dc.drawText(cx, (h * 0.76).toNumber(), Graphics.FONT_SMALL,
             WatchUi.loadResource(Rez.Strings.UseThisWorkout),
             Graphics.TEXT_JUSTIFY_CENTER);
     }
 
-    // Minimal "\n" line splitter — returns Array of Strings.
-    private function splitLines(text) {
+    // Split text on "\n" → Array<String>.
+    private function _splitLines(text) {
         var result = [];
         var start  = 0;
         for (var i = 0; i < text.length(); i++) {
@@ -167,6 +193,7 @@ class SuggestionView extends WatchUi.View {
     }
 }
 
+// ---------------------------------------------------------------------------
 class SuggestionDelegate extends WatchUi.BehaviorDelegate {
     private var _workout;
     private var _mainView;
@@ -177,27 +204,42 @@ class SuggestionDelegate extends WatchUi.BehaviorDelegate {
         _mainView = mainView;
     }
 
-    // DOWN = next page
+    // DOWN: scroll explanation text if overflowing, otherwise advance page.
     function onNextPage() {
         var view = WatchUi.getCurrentView()[0];
-        if (view instanceof SuggestionView) { view.nextPage(); }
+        if (view instanceof SuggestionView) {
+            if (view.getPage() == 1 && view.canScrollDown()) {
+                view.scrollDown();
+            } else {
+                view.nextPage();
+            }
+        }
         return true;
     }
 
-    // UP = previous page
+    // UP: scroll explanation text back if scrolled, otherwise retreat page.
     function onPreviousPage() {
         var view = WatchUi.getCurrentView()[0];
-        if (view instanceof SuggestionView) { view.prevPage(); }
+        if (view instanceof SuggestionView) {
+            if (view.getPage() == 1 && view.canScrollUp()) {
+                view.scrollUp();
+            } else {
+                view.prevPage();
+            }
+        }
         return true;
     }
 
-    // SELECT: arm the workout and return to idle
+    // SELECT: arm the workout then pop back to idle. The menu flow now uses
+    // switchToView throughout so there is only one view above root; pop goes
+    // cleanly back to the idle screen which shows the armed workout.
     function onSelect() {
         _mainView.armWorkout(_workout);
         WatchUi.popView(WatchUi.SLIDE_RIGHT);
         return true;
     }
 
+    // BACK: pop back to idle (menus above root have already been replaced).
     function onBack() {
         WatchUi.popView(WatchUi.SLIDE_RIGHT);
         return true;

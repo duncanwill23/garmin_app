@@ -62,7 +62,7 @@ class AcclimationView extends WatchUi.View {
         } else {
             dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
             dc.drawText(cx, h * 0.90, Graphics.FONT_XTINY,
-                "2 / 4", Graphics.TEXT_JUSTIFY_CENTER);
+                "2 / 5", Graphics.TEXT_JUSTIFY_CENTER);
         }
     }
 

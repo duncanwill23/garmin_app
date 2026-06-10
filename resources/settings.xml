@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!--
+  App settings — defines the Garmin Connect Mobile UI for the three custom
+  workout slots. Values are stored in Application.Properties and read in
+  CustomView.mc (CustomListDelegate._buildSlotWorkout).
+
+  Modality: 0 = Dry Sauna, 1 = Steam Room.
+  Heat/rest durations are entered in whole minutes; multiplied by 60 in code.
+-->
+<settings>
+    <!-- ── Custom A ─────────────────────────────────────────────────────── -->
+    <setting propertyKey="@Properties.slot1Rounds" title="Custom A — Rounds">
+        <settingConfig type="numeric" min="1" max="5"/>
+    </setting>
+    <setting propertyKey="@Properties.slot1HeatMin" title="Custom A — Heat (min)">
+        <settingConfig type="numeric" min="5" max="20"/>
+    </setting>
+    <setting propertyKey="@Properties.slot1RestMin" title="Custom A — Rest (min)">
+        <settingConfig type="numeric" min="1" max="10"/>
+    </setting>
+    <setting propertyKey="@Properties.slot1Modality" title="Custom A — Modality">
+        <settingConfig type="list">
+            <listEntry value="0">Dry Sauna</listEntry>
+            <listEntry value="1">Steam Room (est.)</listEntry>
+        </settingConfig>
+    </setting>
+
+    <!-- ── Custom B ─────────────────────────────────────────────────────── -->
+    <setting propertyKey="@Properties.slot2Rounds" title="Custom B — Rounds">
+        <settingConfig type="numeric" min="1" max="5"/>
+    </setting>
+    <setting propertyKey="@Properties.slot2HeatMin" title="Custom B — Heat (min)">
+        <settingConfig type="numeric" min="5" max="20"/>
+    </setting>
+    <setting propertyKey="@Properties.slot2RestMin" title="Custom B — Rest (min)">
+        <settingConfig type="numeric" min="1" max="10"/>
+    </setting>
+    <setting propertyKey="@Properties.slot2Modality" title="Custom B — Modality">
+        <settingConfig type="list">
+            <listEntry value="0">Dry Sauna</listEntry>
+            <listEntry value="1">Steam Room (est.)</listEntry>
+        </settingConfig>
+    </setting>
+
+    <!-- ── Custom C ─────────────────────────────────────────────────────── -->
+    <setting propertyKey="@Properties.slot3Rounds" title="Custom C — Rounds">
+        <settingConfig type="numeric" min="1" max="5"/>
+    </setting>
+    <setting propertyKey="@Properties.slot3HeatMin" title="Custom C — Heat (min)">
+        <settingConfig type="numeric" min="5" max="20"/>
+    </setting>
+    <setting propertyKey="@Properties.slot3RestMin" title="Custom C — Rest (min)">
+        <settingConfig type="numeric" min="1" max="10"/>
+    </setting>
+    <setting propertyKey="@Properties.slot3Modality" title="Custom C — Modality">
+        <settingConfig type="list">
+            <listEntry value="0">Dry Sauna</listEntry>
+            <listEntry value="1">Steam Room (est.)</listEntry>
+        </settingConfig>
+    </setting>
+</settings>

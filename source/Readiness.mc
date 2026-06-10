@@ -58,7 +58,22 @@ module Readiness {
             reason = reason + " · feeling run down";
         }
 
+        // Same-day heat session: slight knockdown (< 24 h recovery)
+        var dsl = TrendStore.daysSinceLast();
+        if (dsl != null && dsl == 0) {
+            band   = bandDown(band);
+            reason = reason + " · session today";
+        }
+
         return { :band => band, :reason => reason, :bodyBattery => bb };
+    }
+
+    // Toggle helpers — called by IdleMenuDelegate to let the user flag a low-readiness day.
+    function setManualLow(flag) {
+        Storage.setValue(KEY_MANUAL_LOW, flag);
+    }
+    function getManualLow() {
+        return Storage.getValue(KEY_MANUAL_LOW) == true;
     }
 
     // Increment band toward REST, capped at REST.

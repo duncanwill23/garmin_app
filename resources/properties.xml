@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+  App properties — default values for the three phone-editable custom workout slots.
+  These are read in CustomView.mc via Application.Properties.getValue().
+
+  Modality: 0 = Dry Sauna, 1 = Steam Room (matches Config.MODALITY_* enums).
+
+  Defaults match common workout-ladder steps so the slots are useful out-of-the-box
+  even without configuring them in Garmin Connect Mobile.
+-->
+<properties>
+    <!-- Custom A — full induction (matches RUNG_FULL default) -->
+    <property id="slot1Rounds"   type="number">3</property>
+    <property id="slot1HeatMin"  type="number">12</property>
+    <property id="slot1RestMin"  type="number">3</property>
+    <property id="slot1Modality" type="number">0</property>
+
+    <!-- Custom B — early induction (matches RUNG_BUILD default) -->
+    <property id="slot2Rounds"   type="number">2</property>
+    <property id="slot2HeatMin"  type="number">10</property>
+    <property id="slot2RestMin"  type="number">3</property>
+    <property id="slot2Modality" type="number">0</property>
+
+    <!-- Custom C — calibration / easy (matches RUNG_CALIBRATION default) -->
+    <property id="slot3Rounds"   type="number">1</property>
+    <property id="slot3HeatMin"  type="number">8</property>
+    <property id="slot3RestMin"  type="number">3</property>
+    <property id="slot3Modality" type="number">0</property>
+</properties>

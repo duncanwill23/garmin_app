@@ -1,249 +1,90 @@
-# Build TODO — Heat Acclimation app (against the current repo)
+# Spec: arc-ring workout display (preview + live progress)
 
-Baseline = the repo as last shared (nothing added since). Full set of changes.
-Keep constants in `Config.mc`, keep rendering resolution-relative, keep the honesty
-rules (HR is a proxy; steam is an estimate), and keep all logic simple/deterministic
-— no learned model. Build order = section order. Re-test boot after sections 1 and 13.
+Replaces the bar-chart visual in the workout flow with a segmented ring around the
+bezel. Refines `BUILD_TODO.md` §7 (suggestion screen 1), §8 (custom preview), and
+§12 (auto-run screens). Keep rendering resolution-relative.
 
----
+## Concept
+The workout is drawn as a single ring near the watch bezel, broken into segments
+proportional to each step's duration — red for HEAT, blue for REST, gray for an
+optional COOLDOWN — starting at the top (12 o'clock) and running clockwise. A small
+white notch/triangle marks the 12 o'clock start. The center holds the headline.
 
-## DESIGN UNDERSTANDING (read first)
+The big win: the **same ring is reused live during the workout** as the progress
+indicator, so "here's your workout" and "here's where you are" share one visual.
 
-- **Dose lever is TIME, not intensity.** Progress by extending heat time / adding
-  rounds; the HR band stays 65–80% HRmax.
-- **Three control loops:** progression (slow, by sessions) sets today's ceiling;
-  readiness (acute) only scales DOWN; adaptation feedback (HR-at-load trend) decides
-  advance / hold / maintenance.
-- **Cold start:** first 5 sessions are a CALIBRATION window — fixed safe ramp, coarse
-  readiness only, acclimation % withheld ("building baseline n/5"). Personalize after.
-- **Acclimation is a PEAK you time to a race, not a level you hold** (it decays
-  ~2.5%/day). So race logic is periodized and only matters near the race.
-- **Idle is always FREE.** A workout is something the user deliberately loads (arms)
-  and can deliberately unload (Cancel workout).
-- **Two suggestions, user chooses:** Progression (always) and Race (only within the
-  race window). Each is clearly labeled.
-- **Don't overfit:** discrete rungs + a few readiness bands + evidence-based defaults
-  as the prior; personal data only nudges within bounds; a gap regresses a rung.
+## Where it's used
+- **Suggestion screen 1** (was the bar chart) — preview ring + center headline.
+- **Custom preview** (`CustomView` selection) — same preview ring.
+- **Live HEAT/REST screens during a structured workout** — same ring, now showing
+  progress (see Live mode).
+- **NOT in free mode** — free sessions have no known durations, so the existing
+  count-up screen stays as-is (no ring).
 
----
-
-## 1. Remove the medical-screening / gating layer
-Consumer training aid, not a medical device.
-- `HeatAccApp.getInitialView()`: remove the `!SafetyGate.screeningComplete()` branch;
-  launch straight to `HeatAccView`.
-- `ScreeningView.mc`: delete `ScreeningView` + `ScreeningDelegate`.
-- `SafetyGate.mc`: remove `screeningComplete`, `markScreeningComplete`, `isNovice`,
-  `hrProxyInvalid`, `sessionCapSec`, `weeklyCap`, `sessionAtCap`; delete the file if
-  unused.
-- `HeatAccView.onTick`: delete the `SafetyGate.sessionAtCap(...)` block (see §2).
-- `strings.xml`: remove `ScreenTitle`/`ScreenBody`/`ScreenConfirm`.
-
-## 2. Acute HR alerts (advisory only — never block)
-`Config.mc`:
+## Geometry (resolution-relative)
 ```
-const HR_HIGH_PCT      = 0.92;
-const HR_SUSTAINED_PCT = 0.85;
-const HR_SUSTAINED_SEC = 12 * 60;
-```
-`HeatAccView` (during HEAT, using `_dose.pctHrMax(hr)`): momentary `>= HR_HIGH_PCT*100`
-→ "HR very high" + one `Attention.vibrate` (re-arm after dropping below); track
-`_sustainedHighSec` (increment `>= HR_SUSTAINED_PCT*100`, reset below), exceed
-`HR_SUSTAINED_SEC` → "high HR a while — consider cooling down" + vibrate. Draw the
-banner. `using Toybox.Attention;` guarded by `Attention has :vibrate`. Dose keeps
-accruing; these warn only.
-
-## 3. Workout model
-New `Workout.mc`:
-```
-WorkoutStep { type, durationSec (null = manual), targetHrLowPct, targetHrHighPct }
-Workout     { name, modality, steps:Array<WorkoutStep>, kind }  // kind: PROGRESSION|RACE|CUSTOM
-```
-`Config.mc`:
-```
-enum { STEP_HEAT = 0, STEP_REST = 1, STEP_COOLDOWN = 2 }
-const PRESET_ROUNDS_DEFAULT  = 3;
-const PRESET_HEAT_MIN_DEFAULT = 12;
-const PRESET_REST_MIN_DEFAULT = 3;
-const CALIBRATION_SESSIONS    = 5;
-const RACE_WINDOW_DAYS        = 35;   // race suggestion appears within ~5 weeks
-const RACE_TAPER_DAYS         = 7;    // final week = taper
-const RACE_TARGET_ACCL        = 80.0; // % to peak at by race day
+cx = w/2;  cy = h/2
+ringR = (min(w,h) * 0.40)        // radius to the ring centerline
+penW  = (min(w,h) * 0.075)       // ring thickness
+totalSec  = sum of every step.durationSec (heat + rest + cooldown)
+degPerSec = 360.0 / totalSec
 ```
 
-## 4. Readiness gathering  (`Readiness.mc`, all NULL-SAFE — often null in the sim)
-- Body Battery — `SensorHistory.getBodyBatteryHistory()` newest (primary).
-- Stress — `SensorHistory.getStressHistory()` newest.
-- Today's activity — `ActivityMonitor.getInfo()` (intensity minutes, steps).
-- Training Status string — Complications (best-effort; down-weight "overreaching").
-- Recent heat session — `TrendStore.daysSinceLast()`.
-- Manual "feeling run down?" per-day flag (also the null fallback).
-Compute a factor [0,1] (Body Battery dominant; knocked down by stress, big activity,
-overreaching, recent heat, manual flag) → band FULL/TRIM/SHORT/REST + reason string.
-Readiness only scales DOWN. During calibration use only coarse signals.
+## Drawing the segments (Monkey C)
+Use `dc.setPenWidth(penW)` + `dc.drawArc(cx, cy, ringR, Graphics.ARC_CLOCKWISE,
+startDeg, endDeg)` per segment. Garmin's drawArc uses degrees measured
+counter-clockwise from 3 o'clock (0=E, 90=N/top), so start at 90 and sweep clockwise
+by decreasing the angle:
+```
+var cursor = 90.0;                       // top
+for each step in workout.steps {
+    var span  = step.durationSec * degPerSec;
+    var end   = cursor - span;           // clockwise
+    dc.setColor(colorFor(step.type), Graphics.COLOR_TRANSPARENT);
+    dc.drawArc(cx, cy, ringR, Graphics.ARC_CLOCKWISE, cursor, end);
+    cursor = end;
+}
+```
+- `colorFor`: HEAT → `0xE0392C`, REST → `0x3E8FD0`, COOLDOWN → `0x7d8088`.
+- Draw the start notch: a small white triangle at `(cx, cy - ringR - penW/2 - 3)`.
+- **Verify sweep direction in the simulator once** — if it runs counter-clockwise,
+  swap to `Graphics.ARC_COUNTER_CLOCKWISE` or negate the span. (drawArc orientation is
+  the one thing worth eyeballing.)
+- Tiny segments: enforce a minimum visible span (e.g. clamp each segment to ≥ ~4°) so
+  a very short rest still shows.
 
-## 5. Progression engine  (`WorkoutSuggester.mc`)
-`suggestProgression(modality, readiness)` → `Workout(kind=PROGRESSION)` + rationale +
-projected gain. Uses `TrendStore` (`getHistoryV().size()` = sessions, `daysIntoProgram`,
-`inMaintenancePhase`, `daysSinceLast`, `estimatedDecayPct`, `currentAcclimation`).
-Ladder (rungs by sessions; numbers in Config, tunable):
-- Calibration (1–5): 1–2 rounds, ~8–12 min total.
-- Build (~6–8, induction): 2–3 rounds → ~20–30 min.
-- Full induction (~9+, `daysIntoProgram < INDUCTION_STABILIZE_DAYS`): ~3 rounds, ~30 min.
-- Maintenance (`inMaintenancePhase()`): ~2 rounds, ~20 min.
-Never exceed `SESSION_TARGET_SEC`; rests ~`REST_TARGET_SEC`; band 65–80% HRmax.
-Modifiers: readiness band scales DOWN; gap (`daysSinceLast()>3`) regresses a rung +
-shows "~X% decayed". Projected gain = simulate the leaky integrator for the dose
-WITHOUT committing.
+## Preview center content
+- Line 1 (large): "N × H" (rounds × heat minutes), e.g. "3 × 12".
+- Line 2 (muted): "min in heat".
+- Line 3 (muted): total minutes (e.g. "36 min total").
+- For the Race kind, the kind badge / "Race prep" can sit just under the headline.
 
-## 6. Hold-UP menu + idle (idle is ALWAYS free)
-App always opens FREE — no auto-armed workout. `HeatAccView` holds `_armedWorkout`
-(null = free).
-`HeatAccDelegate.onMenu()` (long-press UP, IDLE only) pushes a `Menu2` (like
-`StopMenu`). Items are context-dependent:
-- Always: `Suggestion`, `Custom`, `Set race date`.
-- Only when `_armedWorkout != null`: also `Cancel workout` → clears `_armedWorkout`,
-  returns to the free start screen.
-No "Free session" item — free is the default; Cancel workout returns to it. Keep short
-UP/DOWN as the modality toggle.
-`drawIdleScreen`:
-- Free (`_armedWorkout == null`): modality carousel; START runs a FREE session.
-- Armed: show "Workout: 3 × 12 min · 130–145 bpm"; START begins that workout.
-- Three small white dots near the top = "hold UP for menu" affordance.
-- One-line readiness/decay note when relevant.
-- Steam shows the `est.` tag (`Rez.Strings.ModalitySteam`).
-- Acclimation %: show "building baseline (n/5)" until `CALIBRATION_SESSIONS` done.
-START on idle = `startSession(_armedWorkout)` (free when null).
+## Live mode (during a structured workout)
+Reuse the ring on the HEAT/REST screens instead of a bare countdown:
+- Draw all segments at full color so the whole shape stays visible.
+- Compute progress: `elapsedInWorkout = (sum of completed steps' durationSec) +
+  _phaseElapsed`; `progressDeg = elapsedInWorkout * degPerSec`.
+- Draw a **white position marker** (a short radial tick or a filled dot) on the ring at
+  angle `90 - progressDeg`. Optionally dim already-completed segments.
+- Center shows: the **current block's remaining time counting DOWN**
+  (`step.durationSec - _phaseElapsed`), "Round N of M", and a one-line next-block
+  preview — same data as BUILD_TODO §12, just framed by the ring.
+- On auto-advance or a LAP skip, the marker jumps to the new segment automatically
+  (it's derived from elapsed time + `_stepIndex`, so no extra wiring).
+- **Over-run:** once past the final step, the workout is complete — show the ring full
+  and fall through to the free count-up screen per BUILD_TODO §12.
 
-## 7. Suggestion tab — Progression and/or Race, user picks
-New `SuggestionView.mc` + paging delegate.
-- Build the available suggestions: Progression (always, §5); Race (only when §9 says
-  the race is within `RACE_WINDOW_DAYS`).
-- If only Progression: open its 3-screen detail directly, header badge "Progression".
-- If both: show a small chooser first (Menu2: "Progression" / "Race · N days out"),
-  then the chosen one's 3-screen detail. Each detail's header badges its kind so the
-  user always knows which logic is driving it.
-- 3 paged screens (UP/DOWN + touch swipe; "1/3"…"3/3"):
-  1. **Bar chart** — red `fillRectangle` heat / blue rest, widths ∝ duration, time
-     labels; header = rounds × min, total, target bpm, and the kind badge.
-  2. **Explanation** — scrolling `TextArea` with the copy from §11 (chosen by type).
-  3. **Expected benefit** — "+X% acclimation (est.)"; for the Race kind also
-     "Projected Y% by race day at ~F×/week — on track / behind by N".
-- **"Use this workout"** (the on-screen action; START arms it and `switchToView` back
-  to idle — NOT the same as the physical START that later begins it). BACK → menu.
-
-## 8. Custom workouts
-- `CustomView.mc`: list saved workouts; select → Screen-1 bar-chart preview;
-  "Use this workout" arms + returns to idle. (No benefit projection.)
-- Creation — do BOTH:
-  - On-watch quick builder: rounds / heat-min / rest-min / modality → `Workout`, saved
-    to a list in `Application.Storage`.
-  - Phone app settings (`settings.xml` + `properties.xml`): 3 fixed "Custom slots",
-    each rounds/heat/rest/modality, editable in Garmin Connect Mobile.
-
-## 9. Set race date + race periodization
-- Entry: on-watch date picker + an app-settings date field; store in
-  `Application.Storage`. (Garmin's Primary Race date is NOT readable via the on-watch
-  SDK — user enters it. Optionally probe Complications, don't depend on it.)
-- `daysToRace = raceDate - today`.
-- **Dormant outside the window:** if no race OR `daysToRace > RACE_WINDOW_DAYS`, do NOT
-  generate a Race suggestion — only Progression runs. The Set-race-date screen shows
-  the countdown and "race plan activates on [raceDate − RACE_WINDOW_DAYS]".
-- **In window** (`0 < daysToRace <= RACE_WINDOW_DAYS`): `suggestRace(...)` →
-  `Workout(kind=RACE)`:
-  - `daysToRace > RACE_TAPER_DAYS` → BUILD: full induction ramp toward
-    `RACE_TARGET_ACCL`, 3–5×/week (copy RACE_BUILD).
-  - `daysToRace <= RACE_TAPER_DAYS` → TAPER: light maintenance, finish hard heat,
-    1–2 short sessions (copy RACE_TAPER).
-  - If too little time to reach target → add the RACE_INSUFFICIENT note.
-- Sessions-needed: simulate the leaky integrator forward at a candidate cadence to hit
-  `RACE_TARGET_ACCL` by race day; surface countdown, "~F×/week, ~N total", progress
-  ("8 done — on track / behind by 2").
-
-## 10. (reserved)
-
-## 11. Explanation copy (Screen 2) — templated; `[..]` are fills
-Show the kind badge above the copy: "Progression" or "Race prep · [D] days out".
-
-- **CALIBRATION:** "Starter session — we're still learning how you respond, so keep it
-  easy: [N] rounds of [H] min with [R] min rests. Stop early if you've had enough;
-  building tolerance matters more than hitting the clock right now."
-- **INDUCTION_BUILD:** "Building your acclimation. [N] × [H] min in the heat (~[T] min
-  total) at [lo]–[hi] bpm, [R] min rests. The adaptation comes from consistency — aim
-  for 3–5 sessions a week."
-- **INDUCTION_FULL:** "Full induction session: [N] × [H] min (~[T] min total) at [lo]–
-  [hi] bpm. This is the core of the block — most of your heart-rate and blood-volume
-  adaptation is built here."
-- **MAINTENANCE:** "Maintenance day. You've built the adaptation; now you're holding
-  it. Lighter today — [N] × [H] min. Two to three a week keeps it from fading."
-- **POST_GAP:** "Welcome back. It's been [D] days, so roughly [X]% of your acclimation
-  has faded. Easing back in with [N] × [H] min and rebuilding from here."
-- **READINESS_TRIM:** "Your body's a bit run down today ([reason], Body Battery [BB]),
-  so this is scaled back to [N] × [H] min. A lighter day still counts."
-- **READINESS_REST:** "Low readiness today ([reason], Body Battery [BB]). The honest
-  call is rest — heat on a depleted body adds strain without much adaptation."
-- **RACE_BUILD:** "Race prep — [D] days out. Building you to peak right at race day:
-  [N] × [H] min (~[T] min total) at [lo]–[hi] bpm. Keep it consistent through the next
-  couple of weeks."
-- **RACE_TAPER:** "Race week — [D] days out. Keep heat light and finish hard heat about
-  a week before race day. Short maintenance only today: [N] × [H] min."
-- **RACE_INSUFFICIENT:** "Heads up: your race is [D] days away, and acclimation takes
-  about two weeks to build. You'll still gain something, but there isn't time to fully
-  acclimate — focus on consistency from here."
-
-Add a `Toybox.Lang` format helper to fill these.
-
-## 12. Auto-run a workout (the watch drives it)
-`HeatAccView` gains `_workout`, `_stepIndex`, `_workoutMode`. `startSession(workout)`:
-if non-null, load steps, `_stepIndex=0`, `_workoutMode=true`, start at step 0; if null,
-today's free session unchanged. (Idle passes `_armedWorkout`.)
-Adapted heat/rest screens (copy current ones, change the timer + add context):
-- **Time counts DOWN** — remaining in the current block; show "Round N of M" + a
-  one-line next-block preview.
-- **Auto-advance:** in `onTick`, when `_phaseElapsed >= step.durationSec`, advance —
-  reuse the existing HEAT↔REST transition from `markLap` (`_dose.startNewRound()` on a
-  new heat block, `_session.addLap(...)`), fire `Attention.vibrate` + a cue ("Next:
-  Rest 3:00").
-- **LAP (bottom-right) = SKIP the current block** → next step (lap isn't needed inside
-  a workout, so it's repurposed to skip).
-- **START = pause** → existing `StopMenu` (Resume/Save/Discard), unchanged.
-- **Over-run fallback:** after the LAST step, switch to FREE mode — the count-UP manual
-  screen where LAP reverts to the heat↔rest toggle — so the user keeps going past the
-  workout. Saving is the same.
-- **Free session (no workout):** unchanged.
-All modes: dose only in HEAT, recording through REST, per-round drift, HR recovery at
-the 60-s rest mark.
-
-## 13. Honesty + manifest
-- `drawIdleScreen`/`drawHeatScreen`/`drawRestScreen`: when `_modality == STEAM` show a
-  "steam · est." tag; idle must not show plain "Steam"/"humid heat" without it.
-- `drawHeatScreen`/`drawRestScreen`: draw `Rez.Strings.ProxyNote` ("HR proxy — not core
-  temp") — currently commented out / absent.
-- `SummaryView`: when steam, show `Rez.Strings.SteamNote`.
-- Skin temperature stays, framed as the watch's sensor, never core temp.
-- `manifest.xml`: trim to `Fit`, `FitContributor`, `UserProfile`, `SensorHistory`
-  (now needed for Body Battery + Stress + temp); add `Sensor` only if required. Remove
-  `Positioning` and the other unused permissions. Reconcile `minApiLevel` (5.2.0 vs the
-  3.2.0 comment).
-
----
+## Edge cases
+- A step with `durationSec == null` (manual) has no proportional span — structured
+  workouts shouldn't contain manual steps, but if one appears, give it a small fixed
+  span and advance only on LAP.
+- One-round / very short workouts still render (the ring just has fewer segments).
 
 ## Acceptance criteria
-- App always opens FREE; START runs a free session; no questionnaire.
-- Hold-UP opens a menu (Suggestion / Custom / Set race date); "Cancel workout" appears
-  only when a workout is armed and returns to free. Three dots hint at the menu.
-- Suggestion tab offers Progression always, and Race only when the race is within
-  `RACE_WINDOW_DAYS`; when both exist the user picks, and each is badged by kind.
-- Each suggestion has 3 paged screens (bar chart, explanation, expected benefit);
-  "Use this workout" arms it and returns to idle; START on idle begins it.
-- A workout auto-advances with countdown timers, vibration cues, "round N of M"; LAP
-  skips a block; START pauses; after the last block it falls into the free count-up
-  screen; free mode unchanged.
-- Outside the race window the race date is dormant (Progression only) and the
-  Set-race-date screen shows the countdown + activation date.
-- Suggestions ramp by sessions, scale DOWN with low readiness, regress after a gap;
-  the Race suggestion builds then tapers and warns if there isn't time.
-- First 5 sessions show "building baseline (n/5)" instead of an acclimation %.
-- Custom workouts build on-watch and via phone app-settings slots, list, and arm.
-- Steam shows "est." everywhere; HR-proxy line shows on live screens; manifest trimmed,
-  Positioning gone.
-- Readiness reads are null-safe (no crashes when Body Battery / status are unavailable).
+- Suggestion screen 1 and the custom preview show the segmented ring (red heat / blue
+  rest), a start notch at the top, and the centered headline — no bar chart.
+- During a structured workout the same ring shows a moving position marker, the current
+  block counts down in the center with "round N of M", and LAP/auto-advance moves the
+  marker correctly.
+- Free sessions are unaffected (no ring; existing count-up screen).
+- All geometry is fractions of `min(w,h)` so it scales across devices.
