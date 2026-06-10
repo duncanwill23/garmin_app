@@ -46,6 +46,10 @@ class CustomListDelegate extends WatchUi.Menu2InputDelegate {
         _mainView = mainView;
     }
 
+    function onTap(evt)   { return true; }
+    function onHold(evt)  { return true; }
+    function onSwipe(evt) { return true; }
+
     function onSelect(item) {
         var id = item.getId();
         if (id == :build) {
@@ -258,6 +262,9 @@ class CustomDelegate extends WatchUi.BehaviorDelegate {
         BehaviorDelegate.initialize();
         _mainView = mainView;
     }
+    function onTap(evt)   { return true; }
+    function onHold(evt)  { return true; }
+    function onSwipe(evt) { return true; }
     function onNextPage() {
         var v = WatchUi.getCurrentView()[0];
         if (v instanceof CustomView) { v.decrement(); }

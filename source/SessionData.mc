@@ -56,6 +56,10 @@ class PostSessionDelegate extends WatchUi.BehaviorDelegate {
         _data = data;
     }
 
+    function onTap(evt)   { return true; }
+    function onHold(evt)  { return true; }
+    function onSwipe(evt) { return true; }
+
     function onSelect() {
         var v = new HeatAccView();
         WatchUi.switchToView(v, new HeatAccDelegate(v), WatchUi.SLIDE_LEFT);

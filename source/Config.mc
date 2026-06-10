@@ -107,6 +107,9 @@ module Config {
     const HR_SUSTAINED_PCT = 0.85;   // sustained elevation threshold
     const HR_SUSTAINED_SEC = 12 * 60; // 12 continuous min above sustained threshold
 
+    // --- Silence / vibration toggle ---
+    const STORAGE_KEY_SILENT = "silentMode";
+
     // --- Modality accent colors (IDLE screen carousel) ---
     // Sauna (dry) — warm
     const COLOR_DRY_PRIMARY   = 0xF2A623;  // amber

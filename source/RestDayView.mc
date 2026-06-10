@@ -26,6 +26,9 @@ class RestDayView extends WatchUi.View {
 class RestDayDelegate extends WatchUi.BehaviorDelegate {
     private var _mainView;
     function initialize(mainView) { BehaviorDelegate.initialize(); _mainView = mainView; }
+    function onTap(evt)   { return true; }
+    function onHold(evt)  { return true; }
+    function onSwipe(evt) { return true; }
     function onBack()   { _goBack(); return true; }
     function onSelect() { _goBack(); return true; }
     private function _goBack() {

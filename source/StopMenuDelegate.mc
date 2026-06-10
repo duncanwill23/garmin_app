@@ -26,6 +26,10 @@ class StopMenuDelegate extends WatchUi.Menu2InputDelegate {
         _view = view;
     }
 
+    function onTap(evt)   { return true; }
+    function onHold(evt)  { return true; }
+    function onSwipe(evt) { return true; }
+
     function onSelect(item) {
         var id = item.getId();
         WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);

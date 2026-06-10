@@ -32,6 +32,9 @@ class HeatAccView extends WatchUi.View {
     private var _restStartHr    = null;
     private var _roundRecovery  = null;  // bpm drop in first 60 s of rest
 
+    // Silence / vibration toggle (persisted across sessions)
+    private var _silent = false;
+
     // HR alert state (advisory only — never blocks dose)
     private var _sustainedHighSec = 0;
     private var _highVibrated     = false;
@@ -60,6 +63,8 @@ class HeatAccView extends WatchUi.View {
         if (saved != null && (saved == Config.MODALITY_DRY || saved == Config.MODALITY_STEAM)) {
             _modality = saved;
         }
+        var savedSilent = Storage.getValue(Config.STORAGE_KEY_SILENT);
+        if (savedSilent != null) { _silent = savedSilent; }
     }
 
     // --- HRmax: prefer user's configured zones, fall back to 220-age ---
@@ -89,6 +94,8 @@ class HeatAccView extends WatchUi.View {
     function modality()       { return _modality; }
     function getState()       { return _state; }
     function armedWorkout()   { return _armedWorkout; }
+    function isSilent()       { return _silent; }
+    function setSilent(val)   { _silent = val; }
 
     function armWorkout(w) {
         _armedWorkout = w;
@@ -641,6 +648,7 @@ class HeatAccView extends WatchUi.View {
     }
 
     private function vibrateOnce() {
+        if (_silent) { return; }
         if (!(Toybox has :Attention)) { return; }
         if (!(Attention has :vibrate)) { return; }
         Attention.vibrate([new Attention.VibeProfile(50, 300)]);

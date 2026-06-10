@@ -1,137 +1,67 @@
-# Pre-wrist fixes (against the current repo) — ALL DONE ✅
+# Fix: block touch input everywhere except suggestion scroll screen
 
-Four fixes before real-world testing. Items are independent; do them in any order.
+## The problem
+On the fr955, `BehaviorDelegate.onSelect()` is triggered by both the physical
+START/Enter button AND a tap anywhere on the touchscreen — Garmin maps them to the
+same behavior internally. Removing `onTap` does nothing because the tap is translated
+into `onSelect` before the app ever sees it as a touch event.
 
-NOTE: the missing steam/HR-proxy honesty labels and the unused `WorkoutRing.drawLive`
-are LEFT AS-IS ON PURPOSE. Do not re-enable the commented-out ProxyNote/SteamNote
-code, and do not wire the live ring in. Only the four items below.
+## The fix
+Intercept touch at the `InputDelegate` level by implementing `onTap`, `onHold`, and
+`onSwipe` and returning `true` (consumed) in every delegate except the suggestion
+explanation screen. Returning `true` signals the input is handled, which prevents
+Garmin from translating it into the corresponding behavior (`onSelect`, `onNextPage`,
+`onPreviousPage`). Physical buttons are unaffected.
 
----
+## Add these three methods to EVERY delegate in the app
 
-## 1. Lower `minApiLevel` so the watch can install the app
-File: `manifest.xml`
-
-`minApiLevel` is currently `5.2.0`, which is higher than the firmware level noted in
-the manifest comment ("API 5.0.0") and higher than anything the code needs. The newest
-APIs in use are Menu2 / ToggleMenuItem (~3.4.0) and SensorHistory Body Battery / Stress
-(~3.3.0); `drawArc`, FitContributor, and ActivityRecording are all older.
-
-- Change `minApiLevel="5.2.0"` → `minApiLevel="3.4.0"`.
-- Update the stale comment block: it still describes SpO2 / 3.2.0, but the SpO2
-  permission was already removed. Make the comment match the actual permissions
-  (Fit, FitContributor, SensorHistory, UserProfile) and the new minApiLevel.
-- Sanity-check that `3.4.0` is ≤ the fr955's supported API level (it is, comfortably).
-
-## 2. Load string resources in the pause menu
-File: `source/StopMenuDelegate.mc`, class `StopMenu.initialize()`
-
-`StopMenu` passes raw `Rez.Strings.*` symbols as the title and item labels, unlike
-`IdleMenu` and `CustomListMenu`, which both call `WatchUi.loadResource(...)`. The pause
-menu opens every session, so this is worth fixing. Wrap all four:
-
-```
-function initialize() {
-    Menu2.initialize({ :title => WatchUi.loadResource(Rez.Strings.MenuPaused) });
-    addItem(new WatchUi.MenuItem(WatchUi.loadResource(Rez.Strings.MenuResume),  null, :resume,  null));
-    addItem(new WatchUi.MenuItem(WatchUi.loadResource(Rez.Strings.MenuSave),    null, :save,    null));
-    addItem(new WatchUi.MenuItem(WatchUi.loadResource(Rez.Strings.MenuDiscard), null, :discard, null));
+```monkeyc
+function onTap(clickEvent as WatchUi.ClickEvent) as Lang.Boolean {
+    return true;
+}
+function onHold(clickEvent as WatchUi.ClickEvent) as Lang.Boolean {
+    return true;
+}
+function onSwipe(swipeEvent as WatchUi.SwipeEvent) as Lang.Boolean {
+    return true;
 }
 ```
 
-## 3. Normalize arc angles before `drawArc` (and verify sweep direction)
-File: `source/WorkoutRing.mc`
+Apply to all of these files:
+- `HeatAccDelegate.mc` — all delegate classes inside it
+- `StopMenuDelegate.mc`
+- `IdleMenuDelegate.mc` (inside `HeatAccDelegate.mc` or its own file)
+- `SuggestionView.mc` — the chooser delegate and screens 1 and 3's delegate
+- `CustomView.mc` — all delegates
+- `RaceDateView.mc` — all delegates
+- `RestDayView.mc`
+- `SummaryView.mc` delegate
+- `AcclimationView.mc` delegate
+- `SessionGraphView.mc` delegate
+- Any other delegate class in the project
 
-`_drawSegments()` walks `cursor` from 90° downward, so `endDeg` goes negative (down to
-about −270 for a 3-round workout). `drawArc` measures degrees counter-clockwise from
-3 o'clock and may not accept negative values, which would mis-render the ring after the
-first segment. Normalize the two values passed to `drawArc` to `[0,360)` while keeping
-`cursor` accumulating un-normalized for the next subtraction.
+Do NOT remove or change `onSelect` — it must stay for the physical START/Enter button
+to keep working. These three methods only block the touch path.
 
-Add a helper to the module:
-```
-function _norm360(deg) {
-    var d = deg.toFloat() % 360.0;
-    if (d < 0.0) { d += 360.0; }
-    return d;
+## The one exception — suggestion screen 2 (explanation scroll view)
+The delegate for `SuggestionView` screen 2 (the scrollable explanation text) should
+NOT implement `onSwipe`, so the user can still scroll the text with a finger swipe.
+It SHOULD still implement `onTap` and `onHold` returning `true` to block accidental
+taps. So for that delegate only:
+
+```monkeyc
+function onTap(clickEvent as WatchUi.ClickEvent) as Lang.Boolean {
+    return true;
 }
-```
-In `_drawSegments()`, change the draw call:
-```
-var endDeg = cursor - span;
-dc.setColor(color, Graphics.COLOR_TRANSPARENT);
-dc.drawArc(cx, cy, ringR, Graphics.ARC_CLOCKWISE,
-    _norm360(cursor).toNumber(), _norm360(endDeg).toNumber());
-cursor = endDeg;   // keep un-normalized for the next segment
-```
-In `_drawFallback()`, normalize the same way:
-```
-dc.drawArc(g[:cx], g[:cy], g[:ringR], Graphics.ARC_CLOCKWISE,
-    _norm360(90).toNumber(), _norm360(90 - 359).toNumber());
-```
-`_drawMarker()` already uses `Math.cos/sin`, which handle negative angles, so leave it.
-
-Then in the simulator, confirm the preview ring sweeps CLOCKWISE starting at 12 o'clock
-(heat segment first). If it sweeps the wrong way, swap `Graphics.ARC_CLOCKWISE` for
-`Graphics.ARC_COUNTER_CLOCKWISE` in `_drawSegments` and `_drawFallback`.
-
-## 4. Give "Suggestion" a real result when readiness says REST
-File: `source/HeatAccDelegate.mc` (`IdleMenuDelegate.pushSuggestionChooser`) + a small
-new view.
-
-Right now, when both the progression and race suggestions are null (readiness band ==
-REST), `pushSuggestionChooser` does nothing — so tapping "Suggestion" looks like a dead
-button. Show a short rest-day message instead.
-
-In `pushSuggestionChooser`, replace the trailing "do nothing" comment with:
-```
-if (progWorkout == null && raceWorkout == null) {
-    WatchUi.switchToView(new RestDayView(readiness[:reason]),
-        new RestDayDelegate(), WatchUi.SLIDE_LEFT);
-    return;
+function onHold(clickEvent as WatchUi.ClickEvent) as Lang.Boolean {
+    return true;
 }
+// onSwipe intentionally omitted — allows scroll
 ```
-Add a new file `source/RestDayView.mc`:
-```
-using Toybox.WatchUi;
-using Toybox.Graphics;
 
-class RestDayView extends WatchUi.View {
-    private var _reason;
-    function initialize(reason) { View.initialize(); _reason = reason; }
-    function onUpdate(dc) {
-        var w = dc.getWidth(); var h = dc.getHeight(); var cx = w / 2;
-        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK); dc.clear();
-        dc.setColor(Graphics.COLOR_ORANGE, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(cx, (h * 0.28).toNumber(), Graphics.FONT_MEDIUM,
-            "Rest today", Graphics.TEXT_JUSTIFY_CENTER);
-        dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(cx, (h * 0.48).toNumber(), Graphics.FONT_XTINY,
-            "Recovery beats heat on a", Graphics.TEXT_JUSTIFY_CENTER);
-        dc.drawText(cx, (h * 0.56).toNumber(), Graphics.FONT_XTINY,
-            "depleted day.", Graphics.TEXT_JUSTIFY_CENTER);
-        if (_reason != null) {
-            dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
-            dc.drawText(cx, (h * 0.70).toNumber(), Graphics.FONT_XTINY,
-                _reason, Graphics.TEXT_JUSTIFY_CENTER);
-        }
-    }
-}
-
-class RestDayDelegate extends WatchUi.BehaviorDelegate {
-    function initialize() { BehaviorDelegate.initialize(); }
-    function onBack()   { WatchUi.popView(WatchUi.SLIDE_RIGHT); return true; }
-    function onSelect() { WatchUi.popView(WatchUi.SLIDE_RIGHT); return true; }
-}
-```
-Using `switchToView` (not `pushView`) keeps the stack consistent with the rest of the
-menu flow: it replaces the open IdleMenu, so `popView` returns cleanly to the idle screen.
-
----
-
-## Acceptance
-- App installs and launches on the fr955 (minApiLevel no longer blocks it).
-- The pause menu shows readable "Resume / Save / Discard" text.
-- The suggestion preview ring renders as clean clockwise red/blue segments from
-  12 o'clock, with no broken arcs past the first segment.
-- With readiness forced to REST, tapping "Suggestion" shows a "Rest today" screen that
-  backs out to idle, instead of doing nothing.
+## Acceptance criteria
+- Tapping anywhere on any screen (idle, heat, rest, summary, menus, race date,
+  rest day) does nothing — no session starts, no pause, no navigation.
+- The physical START, LAP, BACK, UP, DOWN buttons all still work normally.
+- Swiping on suggestion screen 2 still scrolls the explanation text.
+- Holding the screen does nothing on any screen.

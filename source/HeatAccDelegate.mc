@@ -1,5 +1,4 @@
 using Toybox.WatchUi;
-using Toybox.System;
 using Toybox.Application.Storage;
 
 // ---------------------------------------------------------------------------
@@ -66,33 +65,11 @@ class HeatAccDelegate extends WatchUi.BehaviorDelegate {
         return false;
     }
 
-    // Touch (fr955 has a touchscreen): top third → toggle, bottom third → toggle,
-    // center third → start session. Buttons are primary; touch is a convenience add-on.
-    function onTap(evt) {
-        if (_view.getState() != Config.STATE_IDLE) { return false; }
-        var coords = evt.getCoordinates();
-        var h      = System.getDeviceSettings().screenHeight;
-        var tapY   = coords[1];
-        if (tapY < h / 3) {
-            // Top third: toggle modality
-            var next = (_view.modality() == Config.MODALITY_STEAM)
-                ? Config.MODALITY_DRY : Config.MODALITY_STEAM;
-            _view.setModality(next);
-            WatchUi.requestUpdate();
-            return true;
-        } else if (tapY > h * 2 / 3) {
-            // Bottom third: toggle modality
-            var next = (_view.modality() == Config.MODALITY_STEAM)
-                ? Config.MODALITY_DRY : Config.MODALITY_STEAM;
-            _view.setModality(next);
-            WatchUi.requestUpdate();
-            return true;
-        } else {
-            // Center third: start session
-            _view.startSession();
-            return true;
-        }
-    }
+    // Block all touch input — BehaviorDelegate maps tap/swipe to onSelect/onNextPage/
+    // onPreviousPage, so consuming here prevents accidental touch-driven navigation.
+    function onTap(evt)   { return true; }
+    function onHold(evt)  { return true; }
+    function onSwipe(evt) { return true; }
 
     // MENU (long-press UP on fr955): open Options menu when idle.
     function onMenu() {
@@ -127,6 +104,8 @@ class IdleMenu extends WatchUi.Menu2 {
         var isRunDown = Readiness.getManualLow();
         addItem(new WatchUi.ToggleMenuItem(
             WatchUi.loadResource(Rez.Strings.MenuRunDown), null, :rundown, isRunDown, null));
+        addItem(new WatchUi.ToggleMenuItem(
+            WatchUi.loadResource(Rez.Strings.MenuSilent), null, :silent, view.isSilent(), null));
         if (view.armedWorkout() != null) {
             addItem(new WatchUi.MenuItem(
                 WatchUi.loadResource(Rez.Strings.MenuCancelWorkout), null, :cancel, null));
@@ -140,6 +119,10 @@ class IdleMenuDelegate extends WatchUi.Menu2InputDelegate {
         Menu2InputDelegate.initialize();
         _view = view;
     }
+
+    function onTap(evt)   { return true; }
+    function onHold(evt)  { return true; }
+    function onSwipe(evt) { return true; }
 
     function onSelect(item) {
         // Do NOT pop the menu before navigating. Keep it in the stack so that
@@ -156,6 +139,10 @@ class IdleMenuDelegate extends WatchUi.Menu2InputDelegate {
         } else if (id == :rundown) {
             // ToggleMenuItem handles its own visual state; we just persist the value.
             Readiness.setManualLow(!Readiness.getManualLow());
+        } else if (id == :silent) {
+            var val = !_view.isSilent();
+            _view.setSilent(val);
+            Storage.setValue(Config.STORAGE_KEY_SILENT, val);
         } else if (id == :cancel) {
             _view.cancelWorkout();
             WatchUi.popView(WatchUi.SLIDE_DOWN);  // close menu, return to idle
@@ -224,6 +211,9 @@ class SuggestionChooserDelegate extends WatchUi.Menu2InputDelegate {
         _race       = race;
         _daysToRace = daysToRace;
     }
+    function onTap(evt)   { return true; }
+    function onHold(evt)  { return true; }
+    function onSwipe(evt) { return true; }
     function onSelect(item) {
         var workout = (item.getId() == :race) ? _race : _prog;
         // Pass the chooser context so SuggestionDelegate can rebuild this screen on BACK.

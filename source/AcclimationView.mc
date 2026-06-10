@@ -149,6 +149,9 @@ class AcclimationView extends WatchUi.View {
 // (AcclimationView). No standalone usage currently.
 class AcclimationDelegate extends WatchUi.BehaviorDelegate {
     function initialize() { BehaviorDelegate.initialize(); }
+    function onTap(evt)   { return true; }
+    function onHold(evt)  { return true; }
+    function onSwipe(evt) { return true; }
     function onBack() {
         WatchUi.popView(WatchUi.SLIDE_DOWN);
         return true;

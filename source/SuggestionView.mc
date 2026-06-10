@@ -256,6 +256,10 @@ class SuggestionDelegate extends WatchUi.BehaviorDelegate {
         _fromCustom  = fromCustom;
     }
 
+    function onTap(evt)  { return true; }
+    function onHold(evt) { return true; }
+    // onSwipe intentionally omitted — allows finger-scroll on explanation page
+
     // DOWN: scroll explanation text if overflowing, otherwise advance page.
     function onNextPage() {
         var view = WatchUi.getCurrentView()[0];

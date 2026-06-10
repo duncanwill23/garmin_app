@@ -96,6 +96,9 @@ class RaceDateDelegate extends WatchUi.BehaviorDelegate {
         _mainView = mainView;
     }
 
+    function onTap(evt)   { return true; }
+    function onHold(evt)  { return true; }
+    function onSwipe(evt) { return true; }
     function onNextPage() {
         var v = WatchUi.getCurrentView()[0];
         if (v instanceof RaceDateView) { v.decrement(); }
