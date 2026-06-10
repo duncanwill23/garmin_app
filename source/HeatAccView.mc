@@ -131,7 +131,7 @@ class HeatAccView extends WatchUi.View {
         _dose    = new DoseEngine(_hrMax, _modality);
         _dose.startNewRound();
         _session = new SessionManager();
-        _session.start(_modality);
+        _session.start(_modality, _silent);
         _sessionElapsed = 0;
         _phaseElapsed   = 0;
         _round          = 1;

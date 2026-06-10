@@ -32,11 +32,12 @@ class SessionManager {
     private var _sFluidMl;    // UINT16 estimated fluid loss (optional weigh-in)
     private var _sAcclPct;    // FLOAT 0–100 acclimation estimate
 
-    function start(modality) {
+    function start(modality, silent) {
         _session = ActivityRecording.createSession({
-            :name     => "Heat Acclimation",
-            :sport    => Config.REC_SPORT,
-            :subSport => Config.REC_SUB_SPORT
+            :name         => "Heat Acclimation",
+            :sport        => Config.REC_SPORT,
+            :subSport     => Config.REC_SUB_SPORT,
+            :enableAlerts => !silent
         });
 
         // Record-level (IDs 0–1)

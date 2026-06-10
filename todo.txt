@@ -1,215 +1,62 @@
-# Fix: replace onSelect with onKey in every real-work delegate
+# Fix: readiness reason string formatting + REST threshold
 
-## Why
-`onTap` returning `true` does NOT stop taps from firing `onSelect` on the fr955.
-Garmin's firmware translates a tap into `onSelect` before the app sees it as a touch
-event — this is a confirmed platform behaviour and cannot be intercepted via `onTap`.
+## 1. Float formatting in reason string — `source/Readiness.mc`
 
-The only reliable fix: handle the START button via `onKey` (which is physically
-button-only, never fired by a tap) and remove `onSelect` from every delegate that
-does real work. Keep `onTap`/`onHold`/`onSwipe` returning `true` as they are.
+`sample.data` returns a Float, so `"BB " + bb` prints as "BB 39.000000".
+Cast to integer before building any reason string.
 
-`Menu2InputDelegate` subclasses (`IdleMenuDelegate`, `StopMenuDelegate`,
-`CustomListDelegate`, `SuggestionChooserDelegate`) are exempt — Garmin's `Menu2`
-drives their item selection internally and `onKey` doesn't route through them the
-same way. Leave those as-is.
-
----
-
-## 1. `HeatAccDelegate` — `source/HeatAccDelegate.mc` line ~34
-
-REMOVE:
+FIND the `bodyBattery()` function return line:
 ```monkeyc
-function onSelect() {
-    var state = _view.getState();
-    if (state == Config.STATE_IDLE) {
-        _view.startSession();
-    } else if (state == Config.STATE_HEAT || state == Config.STATE_REST) {
-        _view.pauseSession();
-    }
-    return true;
-}
+return sample.data;
 ```
-
 REPLACE WITH:
 ```monkeyc
-function onKey(keyEvent as WatchUi.KeyEvent) as Lang.Boolean {
-    var key = keyEvent.getKey();
-    if (key == WatchUi.KEY_ENTER || key == WatchUi.KEY_START) {
-        var state = _view.getState();
-        if (state == Config.STATE_IDLE) {
-            _view.startSession();
-        } else if (state == Config.STATE_HEAT || state == Config.STATE_REST) {
-            _view.pauseSession();
-        }
-        return true;
-    }
-    return false;
-}
+return sample.data.toNumber();
 ```
+
+That's it — `bb` is now an Integer everywhere it's used in `assess()` and
+the reason string prints "BB 39 low" as intended.
 
 ---
 
-## 2. `CustomDelegate` — `source/CustomView.mc` line ~278
+## 2. REST threshold is too aggressive — `source/Readiness.mc` + `source/Config.mc`
 
-REMOVE:
+Current logic: BB 20–39 = SHORT, then a single knockdown (stress / activity /
+manual / same-day session) pushes SHORT → REST. At BB 39 that's very easy to
+trigger. Two options — pick one:
+
+### Option A (recommended): require BB < 25 before REST is reachable from knockdowns
+Change the SHORT band threshold so only very low BB puts you close to REST:
 ```monkeyc
-function onSelect() {
-    var v = WatchUi.getCurrentView()[0];
-    if (v instanceof CustomView) { v.confirm(); }
-    return true;
+// FIND:
+} else if (bb >= 20) {
+    band     = Config.READINESS_SHORT;
+    bbReason = "BB " + bb + " low";
+} else {
+    band     = Config.READINESS_REST;
+    bbReason = "BB " + bb + " very low";
+}
+// REPLACE WITH:
+} else if (bb >= 25) {
+    band     = Config.READINESS_SHORT;
+    bbReason = "BB " + bb + " low";
+} else {
+    band     = Config.READINESS_REST;
+    bbReason = "BB " + bb + " very low";
 }
 ```
+With this change, BB 39 = SHORT and would need TWO knockdowns to reach REST
+(SHORT → TRIM → REST), which is much harder to hit accidentally.
 
-REPLACE WITH:
-```monkeyc
-function onKey(keyEvent as WatchUi.KeyEvent) as Lang.Boolean {
-    var key = keyEvent.getKey();
-    if (key == WatchUi.KEY_ENTER || key == WatchUi.KEY_START) {
-        var v = WatchUi.getCurrentView()[0];
-        if (v instanceof CustomView) { v.confirm(); }
-        return true;
-    }
-    return false;
-}
-```
-
----
-
-## 3. `RaceDateDelegate` — `source/RaceDateView.mc` line ~112
-
-REMOVE:
-```monkeyc
-function onSelect() {
-    var v = WatchUi.getCurrentView()[0];
-    if (v instanceof RaceDateView) {
-        v.save();
-        WatchUi.popView(WatchUi.SLIDE_RIGHT);
-    }
-    return true;
-}
-```
-
-REPLACE WITH:
-```monkeyc
-function onKey(keyEvent as WatchUi.KeyEvent) as Lang.Boolean {
-    var key = keyEvent.getKey();
-    if (key == WatchUi.KEY_ENTER || key == WatchUi.KEY_START) {
-        var v = WatchUi.getCurrentView()[0];
-        if (v instanceof RaceDateView) {
-            v.save();
-            WatchUi.popView(WatchUi.SLIDE_RIGHT);
-        }
-        return true;
-    }
-    return false;
-}
-```
-
----
-
-## 4. `RestDayDelegate` — `source/RestDayView.mc` line ~33
-
-REMOVE:
-```monkeyc
-function onSelect() { _goBack(); return true; }
-```
-
-REPLACE WITH:
-```monkeyc
-function onKey(keyEvent as WatchUi.KeyEvent) as Lang.Boolean {
-    var key = keyEvent.getKey();
-    if (key == WatchUi.KEY_ENTER || key == WatchUi.KEY_START) {
-        _goBack();
-        return true;
-    }
-    return false;
-}
-```
-
----
-
-## 5. `PostSessionDelegate` — `source/SessionData.mc` line ~63
-
-REMOVE:
-```monkeyc
-function onSelect() {
-    var v = new HeatAccView();
-    WatchUi.switchToView(v, new HeatAccDelegate(v), WatchUi.SLIDE_LEFT);
-    return true;
-}
-```
-
-REPLACE WITH:
-```monkeyc
-function onKey(keyEvent as WatchUi.KeyEvent) as Lang.Boolean {
-    var key = keyEvent.getKey();
-    if (key == WatchUi.KEY_ENTER || key == WatchUi.KEY_START) {
-        var v = new HeatAccView();
-        WatchUi.switchToView(v, new HeatAccDelegate(v), WatchUi.SLIDE_LEFT);
-        return true;
-    }
-    // Keep existing KEY_UP / KEY_DOWN page navigation
-    var k = keyEvent.getKey();
-    if (k == WatchUi.KEY_DOWN) {
-        var next = (_page + 1) % 5;
-        WatchUi.switchToView(makeView(next),
-            new PostSessionDelegate(next, _data), WatchUi.SLIDE_UP);
-        return true;
-    } else if (k == WatchUi.KEY_UP) {
-        var prev = (_page + 4) % 5;
-        WatchUi.switchToView(makeView(prev),
-            new PostSessionDelegate(prev, _data), WatchUi.SLIDE_DOWN);
-        return true;
-    }
-    return false;
-}
-```
-
-NOTE: `PostSessionDelegate` already has an `onKey` for UP/DOWN paging — merge
-the START check into that existing function rather than adding a second `onKey`.
-The merged version should handle KEY_START/KEY_ENTER first, then KEY_DOWN/KEY_UP.
-
----
-
-## 6. `SuggestionDelegate` — `source/SuggestionView.mc` line ~291
-
-REMOVE:
-```monkeyc
-function onSelect() {
-    _mainView.armWorkout(_workout);
-    WatchUi.popView(WatchUi.SLIDE_RIGHT);
-    return true;
-}
-```
-
-REPLACE WITH:
-```monkeyc
-function onKey(keyEvent as WatchUi.KeyEvent) as Lang.Boolean {
-    var key = keyEvent.getKey();
-    if (key == WatchUi.KEY_ENTER || key == WatchUi.KEY_START) {
-        _mainView.armWorkout(_workout);
-        WatchUi.popView(WatchUi.SLIDE_RIGHT);
-        return true;
-    }
-    return false;
-}
-```
-
----
-
-## Do NOT change
-- `IdleMenuDelegate.onSelect(item)` — Menu2InputDelegate, Garmin handles internally
-- `StopMenuDelegate.onSelect(item)` — same
-- `CustomListDelegate.onSelect(item)` — same
-- `SuggestionChooserDelegate.onSelect(item)` — same
-- All `onTap`/`onHold`/`onSwipe` returning `true` — keep them
+### Option B: require two knockdowns to reach REST
+Change `bandDown` so it only nudges by 1, and only send REST when band
+is already SHORT AND there are 2+ knockdown conditions. This is more
+complex — Option A is simpler and achieves the same thing.
 
 ---
 
 ## Acceptance criteria
-- Tapping anywhere on the idle screen does NOT start a session.
-- Tapping anywhere during HEAT/REST does NOT open the pause menu.
-- Tapping the suggestion benefit screen does NOT arm the workout.
-- The physical START button still starts/pauses sessions and arms workouts normally.
-- UP/DOWN physical buttons still page and scroll normally.
+- Reason string shows "BB 39 low" not "BB 39.000000 low".
+- A BB of 39 with a single knockdown (e.g. same-day session) shows
+  SHORT suggestion rather than a rest day.
+- REST day is reserved for BB < 25 or multiple simultaneous knockdowns.

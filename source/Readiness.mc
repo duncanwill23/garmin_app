@@ -35,7 +35,7 @@ module Readiness {
         } else if (bb >= 40) {
             band     = Config.READINESS_TRIM;
             bbReason = "BB " + bb;
-        } else if (bb >= 20) {
+        } else if (bb >= 25) {
             band     = Config.READINESS_SHORT;
             bbReason = "BB " + bb + " low";
         } else {
@@ -89,7 +89,7 @@ module Readiness {
             { :period => 1, :order => SensorHistory.ORDER_NEWEST_FIRST });
         var sample = iter.next();
         if (sample == null || sample.data == null) { return null; }
-        return sample.data;
+        return sample.data.toNumber();
     }
 
     // Stress level 0–100: newest sample. Null-safe.
