@@ -1,0 +1,77 @@
+[ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/gen/no-device/source/Rez.mcgen"; @line = 1; @symbol_importdef<0> = [Toybox,1,7,13]; @symbol_importdef<1> = [Lang,1,14,18]; ]
+import Toybox.Lang;
+[ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/gen/no-device/source/Rez.mcgen"; @line = 2; @symbol_usingdef<0> = [Toybox,2,6,12]; @symbol_usingdef<1> = [WatchUi,2,13,20]; ]
+using Toybox.WatchUi;
+[ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/gen/no-device/source/Rez.mcgen"; @line = 3; @symbol_usingdef<0> = [Toybox,3,6,12]; @symbol_usingdef<1> = [WatchUi,3,13,20]; @symbol_usingAlias = [Ui,3,24,26]; ]
+using Toybox.WatchUi as :Ui;
+[ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/gen/no-device/source/Rez.mcgen"; @line = 4; @symbol_usingdef<0> = [Toybox,4,6,12]; @symbol_usingdef<1> = [Graphics,4,13,21]; ]
+using Toybox.Graphics;
+[ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/gen/no-device/source/Rez.mcgen"; @line = 5; @symbol_usingdef<0> = [Toybox,5,6,12]; @symbol_usingdef<1> = [Graphics,5,13,21]; @symbol_usingAlias = [Gfx,5,25,28]; ]
+using Toybox.Graphics as :Gfx;
+[ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/gen/no-device/source/Rez.mcgen"; @line = 7; @symbol_moduledef = [Rez,7,7,10]; ]
+module Rez {
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/gen/no-device/source/Rez.mcgen"; @line = 7; ]
+    <init> {
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/gen/no-device/source/Rez.mcgen"; @line = 8; @symbol_moduledef = [Drawables,8,11,20]; ]
+    module Drawables {
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/gen/no-device/source/Rez.mcgen"; @line = 8; ]
+        <init> {
+        }
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/gen/no-device/source/Rez.mcgen"; @line = 9; @position = 27; initialized = true; @symbol_vardef = [LauncherIcon,9,27,39]; @symbol_type<0> = [ResourceId,9,43,53]; ]
+        var LauncherIcon as ResourceId;
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/gen/no-device/source/Rez.mcgen"; @line = 12; @symbol_moduledef = [Strings,12,11,18]; ]
+    module Strings {
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/gen/no-device/source/Rez.mcgen"; @line = 12; ]
+        <init> {
+        }
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/gen/no-device/source/Rez.mcgen"; @line = 13; @position = 27; initialized = true; @symbol_vardef = [MenuSave,13,27,35]; @symbol_type<0> = [ResourceId,13,39,49]; ]
+        var MenuSave as ResourceId;
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/gen/no-device/source/Rez.mcgen"; @line = 14; @position = 27; initialized = true; @symbol_vardef = [SuggestionRace,14,27,41]; @symbol_type<0> = [ResourceId,14,45,55]; ]
+        var SuggestionRace as ResourceId;
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/gen/no-device/source/Rez.mcgen"; @line = 15; @position = 27; initialized = true; @symbol_vardef = [MenuRaceDate,15,27,39]; @symbol_type<0> = [ResourceId,15,43,53]; ]
+        var MenuRaceDate as ResourceId;
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/gen/no-device/source/Rez.mcgen"; @line = 16; @position = 27; initialized = true; @symbol_vardef = [DoseLabel,16,27,36]; @symbol_type<0> = [ResourceId,16,40,50]; ]
+        var DoseLabel as ResourceId;
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/gen/no-device/source/Rez.mcgen"; @line = 17; @position = 27; initialized = true; @symbol_vardef = [MenuCustomBuild,17,27,42]; @symbol_type<0> = [ResourceId,17,46,56]; ]
+        var MenuCustomBuild as ResourceId;
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/gen/no-device/source/Rez.mcgen"; @line = 18; @position = 27; initialized = true; @symbol_vardef = [ElapsedLabel,18,27,39]; @symbol_type<0> = [ResourceId,18,43,53]; ]
+        var ElapsedLabel as ResourceId;
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/gen/no-device/source/Rez.mcgen"; @line = 19; @position = 27; initialized = true; @symbol_vardef = [ModalitySteam,19,27,40]; @symbol_type<0> = [ResourceId,19,44,54]; ]
+        var ModalitySteam as ResourceId;
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/gen/no-device/source/Rez.mcgen"; @line = 20; @position = 27; initialized = true; @symbol_vardef = [MenuRunDown,20,27,38]; @symbol_type<0> = [ResourceId,20,42,52]; ]
+        var MenuRunDown as ResourceId;
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/gen/no-device/source/Rez.mcgen"; @line = 21; @position = 27; initialized = true; @symbol_vardef = [UseThisWorkout,21,27,41]; @symbol_type<0> = [ResourceId,21,45,55]; ]
+        var UseThisWorkout as ResourceId;
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/gen/no-device/source/Rez.mcgen"; @line = 22; @position = 27; initialized = true; @symbol_vardef = [MenuCancelWorkout,22,27,44]; @symbol_type<0> = [ResourceId,22,48,58]; ]
+        var MenuCancelWorkout as ResourceId;
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/gen/no-device/source/Rez.mcgen"; @line = 23; @position = 27; initialized = true; @symbol_vardef = [BuildingBaseline,23,27,43]; @symbol_type<0> = [ResourceId,23,47,57]; ]
+        var BuildingBaseline as ResourceId;
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/gen/no-device/source/Rez.mcgen"; @line = 24; @position = 27; initialized = true; @symbol_vardef = [SuggestionProgression,24,27,48]; @symbol_type<0> = [ResourceId,24,52,62]; ]
+        var SuggestionProgression as ResourceId;
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/gen/no-device/source/Rez.mcgen"; @line = 25; @position = 27; initialized = true; @symbol_vardef = [MenuOptions,25,27,38]; @symbol_type<0> = [ResourceId,25,42,52]; ]
+        var MenuOptions as ResourceId;
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/gen/no-device/source/Rez.mcgen"; @line = 26; @position = 27; initialized = true; @symbol_vardef = [AppName,26,27,34]; @symbol_type<0> = [ResourceId,26,38,48]; ]
+        var AppName as ResourceId;
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/gen/no-device/source/Rez.mcgen"; @line = 27; @position = 27; initialized = true; @symbol_vardef = [HrLabel,27,27,34]; @symbol_type<0> = [ResourceId,27,38,48]; ]
+        var HrLabel as ResourceId;
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/gen/no-device/source/Rez.mcgen"; @line = 28; @position = 27; initialized = true; @symbol_vardef = [MenuPaused,28,27,37]; @symbol_type<0> = [ResourceId,28,41,51]; ]
+        var MenuPaused as ResourceId;
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/gen/no-device/source/Rez.mcgen"; @line = 29; @position = 27; initialized = true; @symbol_vardef = [MenuResume,29,27,37]; @symbol_type<0> = [ResourceId,29,41,51]; ]
+        var MenuResume as ResourceId;
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/gen/no-device/source/Rez.mcgen"; @line = 30; @position = 27; initialized = true; @symbol_vardef = [MenuDiscard,30,27,38]; @symbol_type<0> = [ResourceId,30,42,52]; ]
+        var MenuDiscard as ResourceId;
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/gen/no-device/source/Rez.mcgen"; @line = 31; @position = 27; initialized = true; @symbol_vardef = [MenuSuggestion,31,27,41]; @symbol_type<0> = [ResourceId,31,45,55]; ]
+        var MenuSuggestion as ResourceId;
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/gen/no-device/source/Rez.mcgen"; @line = 32; @position = 27; initialized = true; @symbol_vardef = [InZoneLabel,32,27,38]; @symbol_type<0> = [ResourceId,32,42,52]; ]
+        var InZoneLabel as ResourceId;
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/gen/no-device/source/Rez.mcgen"; @line = 33; @position = 27; initialized = true; @symbol_vardef = [MenuCustom,33,27,37]; @symbol_type<0> = [ResourceId,33,41,51]; ]
+        var MenuCustom as ResourceId;
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/gen/no-device/source/Rez.mcgen"; @line = 34; @position = 27; initialized = true; @symbol_vardef = [ModalityDry,34,27,38]; @symbol_type<0> = [ResourceId,34,42,52]; ]
+        var ModalityDry as ResourceId;
+    }
+}
+[ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/gen/no-device/source/Rez.mcgen"; @line = 1; ]
+<init> {
+}

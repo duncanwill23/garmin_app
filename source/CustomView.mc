@@ -275,10 +275,14 @@ class CustomDelegate extends WatchUi.BehaviorDelegate {
         if (v instanceof CustomView) { v.increment(); }
         return true;
     }
-    function onSelect() {
-        var v = WatchUi.getCurrentView()[0];
-        if (v instanceof CustomView) { v.confirm(); }
-        return true;
+    function onKey(keyEvent) {
+        var key = keyEvent.getKey();
+        if (key == WatchUi.KEY_ENTER || key == WatchUi.KEY_START) {
+            var v = WatchUi.getCurrentView()[0];
+            if (v instanceof CustomView) { v.confirm(); }
+            return true;
+        }
+        return false;
     }
     function onBack() {
         WatchUi.switchToView(new CustomListMenu(), new CustomListDelegate(_mainView),

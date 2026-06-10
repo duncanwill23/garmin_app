@@ -1,0 +1,596 @@
+[ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc"; @line = 13; @symbol_classdef = [DoseEngine,13,6,16]; ]
+class DoseEngine {
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc"; @line = 13; ]
+    <init> {
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc"; @line = 13; ]
+    static
+    <init> {
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc"; @line = 15; @position = 16; @symbol_vardef = [_hrMax,15,16,22]; ]
+    private
+    var _hrMax;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc"; @line = 16; @position = 16; @symbol_vardef = [_bandLow,16,16,24]; ]
+    private
+    var _bandLow;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc"; @line = 17; @position = 16; @symbol_vardef = [_bandHigh,17,16,25]; ]
+    private
+    var _bandHigh;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc"; @line = 18; @position = 16; @symbol_vardef = [_modalityMult,18,16,29]; ]
+    private
+    var _modalityMult;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc"; @line = 21; @position = 15; @symbol_vardef = [inZoneSec,21,15,24]; ]
+    public
+    var inZoneSec = 0;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc"; @line = 22; @position = 15; @symbol_vardef = [doseUnits,22,15,24]; ]
+    public
+    var doseUnits = 0.0;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc"; @line = 25; @position = 15; @symbol_vardef = [refMarkHr,25,15,24]; ]
+    public
+    var refMarkHr = null;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc"; @line = 29; @position = 16; @symbol_vardef = [_sumT,29,16,21]; ]
+    private
+    var _sumT = 0.0;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc"; @line = 30; @position = 16; @symbol_vardef = [_sumHr,30,16,22]; ]
+    private
+    var _sumHr = 0.0;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc"; @line = 31; @position = 16; @symbol_vardef = [_sumTT,31,16,22]; ]
+    private
+    var _sumTT = 0.0;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc"; @line = 32; @position = 16; @symbol_vardef = [_sumTHr,32,16,23]; ]
+    private
+    var _sumTHr = 0.0;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc"; @line = 33; @position = 16; @symbol_vardef = [_roundSamples,33,16,29]; ]
+    private
+    var _roundSamples = 0;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc"; @line = 34; @position = 16; @symbol_vardef = [_roundElapsed,34,16,29]; ]
+    private
+    var _roundElapsed = 0;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc"; @line = 37; @position = 16; @symbol_vardef = [_roundStartDose,37,16,31]; ]
+    private
+    var _roundStartDose = 0.0;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc"; @line = 38; @position = 16; @symbol_vardef = [_roundStartInZone,38,16,33]; ]
+    private
+    var _roundStartInZone = 0;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc"; @line = 39; @position = 16; @symbol_vardef = [_roundHrSum,39,16,27]; ]
+    private
+    var _roundHrSum = 0.0;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc"; @line = 40; @position = 16; @symbol_vardef = [_roundHrCount,40,16,29]; ]
+    private
+    var _roundHrCount = 0;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc"; @line = 41; @position = 16; @symbol_vardef = [_roundHrMax,41,16,27]; ]
+    private
+    var _roundHrMax = 0;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc"; @line = 43; @symbol_functiondef = [initialize,43,13,23]; @symbol_param<0> = [hrMax,43,24,29]; @symbol_param<1> = [modality,43,31,39]; ]
+    function initialize(hrMax, modality) as Void {
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_43_41_49_4_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 44 8 ]
+        %tmp.1 = lgetv %hrMax;
+        symbol [ hrMax %tmp.1 44 24 29 ];
+        symbol [ _hrMax ? 44 8 14 ];
+        putv self :_hrMax %tmp.1;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 45 8 ]
+        %tmp.2 = lgetv %hrMax;
+        symbol [ hrMax %tmp.2 45 25 30 ];
+        symbol [ Config %tmp.4 45 33 39 ];
+        %tmp.4 = getv ? :Config;
+        symbol [ TARGET_HR_LOW_PCT %tmp.5 45 40 57 ];
+        %tmp.5 = getv %tmp.4 :TARGET_HR_LOW_PCT;
+        %tmp.6 = mul %tmp.2 %tmp.5;
+        symbol [ toNumber %tmp.7 45 59 67 ];
+        %tmp.7 = getv function %tmp.6 :toNumber;
+        %tmp.8 = invoke %tmp.6 %tmp.7();
+        symbol [ _bandLow ? 45 8 16 ];
+        putv self :_bandLow %tmp.8;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 46 8 ]
+        %tmp.9 = lgetv %hrMax;
+        symbol [ hrMax %tmp.9 46 25 30 ];
+        symbol [ Config %tmp.11 46 33 39 ];
+        %tmp.11 = getv ? :Config;
+        symbol [ TARGET_HR_HIGH_PCT %tmp.12 46 40 58 ];
+        %tmp.12 = getv %tmp.11 :TARGET_HR_HIGH_PCT;
+        %tmp.13 = mul %tmp.9 %tmp.12;
+        symbol [ toNumber %tmp.14 46 60 68 ];
+        %tmp.14 = getv function %tmp.13 :toNumber;
+        %tmp.15 = invoke %tmp.13 %tmp.14();
+        symbol [ _bandHigh ? 46 8 17 ];
+        putv self :_bandHigh %tmp.15;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 47 8 ]
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_47_24_48_46_begin:
+        %tmp.16 = lgetv %modality;
+        symbol [ modality %tmp.16 47 25 33 ];
+        symbol [ Config %tmp.18 47 37 43 ];
+        %tmp.18 = getv ? :Config;
+        symbol [ MODALITY_STEAM %tmp.19 47 44 58 ];
+        %tmp.19 = getv %tmp.18 :MODALITY_STEAM;
+        %tmp.20 = eq %tmp.16 %tmp.19;
+        bf %tmp.20 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_47_24_48_46_else_false;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_47_24_48_46_true:
+        symbol [ Config %tmp.22 48 14 20 ];
+        %tmp.22 = getv ? :Config;
+        symbol [ DOSE_MULT_STEAM %tmp.23 48 21 36 ];
+        %tmp.23 = getv %tmp.22 :DOSE_MULT_STEAM;
+        push %tmp.23;
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_47_24_48_46_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_47_24_48_46_else_false:
+        symbol [ Config %tmp.25 48 39 45 ];
+        %tmp.25 = getv ? :Config;
+        symbol [ DOSE_MULT_DRY %tmp.26 48 46 59 ];
+        %tmp.26 = getv %tmp.25 :DOSE_MULT_DRY;
+        push %tmp.26;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_47_24_48_46_end:
+        %tmp.27 = phi [%tmp.20 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_47_24_48_46_begin] [%tmp.23 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_47_24_48_46_true] [%tmp.26 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_47_24_48_46_else_false] [%tmp.27 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_47_24_48_46_end];
+        symbol [ _modalityMult ? 47 8 21 ];
+        putv self :_modalityMult %tmp.27;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_43_41_49_4_stop:
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc"; @line = 53; @symbol_functiondef = [startNewRound,53,13,26]; ]
+    function startNewRound() {
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_53_29_62_4_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 54 8 ]
+        %tmp.1 = 0.0;
+        symbol [ _sumT ? 54 8 13 ];
+        putv self :_sumT %tmp.1;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 54 21 ]
+        %tmp.2 = 0.0;
+        symbol [ _sumHr ? 54 21 27 ];
+        putv self :_sumHr %tmp.2;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 54 35 ]
+        %tmp.3 = 0.0;
+        symbol [ _sumTT ? 54 35 41 ];
+        putv self :_sumTT %tmp.3;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 54 49 ]
+        %tmp.4 = 0.0;
+        symbol [ _sumTHr ? 54 49 56 ];
+        putv self :_sumTHr %tmp.4;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 55 8 ]
+        %tmp.5 = 0;
+        symbol [ _roundSamples ? 55 8 21 ];
+        putv self :_roundSamples %tmp.5;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 56 8 ]
+        %tmp.6 = 0;
+        symbol [ _roundElapsed ? 56 8 21 ];
+        putv self :_roundElapsed %tmp.6;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 57 8 ]
+        symbol [ doseUnits %tmp.8 57 28 37 ];
+        %tmp.8 = getv ? :doseUnits;
+        symbol [ _roundStartDose ? 57 8 23 ];
+        putv self :_roundStartDose %tmp.8;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 58 8 ]
+        symbol [ inZoneSec %tmp.10 58 28 37 ];
+        %tmp.10 = getv ? :inZoneSec;
+        symbol [ _roundStartInZone ? 58 8 25 ];
+        putv self :_roundStartInZone %tmp.10;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 59 8 ]
+        %tmp.11 = 0.0;
+        symbol [ _roundHrSum ? 59 8 19 ];
+        putv self :_roundHrSum %tmp.11;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 60 8 ]
+        %tmp.12 = 0;
+        symbol [ _roundHrCount ? 60 8 21 ];
+        putv self :_roundHrCount %tmp.12;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 61 8 ]
+        %tmp.13 = 0;
+        symbol [ _roundHrMax ? 61 8 19 ];
+        putv self :_roundHrMax %tmp.13;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_53_29_62_4_stop:
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc"; @line = 67; @symbol_functiondef = [addSample,67,13,22]; @symbol_param<0> = [hr,67,23,25]; @symbol_param<1> = [sessionElapsed,67,27,41]; ]
+    function addSample(hr, sessionElapsed) {
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_67_43_92_4_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 68 8 ]
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_68_8_68_34_if_stmt:
+        %tmp.1 = lgetv %hr;
+        symbol [ hr %tmp.1 68 12 14 ];
+        %tmp.2 = null;
+        %tmp.3 = eq %tmp.1 %tmp.2;
+        bf %tmp.3 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_68_8_68_34_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_68_8_68_34_if_true:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_68_24_68_34_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 68 26 ]
+        ret ?;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_68_24_68_34_stop:
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_68_8_68_34_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_68_8_68_34_if_end:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 69 8 ]
+        symbol [ _roundSamples %tmp.6 69 8 21 ];
+        %tmp.6 = getv ? :_roundSamples;
+        %tmp.7 = add %tmp.6 1;
+        symbol [ _roundSamples ? 69 8 21 ];
+        putv self :_roundSamples dup %tmp.7;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 70 8 ]
+        symbol [ _roundElapsed %tmp.10 70 8 21 ];
+        %tmp.10 = getv ? :_roundElapsed;
+        %tmp.11 = add %tmp.10 1;
+        symbol [ _roundElapsed ? 70 8 21 ];
+        putv self :_roundElapsed dup %tmp.11;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 72 8 ]
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_72_8_75_8_if_stmt:
+        %tmp.12 = lgetv %hr;
+        symbol [ hr %tmp.12 72 12 14 ];
+        symbol [ _bandLow %tmp.14 72 18 26 ];
+        %tmp.14 = getv ? :_bandLow;
+        %tmp.15 = gte %tmp.12 %tmp.14;
+        bf %tmp.15 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_72_8_75_8_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_72_8_75_8_if_true:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_72_28_75_8_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 73 12 ]
+        symbol [ inZoneSec %tmp.18 73 12 21 ];
+        %tmp.18 = getv ? :inZoneSec;
+        %tmp.19 = add %tmp.18 1;
+        symbol [ inZoneSec ? 73 12 21 ];
+        putv self :inZoneSec dup %tmp.19;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 74 12 ]
+        symbol [ doseUnits %tmp.20 74 12 21 ];
+        %tmp.20 = getv self :doseUnits;
+        symbol [ _modalityMult %tmp.22 74 25 38 ];
+        %tmp.22 = getv ? :_modalityMult;
+        %tmp.23 = add %tmp.20 %tmp.22;
+        symbol [ doseUnits ? 74 12 21 ];
+        putv self :doseUnits dup %tmp.23;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_72_28_75_8_stop:
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_72_8_75_8_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_72_8_75_8_if_end:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 77 8 ]
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_77_8_79_8_if_stmt:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_77_12_77_58_begin:
+        symbol [ refMarkHr %tmp.25 77 12 21 ];
+        %tmp.25 = getv ? :refMarkHr;
+        %tmp.26 = null;
+        %tmp.27 = eq %tmp.25 %tmp.26;
+        bf %tmp.27 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_77_8_79_8_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_77_33_77_58_true:
+        %tmp.28 = lgetv %sessionElapsed;
+        symbol [ sessionElapsed %tmp.28 77 33 47 ];
+        symbol [ Config %tmp.30 77 51 57 ];
+        %tmp.30 = getv ? :Config;
+        symbol [ ADAPT_REF_MARK_SEC %tmp.31 77 58 76 ];
+        %tmp.31 = getv %tmp.30 :ADAPT_REF_MARK_SEC;
+        %tmp.32 = gte %tmp.28 %tmp.31;
+        push %tmp.32;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_77_33_77_58_end:
+        %tmp.33 = phi [%tmp.27 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_77_12_77_58_begin] [%tmp.32 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_77_33_77_58_true] [%tmp.33 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_77_33_77_58_end];
+        bf %tmp.33 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_77_8_79_8_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_77_8_79_8_if_true:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_77_78_79_8_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 78 12 ]
+        %tmp.34 = lgetv %hr;
+        symbol [ hr %tmp.34 78 24 26 ];
+        symbol [ refMarkHr ? 78 12 21 ];
+        putv self :refMarkHr %tmp.34;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_77_78_79_8_stop:
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_77_8_79_8_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_77_8_79_8_if_end:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 82 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_67_43_92_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_67_43_92_4_stop" ]
+        %t.1 = local;
+        symbol [ t %t.1 82 12 13 ];
+        symbol [ _roundElapsed %tmp.36 82 16 29 ];
+        %tmp.36 = getv ? :_roundElapsed;
+        symbol [ toFloat %tmp.37 82 30 37 ];
+        %tmp.37 = getv function %tmp.36 :toFloat;
+        %tmp.38 = invoke %tmp.36 %tmp.37();
+        lputv %t.1 %tmp.38;
+        symbol [ t %t.1 82 12 13 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 83 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_67_43_92_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_67_43_92_4_stop" ]
+        %h.2 = local;
+        symbol [ h %h.2 83 12 13 ];
+        %tmp.39 = lgetv %hr;
+        symbol [ hr %tmp.39 83 16 18 ];
+        symbol [ toFloat %tmp.40 83 19 26 ];
+        %tmp.40 = getv function %tmp.39 :toFloat;
+        %tmp.41 = invoke %tmp.39 %tmp.40();
+        lputv %h.2 %tmp.41;
+        symbol [ h %h.2 83 12 13 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 84 8 ]
+        symbol [ _sumT %tmp.42 84 8 13 ];
+        %tmp.42 = getv self :_sumT;
+        %tmp.43 = lgetv %t.1;
+        symbol [ t %tmp.43 84 19 20 ];
+        %tmp.44 = add %tmp.42 %tmp.43;
+        symbol [ _sumT ? 84 8 13 ];
+        putv self :_sumT dup %tmp.44;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 85 8 ]
+        symbol [ _sumHr %tmp.45 85 8 14 ];
+        %tmp.45 = getv self :_sumHr;
+        %tmp.46 = lgetv %h.2;
+        symbol [ h %tmp.46 85 19 20 ];
+        %tmp.47 = add %tmp.45 %tmp.46;
+        symbol [ _sumHr ? 85 8 14 ];
+        putv self :_sumHr dup %tmp.47;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 86 8 ]
+        symbol [ _sumTT %tmp.48 86 8 14 ];
+        %tmp.48 = getv self :_sumTT;
+        %tmp.49 = lgetv %t.1;
+        symbol [ t %tmp.49 86 19 20 ];
+        %tmp.50 = lgetv %t.1;
+        symbol [ t %tmp.50 86 23 24 ];
+        %tmp.51 = mul %tmp.49 %tmp.50;
+        %tmp.52 = add %tmp.48 %tmp.51;
+        symbol [ _sumTT ? 86 8 14 ];
+        putv self :_sumTT dup %tmp.52;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 87 8 ]
+        symbol [ _sumTHr %tmp.53 87 8 15 ];
+        %tmp.53 = getv self :_sumTHr;
+        %tmp.54 = lgetv %t.1;
+        symbol [ t %tmp.54 87 19 20 ];
+        %tmp.55 = lgetv %h.2;
+        symbol [ h %tmp.55 87 23 24 ];
+        %tmp.56 = mul %tmp.54 %tmp.55;
+        %tmp.57 = add %tmp.53 %tmp.56;
+        symbol [ _sumTHr ? 87 8 15 ];
+        putv self :_sumTHr dup %tmp.57;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 89 8 ]
+        symbol [ _roundHrSum %tmp.58 89 8 19 ];
+        %tmp.58 = getv self :_roundHrSum;
+        %tmp.59 = lgetv %h.2;
+        symbol [ h %tmp.59 89 23 24 ];
+        %tmp.60 = add %tmp.58 %tmp.59;
+        symbol [ _roundHrSum ? 89 8 19 ];
+        putv self :_roundHrSum dup %tmp.60;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 90 8 ]
+        symbol [ _roundHrCount %tmp.63 90 8 21 ];
+        %tmp.63 = getv ? :_roundHrCount;
+        %tmp.64 = add %tmp.63 1;
+        symbol [ _roundHrCount ? 90 8 21 ];
+        putv self :_roundHrCount dup %tmp.64;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 91 8 ]
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_91_8_91_50_if_stmt:
+        %tmp.65 = lgetv %hr;
+        symbol [ hr %tmp.65 91 12 14 ];
+        symbol [ _roundHrMax %tmp.67 91 17 28 ];
+        %tmp.67 = getv ? :_roundHrMax;
+        %tmp.68 = gt %tmp.65 %tmp.67;
+        bf %tmp.68 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_91_8_91_50_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_91_8_91_50_if_true:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_91_30_91_50_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 91 32 ]
+        %tmp.69 = lgetv %hr;
+        symbol [ hr %tmp.69 91 46 48 ];
+        symbol [ _roundHrMax ? 91 32 43 ];
+        putv self :_roundHrMax %tmp.69;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_91_30_91_50_stop:
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_91_8_91_50_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_91_8_91_50_if_end:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_67_43_92_4_stop:
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc"; @line = 95; @symbol_functiondef = [driftBpmPerMin,95,13,27]; ]
+    function driftBpmPerMin() {
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_95_30_101_4_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 96 8 ]
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_96_8_96_45_if_stmt:
+        symbol [ _roundSamples %tmp.2 96 12 25 ];
+        %tmp.2 = getv ? :_roundSamples;
+        %tmp.3 = 2;
+        %tmp.4 = lt %tmp.2 %tmp.3;
+        bf %tmp.4 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_96_8_96_45_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_96_8_96_45_if_true:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_96_31_96_45_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 96 33 ]
+        %tmp.5 = 0.0;
+        ret %tmp.5;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_96_31_96_45_stop:
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_96_8_96_45_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_96_8_96_45_if_end:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 97 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_95_30_101_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_95_30_101_4_stop" ]
+        %n.1 = local;
+        symbol [ n %n.1 97 12 13 ];
+        symbol [ _roundSamples %tmp.7 97 20 33 ];
+        %tmp.7 = getv ? :_roundSamples;
+        symbol [ toFloat %tmp.8 97 34 41 ];
+        %tmp.8 = getv function %tmp.7 :toFloat;
+        %tmp.9 = invoke %tmp.7 %tmp.8();
+        lputv %n.1 %tmp.9;
+        symbol [ n %n.1 97 12 13 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 98 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_95_30_101_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_95_30_101_4_stop" ]
+        %denom.2 = local;
+        symbol [ denom %denom.2 98 12 17 ];
+        %tmp.10 = lgetv %n.1;
+        symbol [ n %tmp.10 98 21 22 ];
+        symbol [ _sumTT %tmp.12 98 25 31 ];
+        %tmp.12 = getv ? :_sumTT;
+        %tmp.13 = mul %tmp.10 %tmp.12;
+        symbol [ _sumT %tmp.15 98 36 41 ];
+        %tmp.15 = getv ? :_sumT;
+        symbol [ _sumT %tmp.17 98 44 49 ];
+        %tmp.17 = getv ? :_sumT;
+        %tmp.18 = mul %tmp.15 %tmp.17;
+        %tmp.19 = sub %tmp.13 %tmp.18;
+        lputv %denom.2 %tmp.19;
+        symbol [ denom %denom.2 98 12 17 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 99 8 ]
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_99_8_99_40_if_stmt:
+        %tmp.20 = lgetv %denom.2;
+        symbol [ denom %tmp.20 99 12 17 ];
+        %tmp.21 = 0.0;
+        %tmp.22 = eq %tmp.20 %tmp.21;
+        bf %tmp.22 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_99_8_99_40_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_99_8_99_40_if_true:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_99_26_99_40_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 99 28 ]
+        %tmp.23 = 0.0;
+        ret %tmp.23;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_99_26_99_40_stop:
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_99_8_99_40_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_99_8_99_40_if_end:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 100 8 ]
+        %tmp.24 = lgetv %n.1;
+        symbol [ n %tmp.24 100 17 18 ];
+        symbol [ _sumTHr %tmp.26 100 21 28 ];
+        %tmp.26 = getv ? :_sumTHr;
+        %tmp.27 = mul %tmp.24 %tmp.26;
+        symbol [ _sumT %tmp.29 100 33 38 ];
+        %tmp.29 = getv ? :_sumT;
+        symbol [ _sumHr %tmp.31 100 41 47 ];
+        %tmp.31 = getv ? :_sumHr;
+        %tmp.32 = mul %tmp.29 %tmp.31;
+        %tmp.33 = sub %tmp.27 %tmp.32;
+        %tmp.34 = lgetv %denom.2;
+        symbol [ denom %tmp.34 100 52 57 ];
+        %tmp.35 = div %tmp.33 %tmp.34;
+        %tmp.36 = 60.0;
+        %tmp.37 = mul %tmp.35 %tmp.36;
+        ret %tmp.37;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_95_30_101_4_stop:
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc"; @line = 104; @symbol_functiondef = [roundDose,104,13,22]; ]
+    function roundDose() {
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_104_30_104_68_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 104 32 ]
+        symbol [ doseUnits %tmp.2 104 39 48 ];
+        %tmp.2 = getv ? :doseUnits;
+        symbol [ _roundStartDose %tmp.4 104 51 66 ];
+        %tmp.4 = getv ? :_roundStartDose;
+        %tmp.5 = sub %tmp.2 %tmp.4;
+        ret %tmp.5;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_104_30_104_68_stop:
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc"; @line = 105; @symbol_functiondef = [roundInZoneSec,105,13,27]; ]
+    function roundInZoneSec() {
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_105_30_105_70_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 105 32 ]
+        symbol [ inZoneSec %tmp.2 105 39 48 ];
+        %tmp.2 = getv ? :inZoneSec;
+        symbol [ _roundStartInZone %tmp.4 105 51 68 ];
+        %tmp.4 = getv ? :_roundStartInZone;
+        %tmp.5 = sub %tmp.2 %tmp.4;
+        ret %tmp.5;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_105_30_105_70_stop:
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc"; @line = 106; @symbol_functiondef = [roundAvgHr,106,13,23]; ]
+    function roundAvgHr() {
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_106_26_109_4_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 107 8 ]
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_107_8_107_44_if_stmt:
+        symbol [ _roundHrCount %tmp.2 107 12 25 ];
+        %tmp.2 = getv ? :_roundHrCount;
+        %tmp.3 = 0;
+        %tmp.4 = eq %tmp.2 %tmp.3;
+        bf %tmp.4 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_107_8_107_44_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_107_8_107_44_if_true:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_107_32_107_44_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 107 34 ]
+        %tmp.5 = 0;
+        ret %tmp.5;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_107_32_107_44_stop:
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_107_8_107_44_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_107_8_107_44_if_end:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 108 8 ]
+        symbol [ _roundHrSum %tmp.7 108 16 27 ];
+        %tmp.7 = getv ? :_roundHrSum;
+        symbol [ _roundHrCount %tmp.9 108 30 43 ];
+        %tmp.9 = getv ? :_roundHrCount;
+        %tmp.10 = div %tmp.7 %tmp.9;
+        symbol [ toNumber %tmp.11 108 45 53 ];
+        %tmp.11 = getv function %tmp.10 :toNumber;
+        %tmp.12 = invoke %tmp.10 %tmp.11();
+        ret %tmp.12;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_106_26_109_4_stop:
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc"; @line = 110; @symbol_functiondef = [roundMaxHr,110,13,23]; ]
+    function roundMaxHr() {
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_110_26_110_48_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 110 28 ]
+        symbol [ _roundHrMax %tmp.2 110 35 46 ];
+        %tmp.2 = getv ? :_roundHrMax;
+        ret %tmp.2;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_110_26_110_48_stop:
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc"; @line = 112; @symbol_functiondef = [pctHrMax,112,13,21]; @symbol_param<0> = [hr,112,22,24]; ]
+    function pctHrMax(hr) {
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_112_26_115_4_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 113 8 ]
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_113_8_113_51_if_stmt:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_113_12_113_36_begin:
+        %tmp.1 = lgetv %hr;
+        symbol [ hr %tmp.1 113 12 14 ];
+        %tmp.2 = null;
+        %tmp.3 = eq %tmp.1 %tmp.2;
+        bt %tmp.3 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_113_8_113_51_if_true;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_113_26_113_36_false:
+        symbol [ _hrMax %tmp.5 113 26 32 ];
+        %tmp.5 = getv ? :_hrMax;
+        %tmp.6 = 0;
+        %tmp.7 = eq %tmp.5 %tmp.6;
+        push %tmp.7;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_113_26_113_36_end:
+        %tmp.8 = phi [%tmp.3 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_113_12_113_36_begin] [%tmp.7 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_113_26_113_36_false] [%tmp.8 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_113_26_113_36_end];
+        bf %tmp.8 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_113_8_113_51_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_113_8_113_51_if_true:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_113_39_113_51_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 113 41 ]
+        %tmp.9 = 0;
+        ret %tmp.9;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_113_39_113_51_stop:
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_113_8_113_51_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_113_8_113_51_if_end:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 114 8 ]
+        %tmp.10 = lgetv %hr;
+        symbol [ hr %tmp.10 114 17 19 ];
+        symbol [ toFloat %tmp.11 114 20 27 ];
+        %tmp.11 = getv function %tmp.10 :toFloat;
+        %tmp.12 = invoke %tmp.10 %tmp.11();
+        symbol [ _hrMax %tmp.14 114 32 38 ];
+        %tmp.14 = getv ? :_hrMax;
+        symbol [ toFloat %tmp.15 114 39 46 ];
+        %tmp.15 = getv function %tmp.14 :toFloat;
+        %tmp.16 = invoke %tmp.14 %tmp.15();
+        %tmp.17 = div %tmp.12 %tmp.16;
+        %tmp.18 = 100.0;
+        %tmp.19 = mul %tmp.17 %tmp.18;
+        symbol [ toNumber %tmp.20 114 59 67 ];
+        %tmp.20 = getv function %tmp.19 :toNumber;
+        %tmp.21 = invoke %tmp.19 %tmp.20();
+        ret %tmp.21;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_112_26_115_4_stop:
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc"; @line = 117; @symbol_functiondef = [inBand,117,13,19]; @symbol_param<0> = [hr,117,20,22]; ]
+    function inBand(hr) {
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_117_24_117_63_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 117 26 ]
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_117_33_117_53_begin:
+        %tmp.1 = lgetv %hr;
+        symbol [ hr %tmp.1 117 33 35 ];
+        %tmp.2 = null;
+        %tmp.3 = ne %tmp.1 %tmp.2;
+        %tmp.4 = dup %tmp.3;
+        bf %tmp.4 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_117_47_117_53_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_117_47_117_53_true:
+        %tmp.5 = lgetv %hr;
+        symbol [ hr %tmp.5 117 47 49 ];
+        %tmp.6 = as %tmp.5 { (!Null) };
+        symbol [ _bandLow %tmp.8 117 53 61 ];
+        %tmp.8 = getv ? :_bandLow;
+        %tmp.9 = gte %tmp.6 %tmp.8;
+        %tmp.10 = and %tmp.3 %tmp.9;
+        push %tmp.10;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_117_47_117_53_end:
+        %tmp.11 = phi [%tmp.4 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_117_33_117_53_begin] [%tmp.10 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_117_47_117_53_true] [%tmp.11 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_117_47_117_53_end];
+        ret %tmp.11;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_117_24_117_63_stop:
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc"; @line = 118; @symbol_functiondef = [bandLow,118,13,20]; ]
+    function bandLow() {
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_118_24_118_43_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 118 26 ]
+        symbol [ _bandLow %tmp.2 118 33 41 ];
+        %tmp.2 = getv ? :_bandLow;
+        ret %tmp.2;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_118_24_118_43_stop:
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc"; @line = 119; @symbol_functiondef = [bandHigh,119,13,21]; ]
+    function bandHigh() {
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_119_24_119_44_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc" 119 26 ]
+        symbol [ _bandHigh %tmp.2 119 33 42 ];
+        %tmp.2 = getv ? :_bandHigh;
+        ret %tmp.2;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_DoseEngine_mc_119_24_119_44_stop:
+    }
+}
+[ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/DoseEngine.mc"; @line = 13; ]
+<init> {
+}

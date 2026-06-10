@@ -1,67 +1,215 @@
-# Fix: block touch input everywhere except suggestion scroll screen
+# Fix: replace onSelect with onKey in every real-work delegate
 
-## The problem
-On the fr955, `BehaviorDelegate.onSelect()` is triggered by both the physical
-START/Enter button AND a tap anywhere on the touchscreen — Garmin maps them to the
-same behavior internally. Removing `onTap` does nothing because the tap is translated
-into `onSelect` before the app ever sees it as a touch event.
+## Why
+`onTap` returning `true` does NOT stop taps from firing `onSelect` on the fr955.
+Garmin's firmware translates a tap into `onSelect` before the app sees it as a touch
+event — this is a confirmed platform behaviour and cannot be intercepted via `onTap`.
 
-## The fix
-Intercept touch at the `InputDelegate` level by implementing `onTap`, `onHold`, and
-`onSwipe` and returning `true` (consumed) in every delegate except the suggestion
-explanation screen. Returning `true` signals the input is handled, which prevents
-Garmin from translating it into the corresponding behavior (`onSelect`, `onNextPage`,
-`onPreviousPage`). Physical buttons are unaffected.
+The only reliable fix: handle the START button via `onKey` (which is physically
+button-only, never fired by a tap) and remove `onSelect` from every delegate that
+does real work. Keep `onTap`/`onHold`/`onSwipe` returning `true` as they are.
 
-## Add these three methods to EVERY delegate in the app
+`Menu2InputDelegate` subclasses (`IdleMenuDelegate`, `StopMenuDelegate`,
+`CustomListDelegate`, `SuggestionChooserDelegate`) are exempt — Garmin's `Menu2`
+drives their item selection internally and `onKey` doesn't route through them the
+same way. Leave those as-is.
 
+---
+
+## 1. `HeatAccDelegate` — `source/HeatAccDelegate.mc` line ~34
+
+REMOVE:
 ```monkeyc
-function onTap(clickEvent as WatchUi.ClickEvent) as Lang.Boolean {
-    return true;
-}
-function onHold(clickEvent as WatchUi.ClickEvent) as Lang.Boolean {
-    return true;
-}
-function onSwipe(swipeEvent as WatchUi.SwipeEvent) as Lang.Boolean {
+function onSelect() {
+    var state = _view.getState();
+    if (state == Config.STATE_IDLE) {
+        _view.startSession();
+    } else if (state == Config.STATE_HEAT || state == Config.STATE_REST) {
+        _view.pauseSession();
+    }
     return true;
 }
 ```
 
-Apply to all of these files:
-- `HeatAccDelegate.mc` — all delegate classes inside it
-- `StopMenuDelegate.mc`
-- `IdleMenuDelegate.mc` (inside `HeatAccDelegate.mc` or its own file)
-- `SuggestionView.mc` — the chooser delegate and screens 1 and 3's delegate
-- `CustomView.mc` — all delegates
-- `RaceDateView.mc` — all delegates
-- `RestDayView.mc`
-- `SummaryView.mc` delegate
-- `AcclimationView.mc` delegate
-- `SessionGraphView.mc` delegate
-- Any other delegate class in the project
-
-Do NOT remove or change `onSelect` — it must stay for the physical START/Enter button
-to keep working. These three methods only block the touch path.
-
-## The one exception — suggestion screen 2 (explanation scroll view)
-The delegate for `SuggestionView` screen 2 (the scrollable explanation text) should
-NOT implement `onSwipe`, so the user can still scroll the text with a finger swipe.
-It SHOULD still implement `onTap` and `onHold` returning `true` to block accidental
-taps. So for that delegate only:
-
+REPLACE WITH:
 ```monkeyc
-function onTap(clickEvent as WatchUi.ClickEvent) as Lang.Boolean {
-    return true;
+function onKey(keyEvent as WatchUi.KeyEvent) as Lang.Boolean {
+    var key = keyEvent.getKey();
+    if (key == WatchUi.KEY_ENTER || key == WatchUi.KEY_START) {
+        var state = _view.getState();
+        if (state == Config.STATE_IDLE) {
+            _view.startSession();
+        } else if (state == Config.STATE_HEAT || state == Config.STATE_REST) {
+            _view.pauseSession();
+        }
+        return true;
+    }
+    return false;
 }
-function onHold(clickEvent as WatchUi.ClickEvent) as Lang.Boolean {
-    return true;
-}
-// onSwipe intentionally omitted — allows scroll
 ```
+
+---
+
+## 2. `CustomDelegate` — `source/CustomView.mc` line ~278
+
+REMOVE:
+```monkeyc
+function onSelect() {
+    var v = WatchUi.getCurrentView()[0];
+    if (v instanceof CustomView) { v.confirm(); }
+    return true;
+}
+```
+
+REPLACE WITH:
+```monkeyc
+function onKey(keyEvent as WatchUi.KeyEvent) as Lang.Boolean {
+    var key = keyEvent.getKey();
+    if (key == WatchUi.KEY_ENTER || key == WatchUi.KEY_START) {
+        var v = WatchUi.getCurrentView()[0];
+        if (v instanceof CustomView) { v.confirm(); }
+        return true;
+    }
+    return false;
+}
+```
+
+---
+
+## 3. `RaceDateDelegate` — `source/RaceDateView.mc` line ~112
+
+REMOVE:
+```monkeyc
+function onSelect() {
+    var v = WatchUi.getCurrentView()[0];
+    if (v instanceof RaceDateView) {
+        v.save();
+        WatchUi.popView(WatchUi.SLIDE_RIGHT);
+    }
+    return true;
+}
+```
+
+REPLACE WITH:
+```monkeyc
+function onKey(keyEvent as WatchUi.KeyEvent) as Lang.Boolean {
+    var key = keyEvent.getKey();
+    if (key == WatchUi.KEY_ENTER || key == WatchUi.KEY_START) {
+        var v = WatchUi.getCurrentView()[0];
+        if (v instanceof RaceDateView) {
+            v.save();
+            WatchUi.popView(WatchUi.SLIDE_RIGHT);
+        }
+        return true;
+    }
+    return false;
+}
+```
+
+---
+
+## 4. `RestDayDelegate` — `source/RestDayView.mc` line ~33
+
+REMOVE:
+```monkeyc
+function onSelect() { _goBack(); return true; }
+```
+
+REPLACE WITH:
+```monkeyc
+function onKey(keyEvent as WatchUi.KeyEvent) as Lang.Boolean {
+    var key = keyEvent.getKey();
+    if (key == WatchUi.KEY_ENTER || key == WatchUi.KEY_START) {
+        _goBack();
+        return true;
+    }
+    return false;
+}
+```
+
+---
+
+## 5. `PostSessionDelegate` — `source/SessionData.mc` line ~63
+
+REMOVE:
+```monkeyc
+function onSelect() {
+    var v = new HeatAccView();
+    WatchUi.switchToView(v, new HeatAccDelegate(v), WatchUi.SLIDE_LEFT);
+    return true;
+}
+```
+
+REPLACE WITH:
+```monkeyc
+function onKey(keyEvent as WatchUi.KeyEvent) as Lang.Boolean {
+    var key = keyEvent.getKey();
+    if (key == WatchUi.KEY_ENTER || key == WatchUi.KEY_START) {
+        var v = new HeatAccView();
+        WatchUi.switchToView(v, new HeatAccDelegate(v), WatchUi.SLIDE_LEFT);
+        return true;
+    }
+    // Keep existing KEY_UP / KEY_DOWN page navigation
+    var k = keyEvent.getKey();
+    if (k == WatchUi.KEY_DOWN) {
+        var next = (_page + 1) % 5;
+        WatchUi.switchToView(makeView(next),
+            new PostSessionDelegate(next, _data), WatchUi.SLIDE_UP);
+        return true;
+    } else if (k == WatchUi.KEY_UP) {
+        var prev = (_page + 4) % 5;
+        WatchUi.switchToView(makeView(prev),
+            new PostSessionDelegate(prev, _data), WatchUi.SLIDE_DOWN);
+        return true;
+    }
+    return false;
+}
+```
+
+NOTE: `PostSessionDelegate` already has an `onKey` for UP/DOWN paging — merge
+the START check into that existing function rather than adding a second `onKey`.
+The merged version should handle KEY_START/KEY_ENTER first, then KEY_DOWN/KEY_UP.
+
+---
+
+## 6. `SuggestionDelegate` — `source/SuggestionView.mc` line ~291
+
+REMOVE:
+```monkeyc
+function onSelect() {
+    _mainView.armWorkout(_workout);
+    WatchUi.popView(WatchUi.SLIDE_RIGHT);
+    return true;
+}
+```
+
+REPLACE WITH:
+```monkeyc
+function onKey(keyEvent as WatchUi.KeyEvent) as Lang.Boolean {
+    var key = keyEvent.getKey();
+    if (key == WatchUi.KEY_ENTER || key == WatchUi.KEY_START) {
+        _mainView.armWorkout(_workout);
+        WatchUi.popView(WatchUi.SLIDE_RIGHT);
+        return true;
+    }
+    return false;
+}
+```
+
+---
+
+## Do NOT change
+- `IdleMenuDelegate.onSelect(item)` — Menu2InputDelegate, Garmin handles internally
+- `StopMenuDelegate.onSelect(item)` — same
+- `CustomListDelegate.onSelect(item)` — same
+- `SuggestionChooserDelegate.onSelect(item)` — same
+- All `onTap`/`onHold`/`onSwipe` returning `true` — keep them
+
+---
 
 ## Acceptance criteria
-- Tapping anywhere on any screen (idle, heat, rest, summary, menus, race date,
-  rest day) does nothing — no session starts, no pause, no navigation.
-- The physical START, LAP, BACK, UP, DOWN buttons all still work normally.
-- Swiping on suggestion screen 2 still scrolls the explanation text.
-- Holding the screen does nothing on any screen.
+- Tapping anywhere on the idle screen does NOT start a session.
+- Tapping anywhere during HEAT/REST does NOT open the pause menu.
+- Tapping the suggestion benefit screen does NOT arm the workout.
+- The physical START button still starts/pauses sessions and arms workouts normally.
+- UP/DOWN physical buttons still page and scroll normally.

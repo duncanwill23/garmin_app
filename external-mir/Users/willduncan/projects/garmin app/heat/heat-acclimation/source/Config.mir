@@ -1,0 +1,201 @@
+[ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 1; @symbol_usingdef<0> = [Toybox,1,6,12]; @symbol_usingdef<1> = [Activity,1,13,21]; ]
+using Toybox.Activity;
+[ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 8; @symbol_moduledef = [Config,8,7,13]; ]
+module Config {
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 8; ]
+    <init> {
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc" 31 10 ]
+        %tmp.1 = 30;
+        %tmp.2 = 60;
+        %tmp.3 = mul %tmp.1 %tmp.2;
+        putv self :SESSION_TARGET_SEC %tmp.3;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc" 32 10 ]
+        %tmp.4 = 45;
+        %tmp.5 = 60;
+        %tmp.6 = mul %tmp.4 %tmp.5;
+        putv self :SESSION_HARD_CAP_SEC %tmp.6;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc" 33 10 ]
+        %tmp.7 = 10;
+        %tmp.8 = 60;
+        %tmp.9 = mul %tmp.7 %tmp.8;
+        putv self :SESSION_NOVICE_CAP_SEC %tmp.9;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc" 51 10 ]
+        %tmp.10 = 10;
+        %tmp.11 = 60;
+        %tmp.12 = mul %tmp.10 %tmp.11;
+        putv self :ADAPT_REF_MARK_SEC %tmp.12;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc" 59 10 ]
+        symbol [ Activity %tmp.13 59 26 34 ];
+        %tmp.13 = getm $.Toybox.Activity;
+        symbol [ SPORT_TRAINING %tmp.14 59 35 49 ];
+        %tmp.14 = getv %tmp.13 :SPORT_TRAINING;
+        putv self :REC_SPORT %tmp.14;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc" 60 10 ]
+        symbol [ Activity %tmp.15 60 26 34 ];
+        %tmp.15 = getm $.Toybox.Activity;
+        symbol [ SUB_SPORT_CARDIO_TRAINING %tmp.16 60 35 60 ];
+        %tmp.16 = getv %tmp.15 :SUB_SPORT_CARDIO_TRAINING;
+        putv self :REC_SUB_SPORT %tmp.16;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc" 77 10 ]
+        %tmp.17 = 3;
+        %tmp.18 = 60;
+        %tmp.19 = mul %tmp.17 %tmp.18;
+        putv self :REST_TARGET_SEC %tmp.19;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc" 108 10 ]
+        %tmp.20 = 12;
+        %tmp.21 = 60;
+        %tmp.22 = mul %tmp.20 %tmp.21;
+        putv self :HR_SUSTAINED_SEC %tmp.22;
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 13; @position = 10; @symbol_constdef = [TARGET_HR_LOW_PCT,13,10,27]; ]
+    const TARGET_HR_LOW_PCT = 0.65;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 14; @position = 10; @symbol_constdef = [TARGET_HR_HIGH_PCT,14,10,28]; ]
+    const TARGET_HR_HIGH_PCT = 0.80;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 17; @position = 10; @symbol_constdef = [HR_MAX_AGE_BASE,17,10,25]; ]
+    const HR_MAX_AGE_BASE = 220;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 18; @position = 10; @symbol_constdef = [HR_MAX_LAST_RESORT,18,10,28]; ]
+    const HR_MAX_LAST_RESORT = 185;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 23; ]
+    enum {
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 24; @position = 8; @symbol_enumdec = [MODALITY_DRY,24,8,20]; ]
+        MODALITY_DRY = 0,
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 25; @position = 8; @symbol_enumdec = [MODALITY_STEAM,25,8,22]; ]
+        MODALITY_STEAM = 1
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 27; @position = 10; @symbol_constdef = [DOSE_MULT_DRY,27,10,23]; ]
+    const DOSE_MULT_DRY = 1.0;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 28; @position = 10; @symbol_constdef = [DOSE_MULT_STEAM,28,10,25]; ]
+    const DOSE_MULT_STEAM = 1.25;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 31; @position = 10; @symbol_constdef = [SESSION_TARGET_SEC,31,10,28]; ]
+    const SESSION_TARGET_SEC;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 32; @position = 10; @symbol_constdef = [SESSION_HARD_CAP_SEC,32,10,30]; ]
+    const SESSION_HARD_CAP_SEC;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 33; @position = 10; @symbol_constdef = [SESSION_NOVICE_CAP_SEC,33,10,32]; ]
+    const SESSION_NOVICE_CAP_SEC;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 36; @position = 10; @symbol_constdef = [INDUCTION_SESSIONS_PER_WEEK_MIN,36,10,41]; ]
+    const INDUCTION_SESSIONS_PER_WEEK_MIN = 3;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 37; @position = 10; @symbol_constdef = [INDUCTION_SESSIONS_PER_WEEK_MAX,37,10,41]; ]
+    const INDUCTION_SESSIONS_PER_WEEK_MAX = 5;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 38; @position = 10; @symbol_constdef = [MAINTENANCE_SESSIONS_PER_WEEK,38,10,39]; ]
+    const MAINTENANCE_SESSIONS_PER_WEEK = 3;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 39; @position = 10; @symbol_constdef = [RACE_WEEK_SESSION_CAP,39,10,31]; ]
+    const RACE_WEEK_SESSION_CAP = 2;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 40; @position = 10; @symbol_constdef = [INDUCTION_STABILIZE_DAYS,40,10,34]; ]
+    const INDUCTION_STABILIZE_DAYS = 14;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 43; @position = 10; @symbol_constdef = [DECAY_PCT_PER_DAY,43,10,27]; ]
+    const DECAY_PCT_PER_DAY = 0.025;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 44; @position = 10; @symbol_constdef = [FINISH_HARD_HEAT_DAYS_PRE_RACE,44,10,40]; ]
+    const FINISH_HARD_HEAT_DAYS_PRE_RACE = 7;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 47; @position = 10; @symbol_constdef = [ADAPT_CHECK_DAY_EARLY,47,10,31]; ]
+    const ADAPT_CHECK_DAY_EARLY = 1;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 48; @position = 10; @symbol_constdef = [ADAPT_CHECK_DAY_LATE,48,10,30]; ]
+    const ADAPT_CHECK_DAY_LATE = 12;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 51; @position = 10; @symbol_constdef = [ADAPT_REF_MARK_SEC,51,10,28]; ]
+    const ADAPT_REF_MARK_SEC;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 54; @position = 10; @symbol_constdef = [REHYDRATE_PCT_OF_LOSS,54,10,31]; ]
+    const REHYDRATE_PCT_OF_LOSS = 1.50;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 59; @position = 10; @symbol_constdef = [REC_SPORT,59,10,19]; ]
+    const REC_SPORT;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 60; @position = 10; @symbol_constdef = [REC_SUB_SPORT,60,10,23]; ]
+    const REC_SUB_SPORT;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 65; @position = 10; @symbol_constdef = [ACCL_REFERENCE_DOSE,65,10,29]; ]
+    const ACCL_REFERENCE_DOSE = 1800.0;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 66; @position = 10; @symbol_constdef = [ACCL_GAIN_PER_SESSION,66,10,31]; ]
+    const ACCL_GAIN_PER_SESSION = 14.0;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 69; ]
+    enum {
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 70; @position = 8; @symbol_enumdec = [STATE_IDLE,70,8,18]; ]
+        STATE_IDLE = 0,
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 71; @position = 8; @symbol_enumdec = [STATE_HEAT,71,8,18]; ]
+        STATE_HEAT = 1,
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 72; @position = 8; @symbol_enumdec = [STATE_REST,72,8,18]; ]
+        STATE_REST = 2,
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 73; @position = 8; @symbol_enumdec = [STATE_PAUSED,73,8,20]; ]
+        STATE_PAUSED = 3
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 77; @position = 10; @symbol_constdef = [REST_TARGET_SEC,77,10,25]; ]
+    const REST_TARGET_SEC;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 80; ]
+    enum {
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 80; @position = 11; @symbol_enumdec = [STEP_HEAT,80,11,20]; ]
+        STEP_HEAT = 0,
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 80; @position = 24; @symbol_enumdec = [STEP_REST,80,24,33]; ]
+        STEP_REST = 1,
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 80; @position = 37; @symbol_enumdec = [STEP_COOLDOWN,80,37,50]; ]
+        STEP_COOLDOWN = 2
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 83; ]
+    enum {
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 83; @position = 11; @symbol_enumdec = [WORKOUT_PROGRESSION,83,11,30]; ]
+        WORKOUT_PROGRESSION = 0,
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 83; @position = 34; @symbol_enumdec = [WORKOUT_RACE,83,34,46]; ]
+        WORKOUT_RACE = 1,
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 83; @position = 50; @symbol_enumdec = [WORKOUT_CUSTOM,83,50,64]; ]
+        WORKOUT_CUSTOM = 2
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 86; ]
+    enum {
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 86; @position = 11; @symbol_enumdec = [COPY_CALIBRATION,86,11,27]; ]
+        COPY_CALIBRATION = 0,
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 86; @position = 31; @symbol_enumdec = [COPY_INDUCTION_BUILD,86,31,51]; ]
+        COPY_INDUCTION_BUILD = 1,
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 86; @position = 55; @symbol_enumdec = [COPY_INDUCTION_FULL,86,55,74]; ]
+        COPY_INDUCTION_FULL = 2,
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 87; @position = 11; @symbol_enumdec = [COPY_MAINTENANCE,87,11,27]; ]
+        COPY_MAINTENANCE = 3,
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 87; @position = 31; @symbol_enumdec = [COPY_POST_GAP,87,31,44]; ]
+        COPY_POST_GAP = 4,
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 87; @position = 48; @symbol_enumdec = [COPY_READINESS_TRIM,87,48,67]; ]
+        COPY_READINESS_TRIM = 5,
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 88; @position = 11; @symbol_enumdec = [COPY_READINESS_REST,88,11,30]; ]
+        COPY_READINESS_REST = 6,
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 88; @position = 34; @symbol_enumdec = [COPY_RACE_BUILD,88,34,49]; ]
+        COPY_RACE_BUILD = 7,
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 88; @position = 53; @symbol_enumdec = [COPY_RACE_TAPER,88,53,68]; ]
+        COPY_RACE_TAPER = 8,
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 89; @position = 11; @symbol_enumdec = [COPY_RACE_INSUFFICIENT,89,11,33]; ]
+        COPY_RACE_INSUFFICIENT = 9
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 92; ]
+    enum {
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 92; @position = 11; @symbol_enumdec = [READINESS_FULL,92,11,25]; ]
+        READINESS_FULL = 0,
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 92; @position = 29; @symbol_enumdec = [READINESS_TRIM,92,29,43]; ]
+        READINESS_TRIM = 1,
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 92; @position = 47; @symbol_enumdec = [READINESS_SHORT,92,47,62]; ]
+        READINESS_SHORT = 2,
+        [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 92; @position = 66; @symbol_enumdec = [READINESS_REST,92,66,80]; ]
+        READINESS_REST = 3
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 95; @position = 10; @symbol_constdef = [PRESET_ROUNDS_DEFAULT,95,10,31]; ]
+    const PRESET_ROUNDS_DEFAULT = 3;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 96; @position = 10; @symbol_constdef = [PRESET_HEAT_MIN_DEFAULT,96,10,33]; ]
+    const PRESET_HEAT_MIN_DEFAULT = 12;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 97; @position = 10; @symbol_constdef = [PRESET_REST_MIN_DEFAULT,97,10,33]; ]
+    const PRESET_REST_MIN_DEFAULT = 3;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 98; @position = 10; @symbol_constdef = [CALIBRATION_SESSIONS,98,10,30]; ]
+    const CALIBRATION_SESSIONS = 5;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 101; @position = 10; @symbol_constdef = [RACE_WINDOW_DAYS,101,10,26]; ]
+    const RACE_WINDOW_DAYS = 35;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 102; @position = 10; @symbol_constdef = [RACE_TAPER_DAYS,102,10,25]; ]
+    const RACE_TAPER_DAYS = 7;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 103; @position = 10; @symbol_constdef = [RACE_TARGET_ACCL,103,10,26]; ]
+    const RACE_TARGET_ACCL = 80.0;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 106; @position = 10; @symbol_constdef = [HR_HIGH_PCT,106,10,21]; ]
+    const HR_HIGH_PCT = 0.92;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 107; @position = 10; @symbol_constdef = [HR_SUSTAINED_PCT,107,10,26]; ]
+    const HR_SUSTAINED_PCT = 0.85;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 108; @position = 10; @symbol_constdef = [HR_SUSTAINED_SEC,108,10,26]; ]
+    const HR_SUSTAINED_SEC;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 112; @position = 10; @symbol_constdef = [COLOR_DRY_PRIMARY,112,10,27]; ]
+    const COLOR_DRY_PRIMARY = 0xF2A623;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 113; @position = 10; @symbol_constdef = [COLOR_DRY_SECONDARY,113,10,29]; ]
+    const COLOR_DRY_SECONDARY = 0xE85D24;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 115; @position = 10; @symbol_constdef = [COLOR_STEAM_PRIMARY,115,10,29]; ]
+    const COLOR_STEAM_PRIMARY = 0x5AA9E6;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 116; @position = 10; @symbol_constdef = [COLOR_STEAM_SECONDARY,116,10,31]; ]
+    const COLOR_STEAM_SECONDARY = 0x378ADD;
+}
+[ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Config.mc"; @line = 1; ]
+<init> {
+}

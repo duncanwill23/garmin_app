@@ -1,0 +1,2033 @@
+[ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc"; @line = 1; @symbol_usingdef<0> = [Toybox,1,6,12]; @symbol_usingdef<1> = [Graphics,1,13,21]; ]
+using Toybox.Graphics;
+[ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc"; @line = 2; @symbol_usingdef<0> = [Toybox,2,6,12]; @symbol_usingdef<1> = [Math,2,13,17]; ]
+using Toybox.Math;
+[ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc"; @line = 17; @symbol_moduledef = [WorkoutRing,17,7,18]; ]
+module WorkoutRing {
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc"; @line = 17; ]
+    <init> {
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc"; @line = 19; @position = 10; @symbol_constdef = [HEAT_COLOR,19,10,20]; ]
+    const HEAT_COLOR = 0xE0392C;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc"; @line = 20; @position = 10; @symbol_constdef = [REST_COLOR,20,10,20]; ]
+    const REST_COLOR = 0x3E8FD0;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc"; @line = 21; @position = 10; @symbol_constdef = [COOL_COLOR,21,10,20]; ]
+    const COOL_COLOR = 0x7d8088;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc"; @line = 24; @symbol_functiondef = [drawPreview,24,13,24]; @symbol_param<0> = [dc,24,25,27]; @symbol_param<1> = [workout,24,29,36]; ]
+    function drawPreview(dc, workout) {
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_24_38_56_4_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 25 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_24_38_56_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_24_38_56_4_stop" ]
+        %w.1 = local;
+        symbol [ w %w.1 25 12 13 ];
+        %tmp.1 = lgetv %dc;
+        symbol [ dc %tmp.1 25 16 18 ];
+        symbol [ getWidth %tmp.2 25 19 27 ];
+        %tmp.2 = getv function %tmp.1 :getWidth;
+        %tmp.3 = invoke %tmp.1 %tmp.2();
+        lputv %w.1 %tmp.3;
+        symbol [ w %w.1 25 12 13 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 26 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_24_38_56_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_24_38_56_4_stop" ]
+        %h.2 = local;
+        symbol [ h %h.2 26 12 13 ];
+        %tmp.4 = lgetv %dc;
+        symbol [ dc %tmp.4 26 16 18 ];
+        symbol [ getHeight %tmp.5 26 19 28 ];
+        %tmp.5 = getv function %tmp.4 :getHeight;
+        %tmp.6 = invoke %tmp.4 %tmp.5();
+        lputv %h.2 %tmp.6;
+        symbol [ h %h.2 26 12 13 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 27 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_24_38_56_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_24_38_56_4_stop" ]
+        %g.3 = local;
+        symbol [ g %g.3 27 12 13 ];
+        %tmp.7 = self;
+        symbol [ _geo %tmp.8 27 16 20 ];
+        %tmp.8 = getv function %tmp.7 :_geo;
+        %tmp.9 = lgetv %w.1;
+        symbol [ w %tmp.9 27 21 22 ];
+        %tmp.10 = lgetv %h.2;
+        symbol [ h %tmp.10 27 24 25 ];
+        %tmp.11 = invoke %tmp.7 %tmp.8(%tmp.9, %tmp.10);
+        lputv %g.3 %tmp.11;
+        symbol [ g %g.3 27 12 13 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 28 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_24_38_56_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_24_38_56_4_stop" ]
+        %steps.4 = local;
+        symbol [ steps %steps.4 28 12 17 ];
+        %tmp.12 = lgetv %workout;
+        symbol [ workout %tmp.12 28 20 27 ];
+        symbol [ steps %tmp.13 28 28 33 ];
+        %tmp.13 = getv %tmp.12 :steps;
+        lputv %steps.4 %tmp.13;
+        symbol [ steps %steps.4 28 12 17 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 29 8 ]
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_29_8_29_63_if_stmt:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_29_12_29_50_begin:
+        %tmp.14 = lgetv %steps.4;
+        symbol [ steps %tmp.14 29 14 19 ];
+        %tmp.16 = const :size;
+        symbol [ size %tmp.16 29 25 29 const ];
+        %tmp.17 = canhazplz %tmp.14 %tmp.16;
+        %tmp.18 = not %tmp.17;
+        bt %tmp.18 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_29_8_29_63_if_true;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_29_34_29_50_false:
+        %tmp.19 = lgetv %steps.4;
+        symbol [ steps %tmp.19 29 34 39 ];
+        %tmp.20 = as %tmp.19 { (interface { var size; }) };
+        symbol [ size %tmp.21 29 40 44 ];
+        %tmp.21 = getv function %tmp.20 :size;
+        %tmp.22 = invoke %tmp.20 %tmp.21();
+        %tmp.23 = 0;
+        %tmp.24 = eq %tmp.22 %tmp.23;
+        push %tmp.24;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_29_34_29_50_end:
+        %tmp.25 = phi [%tmp.18 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_29_12_29_50_begin] [%tmp.24 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_29_34_29_50_false] [%tmp.25 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_29_34_29_50_end];
+        bf %tmp.25 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_29_8_29_63_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_29_8_29_63_if_true:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_29_53_29_63_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 29 55 ]
+        ret ?;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_29_53_29_63_stop:
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_29_8_29_63_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_29_8_29_63_if_end:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 30 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_24_38_56_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_24_38_56_4_stop" ]
+        %segs.5 = local;
+        symbol [ segs %segs.5 30 12 16 ];
+        %tmp.26 = self;
+        symbol [ _stepsToSegs %tmp.27 30 19 31 ];
+        %tmp.27 = getv function %tmp.26 :_stepsToSegs;
+        %tmp.28 = lgetv %steps.4;
+        symbol [ steps %tmp.28 30 32 37 ];
+        %tmp.29 = invoke %tmp.26 %tmp.27(%tmp.28);
+        lputv %segs.5 %tmp.29;
+        symbol [ segs %segs.5 30 12 16 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 31 8 ]
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_31_8_31_40_if_stmt:
+        %tmp.30 = lgetv %segs.5;
+        symbol [ segs %tmp.30 31 12 16 ];
+        symbol [ size %tmp.31 31 17 21 ];
+        %tmp.31 = getv function %tmp.30 :size;
+        %tmp.32 = invoke %tmp.30 %tmp.31();
+        %tmp.33 = 0;
+        %tmp.34 = eq %tmp.32 %tmp.33;
+        bf %tmp.34 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_31_8_31_40_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_31_8_31_40_if_true:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_31_30_31_40_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 31 32 ]
+        ret ?;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_31_30_31_40_stop:
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_31_8_31_40_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_31_8_31_40_if_end:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 32 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_24_38_56_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_24_38_56_4_stop" ]
+        %totalSec.6 = local;
+        symbol [ totalSec %totalSec.6 32 12 20 ];
+        %tmp.35 = self;
+        symbol [ _segsTotalSec %tmp.36 32 23 36 ];
+        %tmp.36 = getv function %tmp.35 :_segsTotalSec;
+        %tmp.37 = lgetv %segs.5;
+        symbol [ segs %tmp.37 32 37 41 ];
+        %tmp.38 = invoke %tmp.35 %tmp.36(%tmp.37);
+        lputv %totalSec.6 %tmp.38;
+        symbol [ totalSec %totalSec.6 32 12 20 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 33 8 ]
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_33_8_33_37_if_stmt:
+        %tmp.39 = lgetv %totalSec.6;
+        symbol [ totalSec %tmp.39 33 12 20 ];
+        %tmp.40 = 0;
+        %tmp.41 = lte %tmp.39 %tmp.40;
+        bf %tmp.41 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_33_8_33_37_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_33_8_33_37_if_true:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_33_27_33_37_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 33 29 ]
+        ret ?;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_33_27_33_37_stop:
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_33_8_33_37_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_33_8_33_37_if_end:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 34 8 ]
+        %tmp.42 = self;
+        symbol [ _drawSegments %tmp.43 34 8 21 ];
+        %tmp.43 = getv function %tmp.42 :_drawSegments;
+        %tmp.44 = lgetv %dc;
+        symbol [ dc %tmp.44 34 22 24 ];
+        %tmp.45 = lgetv %segs.5;
+        symbol [ segs %tmp.45 34 26 30 ];
+        %tmp.46 = lgetv %totalSec.6;
+        symbol [ totalSec %tmp.46 34 32 40 ];
+        %tmp.47 = lgetv %g.3;
+        symbol [ g %tmp.47 34 42 43 ];
+        invoke %tmp.42 %tmp.43(%tmp.44, %tmp.45, %tmp.46, %tmp.47);
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 35 8 ]
+        %tmp.48 = self;
+        symbol [ _drawNotch %tmp.49 35 8 18 ];
+        %tmp.49 = getv function %tmp.48 :_drawNotch;
+        %tmp.50 = lgetv %dc;
+        symbol [ dc %tmp.50 35 19 21 ];
+        %tmp.51 = lgetv %g.3;
+        symbol [ g %tmp.51 35 23 24 ];
+        invoke %tmp.48 %tmp.49(%tmp.50, %tmp.51);
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 37 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_24_38_56_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_24_38_56_4_stop" ]
+        %cx.7 = local;
+        symbol [ cx %cx.7 37 12 14 ];
+        %tmp.52 = lgetv %g.3;
+        symbol [ g %tmp.52 37 22 23 ];
+        %tmp.54 = const :cx;
+        symbol [ cx %tmp.54 37 25 27 const ];
+        %tmp.55 = agetv %tmp.52 %tmp.54;
+        lputv %cx.7 %tmp.55;
+        symbol [ cx %cx.7 37 12 14 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 38 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_24_38_56_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_24_38_56_4_stop" ]
+        %cy.8 = local;
+        symbol [ cy %cy.8 38 12 14 ];
+        %tmp.56 = lgetv %g.3;
+        symbol [ g %tmp.56 38 22 23 ];
+        %tmp.58 = const :cy;
+        symbol [ cy %tmp.58 38 25 27 const ];
+        %tmp.59 = agetv %tmp.56 %tmp.58;
+        lputv %cy.8 %tmp.59;
+        symbol [ cy %cy.8 38 12 14 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 39 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_24_38_56_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_24_38_56_4_stop" ]
+        %rounds.9 = local;
+        symbol [ rounds %rounds.9 39 12 18 ];
+        %tmp.60 = lgetv %workout;
+        symbol [ workout %tmp.60 39 22 29 ];
+        symbol [ heatRounds %tmp.61 39 30 40 ];
+        %tmp.61 = getv function %tmp.60 :heatRounds;
+        %tmp.62 = invoke %tmp.60 %tmp.61();
+        lputv %rounds.9 %tmp.62;
+        symbol [ rounds %rounds.9 39 12 18 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 40 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_24_38_56_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_24_38_56_4_stop" ]
+        %heatMin.10 = local;
+        symbol [ heatMin %heatMin.10 40 12 19 ];
+        %tmp.63 = lgetv %workout;
+        symbol [ workout %tmp.63 40 22 29 ];
+        symbol [ totalHeatSec %tmp.64 40 30 42 ];
+        %tmp.64 = getv function %tmp.63 :totalHeatSec;
+        %tmp.65 = invoke %tmp.63 %tmp.64();
+        %tmp.66 = 60;
+        %tmp.67 = div %tmp.65 %tmp.66;
+        lputv %heatMin.10 %tmp.67;
+        symbol [ heatMin %heatMin.10 40 12 19 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 41 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_24_38_56_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_24_38_56_4_stop" ]
+        %perRnd.11 = local;
+        symbol [ perRnd %perRnd.11 41 12 18 ];
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_41_22_41_58_begin:
+        %tmp.68 = lgetv %rounds.9;
+        symbol [ rounds %tmp.68 41 23 29 ];
+        %tmp.69 = 0;
+        %tmp.70 = gt %tmp.68 %tmp.69;
+        bf %tmp.70 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_41_22_41_58_else_false;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_41_22_41_58_true:
+        %tmp.71 = lgetv %heatMin.10;
+        symbol [ heatMin %tmp.71 41 38 45 ];
+        %tmp.72 = lgetv %rounds.9;
+        symbol [ rounds %tmp.72 41 48 54 ];
+        %tmp.73 = div %tmp.71 %tmp.72;
+        push %tmp.73;
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_41_22_41_58_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_41_22_41_58_else_false:
+        %tmp.74 = lgetv %heatMin.10;
+        symbol [ heatMin %tmp.74 41 58 65 ];
+        push %tmp.74;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_41_22_41_58_end:
+        %tmp.75 = phi [%tmp.70 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_41_22_41_58_begin] [%tmp.73 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_41_22_41_58_true] [%tmp.74 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_41_22_41_58_else_false] [%tmp.75 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_41_22_41_58_end];
+        lputv %perRnd.11 %tmp.75;
+        symbol [ perRnd %perRnd.11 41 12 18 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 42 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_24_38_56_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_24_38_56_4_stop" ]
+        %totMin.12 = local;
+        symbol [ totMin %totMin.12 42 12 18 ];
+        %tmp.76 = lgetv %totalSec.6;
+        symbol [ totalSec %tmp.76 42 22 30 ];
+        %tmp.77 = 60;
+        %tmp.78 = div %tmp.76 %tmp.77;
+        lputv %totMin.12 %tmp.78;
+        symbol [ totMin %totMin.12 42 12 18 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 44 8 ]
+        %tmp.79 = lgetv %dc;
+        symbol [ dc %tmp.79 44 8 10 ];
+        symbol [ setColor %tmp.80 44 11 19 ];
+        %tmp.80 = getv function %tmp.79 :setColor;
+        symbol [ Graphics %tmp.81 44 20 28 ];
+        %tmp.81 = getm $.Toybox.Graphics;
+        symbol [ COLOR_WHITE %tmp.82 44 29 40 ];
+        %tmp.82 = getv %tmp.81 :COLOR_WHITE;
+        symbol [ Graphics %tmp.83 44 42 50 ];
+        %tmp.83 = getm $.Toybox.Graphics;
+        symbol [ COLOR_TRANSPARENT %tmp.84 44 51 68 ];
+        %tmp.84 = getv %tmp.83 :COLOR_TRANSPARENT;
+        invoke %tmp.79 %tmp.80(%tmp.82, %tmp.84);
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 45 8 ]
+        %tmp.85 = lgetv %dc;
+        symbol [ dc %tmp.85 45 8 10 ];
+        symbol [ drawText %tmp.86 45 11 19 ];
+        %tmp.86 = getv function %tmp.85 :drawText;
+        %tmp.87 = lgetv %cx.7;
+        symbol [ cx %tmp.87 45 20 22 ];
+        %tmp.88 = lgetv %cy.8;
+        symbol [ cy %tmp.88 45 24 26 ];
+        %tmp.89 = lgetv %h.2;
+        symbol [ h %tmp.89 45 30 31 ];
+        %tmp.90 = 0.14;
+        %tmp.91 = mul %tmp.89 %tmp.90;
+        symbol [ toNumber %tmp.92 45 40 48 ];
+        %tmp.92 = getv function %tmp.91 :toNumber;
+        %tmp.93 = invoke %tmp.91 %tmp.92();
+        %tmp.94 = sub %tmp.88 %tmp.93;
+        symbol [ Graphics %tmp.95 46 12 20 ];
+        %tmp.95 = getm $.Toybox.Graphics;
+        symbol [ FONT_NUMBER_MEDIUM %tmp.96 46 21 39 ];
+        %tmp.96 = getv %tmp.95 :FONT_NUMBER_MEDIUM;
+        %tmp.97 = lgetv %rounds.9;
+        symbol [ rounds %tmp.97 47 12 18 ];
+        %tmp.98 = " x ";
+        %tmp.99 = add %tmp.97 %tmp.98;
+        %tmp.100 = lgetv %perRnd.11;
+        symbol [ perRnd %tmp.100 47 29 35 ];
+        %tmp.101 = add %tmp.99 %tmp.100;
+        symbol [ Graphics %tmp.102 48 12 20 ];
+        %tmp.102 = getm $.Toybox.Graphics;
+        symbol [ TEXT_JUSTIFY_CENTER %tmp.103 48 21 40 ];
+        %tmp.103 = getv %tmp.102 :TEXT_JUSTIFY_CENTER;
+        invoke %tmp.85 %tmp.86(%tmp.87, %tmp.94, %tmp.96, %tmp.101, %tmp.103);
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 49 8 ]
+        %tmp.104 = lgetv %dc;
+        symbol [ dc %tmp.104 49 8 10 ];
+        symbol [ setColor %tmp.105 49 11 19 ];
+        %tmp.105 = getv function %tmp.104 :setColor;
+        symbol [ Graphics %tmp.106 49 20 28 ];
+        %tmp.106 = getm $.Toybox.Graphics;
+        symbol [ COLOR_LT_GRAY %tmp.107 49 29 42 ];
+        %tmp.107 = getv %tmp.106 :COLOR_LT_GRAY;
+        symbol [ Graphics %tmp.108 49 44 52 ];
+        %tmp.108 = getm $.Toybox.Graphics;
+        symbol [ COLOR_TRANSPARENT %tmp.109 49 53 70 ];
+        %tmp.109 = getv %tmp.108 :COLOR_TRANSPARENT;
+        invoke %tmp.104 %tmp.105(%tmp.107, %tmp.109);
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 50 8 ]
+        %tmp.110 = lgetv %dc;
+        symbol [ dc %tmp.110 50 8 10 ];
+        symbol [ drawText %tmp.111 50 11 19 ];
+        %tmp.111 = getv function %tmp.110 :drawText;
+        %tmp.112 = lgetv %cx.7;
+        symbol [ cx %tmp.112 50 20 22 ];
+        %tmp.113 = lgetv %cy.8;
+        symbol [ cy %tmp.113 50 24 26 ];
+        %tmp.114 = lgetv %h.2;
+        symbol [ h %tmp.114 50 30 31 ];
+        %tmp.115 = 0.05;
+        %tmp.116 = mul %tmp.114 %tmp.115;
+        symbol [ toNumber %tmp.117 50 40 48 ];
+        %tmp.117 = getv function %tmp.116 :toNumber;
+        %tmp.118 = invoke %tmp.116 %tmp.117();
+        %tmp.119 = add %tmp.113 %tmp.118;
+        symbol [ Graphics %tmp.120 51 12 20 ];
+        %tmp.120 = getm $.Toybox.Graphics;
+        symbol [ FONT_XTINY %tmp.121 51 21 31 ];
+        %tmp.121 = getv %tmp.120 :FONT_XTINY;
+        %tmp.122 = "min in heat";
+        symbol [ Graphics %tmp.123 52 12 20 ];
+        %tmp.123 = getm $.Toybox.Graphics;
+        symbol [ TEXT_JUSTIFY_CENTER %tmp.124 52 21 40 ];
+        %tmp.124 = getv %tmp.123 :TEXT_JUSTIFY_CENTER;
+        invoke %tmp.110 %tmp.111(%tmp.112, %tmp.119, %tmp.121, %tmp.122, %tmp.124);
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 53 8 ]
+        %tmp.125 = lgetv %dc;
+        symbol [ dc %tmp.125 53 8 10 ];
+        symbol [ drawText %tmp.126 53 11 19 ];
+        %tmp.126 = getv function %tmp.125 :drawText;
+        %tmp.127 = lgetv %cx.7;
+        symbol [ cx %tmp.127 53 20 22 ];
+        %tmp.128 = lgetv %cy.8;
+        symbol [ cy %tmp.128 53 24 26 ];
+        %tmp.129 = lgetv %h.2;
+        symbol [ h %tmp.129 53 30 31 ];
+        %tmp.130 = 0.15;
+        %tmp.131 = mul %tmp.129 %tmp.130;
+        symbol [ toNumber %tmp.132 53 40 48 ];
+        %tmp.132 = getv function %tmp.131 :toNumber;
+        %tmp.133 = invoke %tmp.131 %tmp.132();
+        %tmp.134 = add %tmp.128 %tmp.133;
+        symbol [ Graphics %tmp.135 54 12 20 ];
+        %tmp.135 = getm $.Toybox.Graphics;
+        symbol [ FONT_XTINY %tmp.136 54 21 31 ];
+        %tmp.136 = getv %tmp.135 :FONT_XTINY;
+        %tmp.137 = lgetv %totMin.12;
+        symbol [ totMin %tmp.137 54 33 39 ];
+        %tmp.138 = " min total";
+        %tmp.139 = add %tmp.137 %tmp.138;
+        symbol [ Graphics %tmp.140 55 12 20 ];
+        %tmp.140 = getm $.Toybox.Graphics;
+        symbol [ TEXT_JUSTIFY_CENTER %tmp.141 55 21 40 ];
+        %tmp.141 = getv %tmp.140 :TEXT_JUSTIFY_CENTER;
+        invoke %tmp.125 %tmp.126(%tmp.127, %tmp.134, %tmp.136, %tmp.139, %tmp.141);
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_24_38_56_4_stop:
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc"; @line = 60; @symbol_functiondef = [drawLive,60,13,21]; @symbol_param<0> = [dc,60,22,24]; @symbol_param<1> = [workout,60,26,33]; @symbol_param<2> = [elapsedInWorkout,60,35,51]; ]
+    function drawLive(dc, workout, elapsedInWorkout) {
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_60_53_76_4_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 61 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_60_53_76_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_60_53_76_4_stop" ]
+        %w.1 = local;
+        symbol [ w %w.1 61 12 13 ];
+        %tmp.1 = lgetv %dc;
+        symbol [ dc %tmp.1 61 16 18 ];
+        symbol [ getWidth %tmp.2 61 19 27 ];
+        %tmp.2 = getv function %tmp.1 :getWidth;
+        %tmp.3 = invoke %tmp.1 %tmp.2();
+        lputv %w.1 %tmp.3;
+        symbol [ w %w.1 61 12 13 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 62 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_60_53_76_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_60_53_76_4_stop" ]
+        %h.2 = local;
+        symbol [ h %h.2 62 12 13 ];
+        %tmp.4 = lgetv %dc;
+        symbol [ dc %tmp.4 62 16 18 ];
+        symbol [ getHeight %tmp.5 62 19 28 ];
+        %tmp.5 = getv function %tmp.4 :getHeight;
+        %tmp.6 = invoke %tmp.4 %tmp.5();
+        lputv %h.2 %tmp.6;
+        symbol [ h %h.2 62 12 13 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 63 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_60_53_76_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_60_53_76_4_stop" ]
+        %g.3 = local;
+        symbol [ g %g.3 63 12 13 ];
+        %tmp.7 = self;
+        symbol [ _geo %tmp.8 63 16 20 ];
+        %tmp.8 = getv function %tmp.7 :_geo;
+        %tmp.9 = lgetv %w.1;
+        symbol [ w %tmp.9 63 21 22 ];
+        %tmp.10 = lgetv %h.2;
+        symbol [ h %tmp.10 63 24 25 ];
+        %tmp.11 = invoke %tmp.7 %tmp.8(%tmp.9, %tmp.10);
+        lputv %g.3 %tmp.11;
+        symbol [ g %g.3 63 12 13 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 64 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_60_53_76_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_60_53_76_4_stop" ]
+        %steps.4 = local;
+        symbol [ steps %steps.4 64 12 17 ];
+        %tmp.12 = lgetv %workout;
+        symbol [ workout %tmp.12 64 20 27 ];
+        symbol [ steps %tmp.13 64 28 33 ];
+        %tmp.13 = getv %tmp.12 :steps;
+        lputv %steps.4 %tmp.13;
+        symbol [ steps %steps.4 64 12 17 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 65 8 ]
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_65_8_65_63_if_stmt:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_65_12_65_50_begin:
+        %tmp.14 = lgetv %steps.4;
+        symbol [ steps %tmp.14 65 14 19 ];
+        %tmp.16 = const :size;
+        symbol [ size %tmp.16 65 25 29 const ];
+        %tmp.17 = canhazplz %tmp.14 %tmp.16;
+        %tmp.18 = not %tmp.17;
+        bt %tmp.18 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_65_8_65_63_if_true;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_65_34_65_50_false:
+        %tmp.19 = lgetv %steps.4;
+        symbol [ steps %tmp.19 65 34 39 ];
+        %tmp.20 = as %tmp.19 { (interface { var size; }) };
+        symbol [ size %tmp.21 65 40 44 ];
+        %tmp.21 = getv function %tmp.20 :size;
+        %tmp.22 = invoke %tmp.20 %tmp.21();
+        %tmp.23 = 0;
+        %tmp.24 = eq %tmp.22 %tmp.23;
+        push %tmp.24;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_65_34_65_50_end:
+        %tmp.25 = phi [%tmp.18 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_65_12_65_50_begin] [%tmp.24 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_65_34_65_50_false] [%tmp.25 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_65_34_65_50_end];
+        bf %tmp.25 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_65_8_65_63_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_65_8_65_63_if_true:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_65_53_65_63_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 65 55 ]
+        ret ?;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_65_53_65_63_stop:
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_65_8_65_63_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_65_8_65_63_if_end:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 66 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_60_53_76_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_60_53_76_4_stop" ]
+        %segs.5 = local;
+        symbol [ segs %segs.5 66 12 16 ];
+        %tmp.26 = self;
+        symbol [ _stepsToSegs %tmp.27 66 19 31 ];
+        %tmp.27 = getv function %tmp.26 :_stepsToSegs;
+        %tmp.28 = lgetv %steps.4;
+        symbol [ steps %tmp.28 66 32 37 ];
+        %tmp.29 = invoke %tmp.26 %tmp.27(%tmp.28);
+        lputv %segs.5 %tmp.29;
+        symbol [ segs %segs.5 66 12 16 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 67 8 ]
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_67_8_67_40_if_stmt:
+        %tmp.30 = lgetv %segs.5;
+        symbol [ segs %tmp.30 67 12 16 ];
+        symbol [ size %tmp.31 67 17 21 ];
+        %tmp.31 = getv function %tmp.30 :size;
+        %tmp.32 = invoke %tmp.30 %tmp.31();
+        %tmp.33 = 0;
+        %tmp.34 = eq %tmp.32 %tmp.33;
+        bf %tmp.34 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_67_8_67_40_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_67_8_67_40_if_true:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_67_30_67_40_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 67 32 ]
+        ret ?;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_67_30_67_40_stop:
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_67_8_67_40_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_67_8_67_40_if_end:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 68 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_60_53_76_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_60_53_76_4_stop" ]
+        %totalSec.6 = local;
+        symbol [ totalSec %totalSec.6 68 12 20 ];
+        %tmp.35 = self;
+        symbol [ _segsTotalSec %tmp.36 68 23 36 ];
+        %tmp.36 = getv function %tmp.35 :_segsTotalSec;
+        %tmp.37 = lgetv %segs.5;
+        symbol [ segs %tmp.37 68 37 41 ];
+        %tmp.38 = invoke %tmp.35 %tmp.36(%tmp.37);
+        lputv %totalSec.6 %tmp.38;
+        symbol [ totalSec %totalSec.6 68 12 20 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 69 8 ]
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_69_8_69_37_if_stmt:
+        %tmp.39 = lgetv %totalSec.6;
+        symbol [ totalSec %tmp.39 69 12 20 ];
+        %tmp.40 = 0;
+        %tmp.41 = lte %tmp.39 %tmp.40;
+        bf %tmp.41 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_69_8_69_37_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_69_8_69_37_if_true:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_69_27_69_37_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 69 29 ]
+        ret ?;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_69_27_69_37_stop:
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_69_8_69_37_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_69_8_69_37_if_end:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 70 8 ]
+        %tmp.42 = self;
+        symbol [ _drawSegments %tmp.43 70 8 21 ];
+        %tmp.43 = getv function %tmp.42 :_drawSegments;
+        %tmp.44 = lgetv %dc;
+        symbol [ dc %tmp.44 70 22 24 ];
+        %tmp.45 = lgetv %segs.5;
+        symbol [ segs %tmp.45 70 26 30 ];
+        %tmp.46 = lgetv %totalSec.6;
+        symbol [ totalSec %tmp.46 70 32 40 ];
+        %tmp.47 = lgetv %g.3;
+        symbol [ g %tmp.47 70 42 43 ];
+        invoke %tmp.42 %tmp.43(%tmp.44, %tmp.45, %tmp.46, %tmp.47);
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 71 8 ]
+        %tmp.48 = self;
+        symbol [ _drawNotch %tmp.49 71 8 18 ];
+        %tmp.49 = getv function %tmp.48 :_drawNotch;
+        %tmp.50 = lgetv %dc;
+        symbol [ dc %tmp.50 71 19 21 ];
+        %tmp.51 = lgetv %g.3;
+        symbol [ g %tmp.51 71 23 24 ];
+        invoke %tmp.48 %tmp.49(%tmp.50, %tmp.51);
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 72 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_60_53_76_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_60_53_76_4_stop" ]
+        %elapsed.7 = local;
+        symbol [ elapsed %elapsed.7 72 12 19 ];
+        %tmp.52 = lgetv %elapsedInWorkout;
+        symbol [ elapsedInWorkout %tmp.52 72 22 38 ];
+        symbol [ toFloat %tmp.53 72 39 46 ];
+        %tmp.53 = getv function %tmp.52 :toFloat;
+        %tmp.54 = invoke %tmp.52 %tmp.53();
+        lputv %elapsed.7 %tmp.54;
+        symbol [ elapsed %elapsed.7 72 12 19 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 73 8 ]
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_73_8_73_74_if_stmt:
+        %tmp.55 = lgetv %elapsed.7;
+        symbol [ elapsed %tmp.55 73 12 19 ];
+        %tmp.56 = lgetv %totalSec.6;
+        symbol [ totalSec %tmp.56 73 22 30 ];
+        symbol [ toFloat %tmp.57 73 31 38 ];
+        %tmp.57 = getv function %tmp.56 :toFloat;
+        %tmp.58 = invoke %tmp.56 %tmp.57();
+        %tmp.59 = gt %tmp.55 %tmp.58;
+        bf %tmp.59 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_73_8_73_74_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_73_8_73_74_if_true:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_73_42_73_74_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 73 44 ]
+        %tmp.60 = lgetv %totalSec.6;
+        symbol [ totalSec %tmp.60 73 54 62 ];
+        symbol [ toFloat %tmp.61 73 63 70 ];
+        %tmp.61 = getv function %tmp.60 :toFloat;
+        %tmp.62 = invoke %tmp.60 %tmp.61();
+        lputv %elapsed.7 %tmp.62;
+        symbol [ elapsed %elapsed.7 73 44 51 ];
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_73_42_73_74_stop:
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_73_8_73_74_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_73_8_73_74_if_end:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 74 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_60_53_76_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_60_53_76_4_stop" ]
+        %markerDeg.8 = local;
+        symbol [ markerDeg %markerDeg.8 74 12 21 ];
+        %tmp.63 = 90.0;
+        %tmp.64 = lgetv %elapsed.7;
+        symbol [ elapsed %tmp.64 74 31 38 ];
+        %tmp.65 = lgetv %totalSec.6;
+        symbol [ totalSec %tmp.65 74 41 49 ];
+        symbol [ toFloat %tmp.66 74 50 57 ];
+        %tmp.66 = getv function %tmp.65 :toFloat;
+        %tmp.67 = invoke %tmp.65 %tmp.66();
+        %tmp.68 = div %tmp.64 %tmp.67;
+        %tmp.69 = 360.0;
+        %tmp.70 = mul %tmp.68 %tmp.69;
+        %tmp.71 = sub %tmp.63 %tmp.70;
+        lputv %markerDeg.8 %tmp.71;
+        symbol [ markerDeg %markerDeg.8 74 12 21 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 75 8 ]
+        %tmp.72 = self;
+        symbol [ _drawMarker %tmp.73 75 8 19 ];
+        %tmp.73 = getv function %tmp.72 :_drawMarker;
+        %tmp.74 = lgetv %dc;
+        symbol [ dc %tmp.74 75 20 22 ];
+        %tmp.75 = lgetv %g.3;
+        symbol [ g %tmp.75 75 24 25 ];
+        %tmp.76 = lgetv %markerDeg.8;
+        symbol [ markerDeg %tmp.76 75 27 36 ];
+        invoke %tmp.72 %tmp.73(%tmp.74, %tmp.75, %tmp.76);
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_60_53_76_4_stop:
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc"; @line = 80; @symbol_functiondef = [drawSession,80,13,24]; @symbol_param<0> = [dc,80,25,27]; @symbol_param<1> = [data,80,29,33]; ]
+    function drawSession(dc, data) {
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_80_35_95_4_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 81 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_80_35_95_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_80_35_95_4_stop" ]
+        %w.1 = local;
+        symbol [ w %w.1 81 12 13 ];
+        %tmp.1 = lgetv %dc;
+        symbol [ dc %tmp.1 81 16 18 ];
+        symbol [ getWidth %tmp.2 81 19 27 ];
+        %tmp.2 = getv function %tmp.1 :getWidth;
+        %tmp.3 = invoke %tmp.1 %tmp.2();
+        lputv %w.1 %tmp.3;
+        symbol [ w %w.1 81 12 13 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 82 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_80_35_95_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_80_35_95_4_stop" ]
+        %h.2 = local;
+        symbol [ h %h.2 82 12 13 ];
+        %tmp.4 = lgetv %dc;
+        symbol [ dc %tmp.4 82 16 18 ];
+        symbol [ getHeight %tmp.5 82 19 28 ];
+        %tmp.5 = getv function %tmp.4 :getHeight;
+        %tmp.6 = invoke %tmp.4 %tmp.5();
+        lputv %h.2 %tmp.6;
+        symbol [ h %h.2 82 12 13 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 83 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_80_35_95_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_80_35_95_4_stop" ]
+        %g.3 = local;
+        symbol [ g %g.3 83 12 13 ];
+        %tmp.7 = self;
+        symbol [ _geo %tmp.8 83 16 20 ];
+        %tmp.8 = getv function %tmp.7 :_geo;
+        %tmp.9 = lgetv %w.1;
+        symbol [ w %tmp.9 83 21 22 ];
+        %tmp.10 = lgetv %h.2;
+        symbol [ h %tmp.10 83 24 25 ];
+        %tmp.11 = invoke %tmp.7 %tmp.8(%tmp.9, %tmp.10);
+        lputv %g.3 %tmp.11;
+        symbol [ g %g.3 83 12 13 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 84 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_80_35_95_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_80_35_95_4_stop" ]
+        %sT.4 = local;
+        symbol [ sT %sT.4 84 12 14 ];
+        %tmp.12 = lgetv %data;
+        symbol [ data %tmp.12 84 17 21 ];
+        symbol [ sampleT %tmp.13 84 22 29 ];
+        %tmp.13 = getv %tmp.12 :sampleT;
+        lputv %sT.4 %tmp.13;
+        symbol [ sT %sT.4 84 12 14 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 85 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_80_35_95_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_80_35_95_4_stop" ]
+        %sP.5 = local;
+        symbol [ sP %sP.5 85 12 14 ];
+        %tmp.14 = lgetv %data;
+        symbol [ data %tmp.14 85 17 21 ];
+        symbol [ samplePhase %tmp.15 85 22 33 ];
+        %tmp.15 = getv %tmp.14 :samplePhase;
+        lputv %sP.5 %tmp.15;
+        symbol [ sP %sP.5 85 12 14 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 86 8 ]
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_86_8_88_8_if_stmt:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_86_12_86_58_begin:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_86_12_86_40_begin:
+        %tmp.16 = lgetv %sT.4;
+        symbol [ sT %tmp.16 86 12 14 ];
+        %tmp.17 = null;
+        %tmp.18 = eq %tmp.16 %tmp.17;
+        bt %tmp.18 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_86_8_88_8_if_true;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_86_26_86_40_false:
+        %tmp.19 = lgetv %sT.4;
+        symbol [ sT %tmp.19 86 28 30 ];
+        %tmp.20 = as %tmp.19 { (!Null) };
+        %tmp.22 = const :size;
+        symbol [ size %tmp.22 86 36 40 const ];
+        %tmp.23 = canhazplz %tmp.20 %tmp.22;
+        %tmp.24 = not %tmp.23;
+        push %tmp.24;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_86_26_86_40_end:
+        %tmp.25 = phi [%tmp.18 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_86_12_86_40_begin] [%tmp.24 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_86_26_86_40_false] [%tmp.25 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_86_26_86_40_end];
+        bt %tmp.25 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_86_8_88_8_if_true;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_86_45_86_58_false:
+        %tmp.26 = lgetv %sT.4;
+        symbol [ sT %tmp.26 86 45 47 ];
+        %tmp.27 = as %tmp.26 { (!Null) && (interface { var size; }) };
+        symbol [ size %tmp.28 86 48 52 ];
+        %tmp.28 = getv function %tmp.27 :size;
+        %tmp.29 = invoke %tmp.27 %tmp.28();
+        %tmp.30 = 0;
+        %tmp.31 = eq %tmp.29 %tmp.30;
+        push %tmp.31;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_86_45_86_58_end:
+        %tmp.32 = phi [%tmp.25 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_86_12_86_58_begin] [%tmp.31 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_86_45_86_58_false] [%tmp.32 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_86_45_86_58_end];
+        bf %tmp.32 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_86_8_88_8_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_86_8_88_8_if_true:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_86_61_88_8_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 87 12 ]
+        %tmp.33 = self;
+        symbol [ _drawFallback %tmp.34 87 12 25 ];
+        %tmp.34 = getv function %tmp.33 :_drawFallback;
+        %tmp.35 = lgetv %dc;
+        symbol [ dc %tmp.35 87 26 28 ];
+        %tmp.36 = lgetv %g.3;
+        symbol [ g %tmp.36 87 30 31 ];
+        invoke %tmp.33 %tmp.34(%tmp.35, %tmp.36);
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 87 34 ]
+        ret ?;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_86_61_88_8_stop:
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_86_8_88_8_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_86_8_88_8_if_end:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 89 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_80_35_95_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_80_35_95_4_stop" ]
+        %totalSec.6 = local;
+        symbol [ totalSec %totalSec.6 89 12 20 ];
+        %tmp.37 = lgetv %sT.4;
+        symbol [ sT %tmp.37 89 23 25 ];
+        %tmp.38 = lgetv %sT.4;
+        symbol [ sT %tmp.38 89 26 28 ];
+        symbol [ size %tmp.39 89 29 33 ];
+        %tmp.39 = getv function %tmp.38 :size;
+        %tmp.40 = invoke %tmp.38 %tmp.39();
+        %tmp.41 = 1;
+        %tmp.42 = sub %tmp.40 %tmp.41;
+        %tmp.43 = agetv %tmp.37 %tmp.42;
+        symbol [ toFloat %tmp.44 89 41 48 ];
+        %tmp.44 = getv function %tmp.43 :toFloat;
+        %tmp.45 = invoke %tmp.43 %tmp.44();
+        lputv %totalSec.6 %tmp.45;
+        symbol [ totalSec %totalSec.6 89 12 20 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 90 8 ]
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_90_8_90_61_if_stmt:
+        %tmp.46 = lgetv %totalSec.6;
+        symbol [ totalSec %tmp.46 90 12 20 ];
+        %tmp.47 = 0.0;
+        %tmp.48 = lte %tmp.46 %tmp.47;
+        bf %tmp.48 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_90_8_90_61_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_90_8_90_61_if_true:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_90_29_90_61_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 90 31 ]
+        %tmp.49 = self;
+        symbol [ _drawFallback %tmp.50 90 31 44 ];
+        %tmp.50 = getv function %tmp.49 :_drawFallback;
+        %tmp.51 = lgetv %dc;
+        symbol [ dc %tmp.51 90 45 47 ];
+        %tmp.52 = lgetv %g.3;
+        symbol [ g %tmp.52 90 49 50 ];
+        invoke %tmp.49 %tmp.50(%tmp.51, %tmp.52);
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 90 53 ]
+        ret ?;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_90_29_90_61_stop:
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_90_8_90_61_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_90_8_90_61_if_end:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 91 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_80_35_95_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_80_35_95_4_stop" ]
+        %segs.7 = local;
+        symbol [ segs %segs.7 91 12 16 ];
+        %tmp.53 = self;
+        symbol [ _sampleSegs %tmp.54 91 19 30 ];
+        %tmp.54 = getv function %tmp.53 :_sampleSegs;
+        %tmp.55 = lgetv %sT.4;
+        symbol [ sT %tmp.55 91 31 33 ];
+        %tmp.56 = lgetv %sP.5;
+        symbol [ sP %tmp.56 91 35 37 ];
+        %tmp.57 = lgetv %totalSec.6;
+        symbol [ totalSec %tmp.57 91 39 47 ];
+        %tmp.58 = invoke %tmp.53 %tmp.54(%tmp.55, %tmp.56, %tmp.57);
+        lputv %segs.7 %tmp.58;
+        symbol [ segs %segs.7 91 12 16 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 92 8 ]
+        %tmp.59 = self;
+        symbol [ _drawSegments %tmp.60 92 8 21 ];
+        %tmp.60 = getv function %tmp.59 :_drawSegments;
+        %tmp.61 = lgetv %dc;
+        symbol [ dc %tmp.61 92 22 24 ];
+        %tmp.62 = lgetv %segs.7;
+        symbol [ segs %tmp.62 92 26 30 ];
+        %tmp.63 = lgetv %totalSec.6;
+        symbol [ totalSec %tmp.63 92 32 40 ];
+        symbol [ toNumber %tmp.64 92 41 49 ];
+        %tmp.64 = getv function %tmp.63 :toNumber;
+        %tmp.65 = invoke %tmp.63 %tmp.64();
+        %tmp.66 = lgetv %g.3;
+        symbol [ g %tmp.66 92 53 54 ];
+        invoke %tmp.59 %tmp.60(%tmp.61, %tmp.62, %tmp.65, %tmp.66);
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 93 8 ]
+        %tmp.67 = self;
+        symbol [ _drawNotch %tmp.68 93 8 18 ];
+        %tmp.68 = getv function %tmp.67 :_drawNotch;
+        %tmp.69 = lgetv %dc;
+        symbol [ dc %tmp.69 93 19 21 ];
+        %tmp.70 = lgetv %g.3;
+        symbol [ g %tmp.70 93 23 24 ];
+        invoke %tmp.67 %tmp.68(%tmp.69, %tmp.70);
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 94 8 ]
+        %tmp.71 = self;
+        symbol [ _drawMarker %tmp.72 94 8 19 ];
+        %tmp.72 = getv function %tmp.71 :_drawMarker;
+        %tmp.73 = lgetv %dc;
+        symbol [ dc %tmp.73 94 20 22 ];
+        %tmp.74 = lgetv %g.3;
+        symbol [ g %tmp.74 94 24 25 ];
+        %tmp.75 = 90.0;
+        %tmp.76 = 360.0;
+        %tmp.77 = sub %tmp.75 %tmp.76;
+        invoke %tmp.71 %tmp.72(%tmp.73, %tmp.74, %tmp.77);
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_80_35_95_4_stop:
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc"; @line = 99; @symbol_functiondef = [_geo,99,13,17]; @symbol_param<0> = [w,99,18,19]; @symbol_param<1> = [h,99,21,22]; ]
+    function _geo(w, h) {
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_99_24_105_4_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 100 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_99_24_105_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_99_24_105_4_stop" ]
+        %minDim.1 = local;
+        symbol [ minDim %minDim.1 100 12 18 ];
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_100_21_100_35_begin:
+        %tmp.1 = lgetv %w;
+        symbol [ w %tmp.1 100 22 23 ];
+        %tmp.2 = lgetv %h;
+        symbol [ h %tmp.2 100 26 27 ];
+        %tmp.3 = lt %tmp.1 %tmp.2;
+        bf %tmp.3 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_100_21_100_35_else_false;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_100_21_100_35_true:
+        %tmp.4 = lgetv %w;
+        symbol [ w %tmp.4 100 31 32 ];
+        push %tmp.4;
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_100_21_100_35_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_100_21_100_35_else_false:
+        %tmp.5 = lgetv %h;
+        symbol [ h %tmp.5 100 35 36 ];
+        push %tmp.5;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_100_21_100_35_end:
+        %tmp.6 = phi [%tmp.3 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_100_21_100_35_begin] [%tmp.4 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_100_21_100_35_true] [%tmp.5 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_100_21_100_35_else_false] [%tmp.6 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_100_21_100_35_end];
+        lputv %minDim.1 %tmp.6;
+        symbol [ minDim %minDim.1 100 12 18 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 101 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_99_24_105_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_99_24_105_4_stop" ]
+        %ringR.2 = local;
+        symbol [ ringR %ringR.2 101 12 17 ];
+        %tmp.7 = lgetv %minDim.1;
+        symbol [ minDim %tmp.7 101 22 28 ];
+        %tmp.8 = 0.38;
+        %tmp.9 = mul %tmp.7 %tmp.8;
+        symbol [ toNumber %tmp.10 101 37 45 ];
+        %tmp.10 = getv function %tmp.9 :toNumber;
+        %tmp.11 = invoke %tmp.9 %tmp.10();
+        lputv %ringR.2 %tmp.11;
+        symbol [ ringR %ringR.2 101 12 17 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 102 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_99_24_105_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_99_24_105_4_stop" ]
+        %penW.3 = local;
+        symbol [ penW %penW.3 102 12 16 ];
+        %tmp.12 = lgetv %minDim.1;
+        symbol [ minDim %tmp.12 102 22 28 ];
+        %tmp.13 = 0.07;
+        %tmp.14 = mul %tmp.12 %tmp.13;
+        symbol [ toNumber %tmp.15 102 37 45 ];
+        %tmp.15 = getv function %tmp.14 :toNumber;
+        %tmp.16 = invoke %tmp.14 %tmp.15();
+        lputv %penW.3 %tmp.16;
+        symbol [ penW %penW.3 102 12 16 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 103 8 ]
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_103_8_103_34_if_stmt:
+        %tmp.17 = lgetv %penW.3;
+        symbol [ penW %tmp.17 103 12 16 ];
+        %tmp.18 = 4;
+        %tmp.19 = lt %tmp.17 %tmp.18;
+        bf %tmp.19 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_103_8_103_34_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_103_8_103_34_if_true:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_103_22_103_34_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 103 24 ]
+        %tmp.20 = 4;
+        lputv %penW.3 %tmp.20;
+        symbol [ penW %penW.3 103 24 28 ];
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_103_22_103_34_stop:
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_103_8_103_34_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_103_8_103_34_if_end:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 104 8 ]
+        %tmp.21 = newd 4;
+        %tmp.23 = const :cx;
+        symbol [ cx %tmp.23 104 18 20 const ];
+        %tmp.24 = lgetv %w;
+        symbol [ w %tmp.24 104 24 25 ];
+        %tmp.25 = 2;
+        %tmp.26 = div %tmp.24 %tmp.25;
+        %tmp.27 = dup %tmp.21;
+        %tmp.28 = aputv %tmp.27 %tmp.23 %tmp.26;
+        %tmp.30 = const :cy;
+        symbol [ cy %tmp.30 104 32 34 const ];
+        %tmp.31 = lgetv %h;
+        symbol [ h %tmp.31 104 38 39 ];
+        %tmp.32 = 2;
+        %tmp.33 = div %tmp.31 %tmp.32;
+        %tmp.34 = dup %tmp.28;
+        %tmp.35 = aputv %tmp.34 %tmp.30 %tmp.33;
+        %tmp.37 = const :ringR;
+        symbol [ ringR %tmp.37 104 46 51 const ];
+        %tmp.38 = lgetv %ringR.2;
+        symbol [ ringR %tmp.38 104 55 60 ];
+        %tmp.39 = dup %tmp.35;
+        %tmp.40 = aputv %tmp.39 %tmp.37 %tmp.38;
+        %tmp.42 = const :penW;
+        symbol [ penW %tmp.42 104 63 67 const ];
+        %tmp.43 = lgetv %penW.3;
+        symbol [ penW %tmp.43 104 71 75 ];
+        %tmp.44 = dup %tmp.40;
+        %tmp.45 = aputv %tmp.44 %tmp.42 %tmp.43;
+        ret %tmp.45;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_99_24_105_4_stop:
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc"; @line = 109; @symbol_functiondef = [_stepsToSegs,109,13,25]; @symbol_param<0> = [steps,109,26,31]; ]
+    function _stepsToSegs(steps) {
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_109_33_121_4_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 110 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_109_33_121_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_109_33_121_4_stop" ]
+        %segs.1 = local;
+        symbol [ segs %segs.1 110 12 16 ];
+        %tmp.1 = newa 0;
+        lputv %segs.1 %tmp.1;
+        symbol [ segs %segs.1 110 12 16 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 111 8 ]
+        for @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_111_8_119_8_for_test @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_111_8_119_8_for_incr @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_111_8_119_8_for_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_111_8_119_8_for_init:
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_111_8_119_8_for_begin" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_111_8_119_8_for_end" ]
+        %i.2 = local;
+        symbol [ i %i.2 111 17 18 ];
+        %tmp.2 = 0;
+        lputv %i.2 %tmp.2;
+        symbol [ i %i.2 111 17 18 ];
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_111_8_119_8_for_test:
+        %tmp.3 = lgetv %i.2;
+        symbol [ i %tmp.3 111 24 25 ];
+        %tmp.4 = lgetv %steps;
+        symbol [ steps %tmp.4 111 28 33 ];
+        symbol [ size %tmp.5 111 34 38 ];
+        %tmp.5 = getv function %tmp.4 :size;
+        %tmp.6 = invoke %tmp.4 %tmp.5();
+        %tmp.7 = lt %tmp.3 %tmp.6;
+        bf %tmp.7 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_111_8_119_8_for_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_111_8_119_8_for_begin:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_111_47_119_8_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 112 12 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_111_47_119_8_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_111_47_119_8_stop" ]
+        %s.3 = local;
+        symbol [ s %s.3 112 16 17 ];
+        %tmp.8 = lgetv %steps;
+        symbol [ steps %tmp.8 112 20 25 ];
+        %tmp.9 = lgetv %i.2;
+        symbol [ i %tmp.9 112 26 27 ];
+        %tmp.10 = agetv %tmp.8 %tmp.9;
+        lputv %s.3 %tmp.10;
+        symbol [ s %s.3 112 16 17 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 113 12 ]
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_113_12_113_82_if_stmt:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_113_16_113_64_begin:
+        %tmp.11 = lgetv %s.3;
+        symbol [ s %tmp.11 113 18 19 ];
+        symbol [ WorkoutStep %tmp.13 113 31 42 ];
+        %tmp.13 = getv ? :WorkoutStep;
+        %tmp.14 = isa %tmp.11 %tmp.13;
+        %tmp.15 = not %tmp.14;
+        bt %tmp.15 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_113_12_113_82_if_true;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_113_47_113_64_false:
+        %tmp.16 = lgetv %s.3;
+        symbol [ s %tmp.16 113 47 48 ];
+        %tmp.17 = as %tmp.16 { (WorkoutStep) };
+        symbol [ durationSec %tmp.18 113 49 60 ];
+        %tmp.18 = getv %tmp.17 :durationSec;
+        %tmp.19 = null;
+        %tmp.20 = eq %tmp.18 %tmp.19;
+        push %tmp.20;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_113_47_113_64_end:
+        %tmp.21 = phi [%tmp.15 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_113_16_113_64_begin] [%tmp.20 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_113_47_113_64_false] [%tmp.21 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_113_47_113_64_end];
+        bf %tmp.21 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_113_12_113_82_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_113_12_113_82_if_true:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_113_70_113_82_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 113 72 ]
+        goto break @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_111_8_119_8_for_incr;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_113_70_113_82_stop:
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_113_12_113_82_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_113_12_113_82_if_end:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 114 12 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_111_47_119_8_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_111_47_119_8_stop" ]
+        %color.4 = local;
+        symbol [ color %color.4 114 16 21 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 115 12 ]
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_115_12_117_72_if_stmt:
+        %tmp.22 = lgetv %s.3;
+        symbol [ s %tmp.22 115 21 22 ];
+        symbol [ type %tmp.23 115 23 27 ];
+        %tmp.23 = getv %tmp.22 :type;
+        symbol [ Config %tmp.25 115 31 37 ];
+        %tmp.25 = getv ? :Config;
+        symbol [ STEP_HEAT %tmp.26 115 38 47 ];
+        %tmp.26 = getv %tmp.25 :STEP_HEAT;
+        %tmp.27 = eq %tmp.23 %tmp.26;
+        bf %tmp.27 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_115_12_117_72_if_false;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_115_12_117_72_if_true:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_115_49_115_71_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 115 51 ]
+        symbol [ HEAT_COLOR %tmp.29 115 59 69 ];
+        %tmp.29 = getv ? :HEAT_COLOR;
+        lputv %color.4 %tmp.29;
+        symbol [ color %color.4 115 51 56 ];
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_115_49_115_71_stop:
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_115_12_117_72_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_115_12_117_72_if_false:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 116 17 ]
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_116_17_117_72_if_stmt:
+        %tmp.30 = lgetv %s.3;
+        symbol [ s %tmp.30 116 21 22 ];
+        symbol [ type %tmp.31 116 23 27 ];
+        %tmp.31 = getv %tmp.30 :type;
+        symbol [ Config %tmp.33 116 31 37 ];
+        %tmp.33 = getv ? :Config;
+        symbol [ STEP_REST %tmp.34 116 38 47 ];
+        %tmp.34 = getv %tmp.33 :STEP_REST;
+        %tmp.35 = eq %tmp.31 %tmp.34;
+        bf %tmp.35 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_116_17_117_72_if_else_false;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_116_17_117_72_if_true:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_116_49_116_71_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 116 51 ]
+        symbol [ REST_COLOR %tmp.37 116 59 69 ];
+        %tmp.37 = getv ? :REST_COLOR;
+        lputv %color.4 %tmp.37;
+        symbol [ color %color.4 116 51 56 ];
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_116_49_116_71_stop:
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_116_17_117_72_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_116_17_117_72_if_else_false:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_117_50_117_72_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 117 52 ]
+        symbol [ COOL_COLOR %tmp.39 117 60 70 ];
+        %tmp.39 = getv ? :COOL_COLOR;
+        lputv %color.4 %tmp.39;
+        symbol [ color %color.4 117 52 57 ];
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_117_50_117_72_stop:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_116_17_117_72_if_end:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_115_12_117_72_if_end:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 118 12 ]
+        %tmp.40 = lgetv %segs.1;
+        symbol [ segs %tmp.40 118 12 16 ];
+        symbol [ add %tmp.41 118 17 20 ];
+        %tmp.41 = getv function %tmp.40 :add;
+        %tmp.42 = newa 2;
+        %tmp.43 = lgetv %color.4;
+        symbol [ color %tmp.43 118 22 27 ];
+        %tmp.44 = dup %tmp.42;
+        %tmp.45 = aputv %tmp.44 0 %tmp.43;
+        %tmp.46 = lgetv %s.3;
+        symbol [ s %tmp.46 118 29 30 ];
+        symbol [ durationSec %tmp.47 118 31 42 ];
+        %tmp.47 = getv %tmp.46 :durationSec;
+        %tmp.48 = dup %tmp.45;
+        %tmp.49 = aputv %tmp.48 1 %tmp.47;
+        invoke %tmp.40 %tmp.41(%tmp.49);
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_111_47_119_8_stop:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_111_8_119_8_for_incr:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 111 ]
+        %tmp.52 = lgetv %i.2;
+        symbol [ i %tmp.52 111 42 43 ];
+        %tmp.53 = add %tmp.52 1;
+        lputv %i.2 %tmp.53;
+        symbol [ i %i.2 111 42 43 ];
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_111_8_119_8_for_test;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_111_8_119_8_for_end:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 120 8 ]
+        %tmp.54 = lgetv %segs.1;
+        symbol [ segs %tmp.54 120 15 19 ];
+        ret %tmp.54;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_109_33_121_4_stop:
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc"; @line = 123; @symbol_functiondef = [_sampleSegs,123,13,24]; @symbol_param<0> = [sT,123,25,27]; @symbol_param<1> = [sP,123,29,31]; @symbol_param<2> = [totalSec,123,33,41]; ]
+    function _sampleSegs(sT, sP, totalSec) {
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_123_43_144_4_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 124 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_123_43_144_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_123_43_144_4_stop" ]
+        %segs.1 = local;
+        symbol [ segs %segs.1 124 12 16 ];
+        %tmp.1 = newa 0;
+        lputv %segs.1 %tmp.1;
+        symbol [ segs %segs.1 124 12 16 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 125 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_123_43_144_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_123_43_144_4_stop" ]
+        %n.2 = local;
+        symbol [ n %n.2 125 12 13 ];
+        %tmp.2 = lgetv %sT;
+        symbol [ sT %tmp.2 125 20 22 ];
+        symbol [ size %tmp.3 125 23 27 ];
+        %tmp.3 = getv function %tmp.2 :size;
+        %tmp.4 = invoke %tmp.2 %tmp.3();
+        lputv %n.2 %tmp.4;
+        symbol [ n %n.2 125 12 13 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 126 8 ]
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_126_8_126_35_if_stmt:
+        %tmp.5 = lgetv %n.2;
+        symbol [ n %tmp.5 126 12 13 ];
+        %tmp.6 = 0;
+        %tmp.7 = eq %tmp.5 %tmp.6;
+        bf %tmp.7 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_126_8_126_35_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_126_8_126_35_if_true:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_126_20_126_35_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 126 22 ]
+        %tmp.8 = lgetv %segs.1;
+        symbol [ segs %tmp.8 126 29 33 ];
+        ret %tmp.8;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_126_20_126_35_stop:
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_126_8_126_35_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_126_8_126_35_if_end:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 127 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_123_43_144_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_123_43_144_4_stop" ]
+        %curPh.3 = local;
+        symbol [ curPh %curPh.3 127 12 17 ];
+        %tmp.9 = lgetv %sP;
+        symbol [ sP %tmp.9 127 20 22 ];
+        %tmp.10 = 0;
+        %tmp.11 = agetv %tmp.9 %tmp.10;
+        lputv %curPh.3 %tmp.11;
+        symbol [ curPh %curPh.3 127 12 17 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 128 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_123_43_144_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_123_43_144_4_stop" ]
+        %segT0.4 = local;
+        symbol [ segT0 %segT0.4 128 12 17 ];
+        %tmp.12 = 0.0;
+        lputv %segT0.4 %tmp.12;
+        symbol [ segT0 %segT0.4 128 12 17 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 129 8 ]
+        for @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_129_8_138_8_for_test @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_129_8_138_8_for_incr @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_129_8_138_8_for_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_129_8_138_8_for_init:
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_129_8_138_8_for_begin" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_129_8_138_8_for_end" ]
+        %i.5 = local;
+        symbol [ i %i.5 129 17 18 ];
+        %tmp.13 = 1;
+        lputv %i.5 %tmp.13;
+        symbol [ i %i.5 129 17 18 ];
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_129_8_138_8_for_test:
+        %tmp.14 = lgetv %i.5;
+        symbol [ i %tmp.14 129 24 25 ];
+        %tmp.15 = lgetv %n.2;
+        symbol [ n %tmp.15 129 28 29 ];
+        %tmp.16 = lt %tmp.14 %tmp.15;
+        bf %tmp.16 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_129_8_138_8_for_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_129_8_138_8_for_begin:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_129_36_138_8_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 130 12 ]
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_130_12_137_12_if_stmt:
+        %tmp.17 = lgetv %sP;
+        symbol [ sP %tmp.17 130 16 18 ];
+        %tmp.18 = lgetv %i.5;
+        symbol [ i %tmp.18 130 19 20 ];
+        %tmp.19 = agetv %tmp.17 %tmp.18;
+        %tmp.20 = lgetv %curPh.3;
+        symbol [ curPh %tmp.20 130 25 30 ];
+        %tmp.21 = ne %tmp.19 %tmp.20;
+        bf %tmp.21 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_130_12_137_12_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_130_12_137_12_if_true:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_130_32_137_12_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 131 16 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_130_32_137_12_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_130_32_137_12_stop" ]
+        %span.6 = local;
+        symbol [ span %span.6 131 20 24 ];
+        %tmp.22 = lgetv %sT;
+        symbol [ sT %tmp.22 131 27 29 ];
+        %tmp.23 = lgetv %i.5;
+        symbol [ i %tmp.23 131 30 31 ];
+        %tmp.24 = agetv %tmp.22 %tmp.23;
+        symbol [ toFloat %tmp.25 131 33 40 ];
+        %tmp.25 = getv function %tmp.24 :toFloat;
+        %tmp.26 = invoke %tmp.24 %tmp.25();
+        %tmp.27 = lgetv %segT0.4;
+        symbol [ segT0 %tmp.27 131 45 50 ];
+        %tmp.28 = sub %tmp.26 %tmp.27;
+        lputv %span.6 %tmp.28;
+        symbol [ span %span.6 131 20 24 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 132 16 ]
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_132_16_134_16_if_stmt:
+        %tmp.29 = lgetv %span.6;
+        symbol [ span %tmp.29 132 20 24 ];
+        %tmp.30 = 0.0;
+        %tmp.31 = gt %tmp.29 %tmp.30;
+        bf %tmp.31 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_132_16_134_16_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_132_16_134_16_if_true:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_132_32_134_16_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 133 20 ]
+        %tmp.32 = lgetv %segs.1;
+        symbol [ segs %tmp.32 133 20 24 ];
+        symbol [ add %tmp.33 133 25 28 ];
+        %tmp.33 = getv function %tmp.32 :add;
+        %tmp.34 = newa 2;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_133_30_133_58_begin:
+        %tmp.35 = lgetv %curPh.3;
+        symbol [ curPh %tmp.35 133 31 36 ];
+        %tmp.36 = 0;
+        %tmp.37 = eq %tmp.35 %tmp.36;
+        bf %tmp.37 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_133_30_133_58_else_false;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_133_30_133_58_true:
+        symbol [ HEAT_COLOR %tmp.39 133 45 55 ];
+        %tmp.39 = getv ? :HEAT_COLOR;
+        push %tmp.39;
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_133_30_133_58_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_133_30_133_58_else_false:
+        symbol [ REST_COLOR %tmp.41 133 58 68 ];
+        %tmp.41 = getv ? :REST_COLOR;
+        push %tmp.41;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_133_30_133_58_end:
+        %tmp.42 = phi [%tmp.37 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_133_30_133_58_begin] [%tmp.39 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_133_30_133_58_true] [%tmp.41 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_133_30_133_58_else_false] [%tmp.42 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_133_30_133_58_end];
+        %tmp.43 = dup %tmp.34;
+        %tmp.44 = aputv %tmp.43 0 %tmp.42;
+        %tmp.45 = lgetv %span.6;
+        symbol [ span %tmp.45 133 70 74 ];
+        %tmp.46 = dup %tmp.44;
+        %tmp.47 = aputv %tmp.46 1 %tmp.45;
+        invoke %tmp.32 %tmp.33(%tmp.47);
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_132_32_134_16_stop:
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_132_16_134_16_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_132_16_134_16_if_end:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 135 16 ]
+        %tmp.48 = lgetv %sT;
+        symbol [ sT %tmp.48 135 24 26 ];
+        %tmp.49 = lgetv %i.5;
+        symbol [ i %tmp.49 135 27 28 ];
+        %tmp.50 = agetv %tmp.48 %tmp.49;
+        symbol [ toFloat %tmp.51 135 30 37 ];
+        %tmp.51 = getv function %tmp.50 :toFloat;
+        %tmp.52 = invoke %tmp.50 %tmp.51();
+        lputv %segT0.4 %tmp.52;
+        symbol [ segT0 %segT0.4 135 16 21 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 136 16 ]
+        %tmp.53 = lgetv %sP;
+        symbol [ sP %tmp.53 136 24 26 ];
+        %tmp.54 = lgetv %i.5;
+        symbol [ i %tmp.54 136 27 28 ];
+        %tmp.55 = agetv %tmp.53 %tmp.54;
+        lputv %curPh.3 %tmp.55;
+        symbol [ curPh %curPh.3 136 16 21 ];
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_130_32_137_12_stop:
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_130_12_137_12_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_130_12_137_12_if_end:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_129_36_138_8_stop:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_129_8_138_8_for_incr:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 129 ]
+        %tmp.58 = lgetv %i.5;
+        symbol [ i %tmp.58 129 31 32 ];
+        %tmp.59 = add %tmp.58 1;
+        lputv %i.5 %tmp.59;
+        symbol [ i %i.5 129 31 32 ];
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_129_8_138_8_for_test;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_129_8_138_8_for_end:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 139 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_123_43_144_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_123_43_144_4_stop" ]
+        %lastSpan.7 = local;
+        symbol [ lastSpan %lastSpan.7 139 12 20 ];
+        %tmp.60 = lgetv %totalSec;
+        symbol [ totalSec %tmp.60 139 23 31 ];
+        %tmp.61 = lgetv %segT0.4;
+        symbol [ segT0 %tmp.61 139 34 39 ];
+        %tmp.62 = sub %tmp.60 %tmp.61;
+        lputv %lastSpan.7 %tmp.62;
+        symbol [ lastSpan %lastSpan.7 139 12 20 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 140 8 ]
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_140_8_142_8_if_stmt:
+        %tmp.63 = lgetv %lastSpan.7;
+        symbol [ lastSpan %tmp.63 140 12 20 ];
+        %tmp.64 = 0.0;
+        %tmp.65 = gt %tmp.63 %tmp.64;
+        bf %tmp.65 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_140_8_142_8_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_140_8_142_8_if_true:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_140_28_142_8_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 141 12 ]
+        %tmp.66 = lgetv %segs.1;
+        symbol [ segs %tmp.66 141 12 16 ];
+        symbol [ add %tmp.67 141 17 20 ];
+        %tmp.67 = getv function %tmp.66 :add;
+        %tmp.68 = newa 2;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_141_22_141_50_begin:
+        %tmp.69 = lgetv %curPh.3;
+        symbol [ curPh %tmp.69 141 23 28 ];
+        %tmp.70 = 0;
+        %tmp.71 = eq %tmp.69 %tmp.70;
+        bf %tmp.71 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_141_22_141_50_else_false;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_141_22_141_50_true:
+        symbol [ HEAT_COLOR %tmp.73 141 37 47 ];
+        %tmp.73 = getv ? :HEAT_COLOR;
+        push %tmp.73;
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_141_22_141_50_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_141_22_141_50_else_false:
+        symbol [ REST_COLOR %tmp.75 141 50 60 ];
+        %tmp.75 = getv ? :REST_COLOR;
+        push %tmp.75;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_141_22_141_50_end:
+        %tmp.76 = phi [%tmp.71 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_141_22_141_50_begin] [%tmp.73 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_141_22_141_50_true] [%tmp.75 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_141_22_141_50_else_false] [%tmp.76 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_141_22_141_50_end];
+        %tmp.77 = dup %tmp.68;
+        %tmp.78 = aputv %tmp.77 0 %tmp.76;
+        %tmp.79 = lgetv %lastSpan.7;
+        symbol [ lastSpan %tmp.79 141 62 70 ];
+        %tmp.80 = dup %tmp.78;
+        %tmp.81 = aputv %tmp.80 1 %tmp.79;
+        invoke %tmp.66 %tmp.67(%tmp.81);
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_140_28_142_8_stop:
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_140_8_142_8_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_140_8_142_8_if_end:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 143 8 ]
+        %tmp.82 = lgetv %segs.1;
+        symbol [ segs %tmp.82 143 15 19 ];
+        ret %tmp.82;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_123_43_144_4_stop:
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc"; @line = 146; @symbol_functiondef = [_segsTotalSec,146,13,26]; @symbol_param<0> = [segs,146,27,31]; ]
+    function _segsTotalSec(segs) {
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_146_33_150_4_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 147 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_146_33_150_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_146_33_150_4_stop" ]
+        %t.1 = local;
+        symbol [ t %t.1 147 12 13 ];
+        %tmp.1 = 0;
+        lputv %t.1 %tmp.1;
+        symbol [ t %t.1 147 12 13 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 148 8 ]
+        for @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_148_8_148_65_for_test @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_148_8_148_65_for_incr @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_148_8_148_65_for_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_148_8_148_65_for_init:
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_148_8_148_65_for_begin" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_148_8_148_65_for_end" ]
+        %i.2 = local;
+        symbol [ i %i.2 148 17 18 ];
+        %tmp.2 = 0;
+        lputv %i.2 %tmp.2;
+        symbol [ i %i.2 148 17 18 ];
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_148_8_148_65_for_test:
+        %tmp.3 = lgetv %i.2;
+        symbol [ i %tmp.3 148 24 25 ];
+        %tmp.4 = lgetv %segs;
+        symbol [ segs %tmp.4 148 28 32 ];
+        symbol [ size %tmp.5 148 33 37 ];
+        %tmp.5 = getv function %tmp.4 :size;
+        %tmp.6 = invoke %tmp.4 %tmp.5();
+        %tmp.7 = lt %tmp.3 %tmp.6;
+        bf %tmp.7 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_148_8_148_65_for_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_148_8_148_65_for_begin:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_148_46_148_65_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 148 48 ]
+        %tmp.8 = lgetv %t.1;
+        symbol [ t %tmp.8 148 48 49 ];
+        %tmp.9 = lgetv %segs;
+        symbol [ segs %tmp.9 148 53 57 ];
+        %tmp.10 = lgetv %i.2;
+        symbol [ i %tmp.10 148 58 59 ];
+        %tmp.11 = agetv %tmp.9 %tmp.10;
+        %tmp.12 = 1;
+        %tmp.13 = agetv %tmp.11 %tmp.12;
+        %tmp.14 = add %tmp.8 %tmp.13;
+        lputv %t.1 %tmp.14;
+        symbol [ t %t.1 148 48 49 ];
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_148_46_148_65_stop:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_148_8_148_65_for_incr:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 148 ]
+        %tmp.17 = lgetv %i.2;
+        symbol [ i %tmp.17 148 41 42 ];
+        %tmp.18 = add %tmp.17 1;
+        lputv %i.2 %tmp.18;
+        symbol [ i %i.2 148 41 42 ];
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_148_8_148_65_for_test;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_148_8_148_65_for_end:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 149 8 ]
+        %tmp.19 = lgetv %t.1;
+        symbol [ t %tmp.19 149 15 16 ];
+        ret %tmp.19;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_146_33_150_4_stop:
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc"; @line = 154; @symbol_functiondef = [_drawSegments,154,13,26]; @symbol_param<0> = [dc,154,27,29]; @symbol_param<1> = [segs,154,31,35]; @symbol_param<2> = [totalSec,154,37,45]; @symbol_param<3> = [g,154,47,48]; ]
+    function _drawSegments(dc, segs, totalSec, g) {
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_154_50_177_4_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 155 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_154_50_177_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_154_50_177_4_stop" ]
+        %cx.1 = local;
+        symbol [ cx %cx.1 155 12 14 ];
+        %tmp.1 = lgetv %g;
+        symbol [ g %tmp.1 155 20 21 ];
+        %tmp.3 = const :cx;
+        symbol [ cx %tmp.3 155 23 25 const ];
+        %tmp.4 = agetv %tmp.1 %tmp.3;
+        lputv %cx.1 %tmp.4;
+        symbol [ cx %cx.1 155 12 14 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 156 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_154_50_177_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_154_50_177_4_stop" ]
+        %cy.2 = local;
+        symbol [ cy %cy.2 156 12 14 ];
+        %tmp.5 = lgetv %g;
+        symbol [ g %tmp.5 156 20 21 ];
+        %tmp.7 = const :cy;
+        symbol [ cy %tmp.7 156 23 25 const ];
+        %tmp.8 = agetv %tmp.5 %tmp.7;
+        lputv %cy.2 %tmp.8;
+        symbol [ cy %cy.2 156 12 14 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 157 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_154_50_177_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_154_50_177_4_stop" ]
+        %ringR.3 = local;
+        symbol [ ringR %ringR.3 157 12 17 ];
+        %tmp.9 = lgetv %g;
+        symbol [ g %tmp.9 157 20 21 ];
+        %tmp.11 = const :ringR;
+        symbol [ ringR %tmp.11 157 23 28 const ];
+        %tmp.12 = agetv %tmp.9 %tmp.11;
+        lputv %ringR.3 %tmp.12;
+        symbol [ ringR %ringR.3 157 12 17 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 158 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_154_50_177_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_154_50_177_4_stop" ]
+        %penW.4 = local;
+        symbol [ penW %penW.4 158 12 16 ];
+        %tmp.13 = lgetv %g;
+        symbol [ g %tmp.13 158 20 21 ];
+        %tmp.15 = const :penW;
+        symbol [ penW %tmp.15 158 23 27 const ];
+        %tmp.16 = agetv %tmp.13 %tmp.15;
+        lputv %penW.4 %tmp.16;
+        symbol [ penW %penW.4 158 12 16 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 159 8 ]
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_159_8_159_57_if_stmt:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_159_12_159_44_begin:
+        %tmp.17 = lgetv %segs;
+        symbol [ segs %tmp.17 159 12 16 ];
+        symbol [ size %tmp.18 159 17 21 ];
+        %tmp.18 = getv function %tmp.17 :size;
+        %tmp.19 = invoke %tmp.17 %tmp.18();
+        %tmp.20 = 0;
+        %tmp.21 = eq %tmp.19 %tmp.20;
+        bt %tmp.21 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_159_8_159_57_if_true;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_159_32_159_44_false:
+        %tmp.22 = lgetv %totalSec;
+        symbol [ totalSec %tmp.22 159 32 40 ];
+        %tmp.23 = 0;
+        %tmp.24 = lte %tmp.22 %tmp.23;
+        push %tmp.24;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_159_32_159_44_end:
+        %tmp.25 = phi [%tmp.21 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_159_12_159_44_begin] [%tmp.24 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_159_32_159_44_false] [%tmp.25 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_159_32_159_44_end];
+        bf %tmp.25 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_159_8_159_57_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_159_8_159_57_if_true:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_159_47_159_57_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 159 49 ]
+        ret ?;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_159_47_159_57_stop:
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_159_8_159_57_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_159_8_159_57_if_end:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 160 8 ]
+        %tmp.26 = lgetv %dc;
+        symbol [ dc %tmp.26 160 8 10 ];
+        symbol [ setPenWidth %tmp.27 160 11 22 ];
+        %tmp.27 = getv function %tmp.26 :setPenWidth;
+        %tmp.28 = lgetv %penW.4;
+        symbol [ penW %tmp.28 160 23 27 ];
+        invoke %tmp.26 %tmp.27(%tmp.28);
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 161 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_154_50_177_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_154_50_177_4_stop" ]
+        %cursor.5 = local;
+        symbol [ cursor %cursor.5 161 12 18 ];
+        %tmp.29 = 90.0;
+        lputv %cursor.5 %tmp.29;
+        symbol [ cursor %cursor.5 161 12 18 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 162 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_154_50_177_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_154_50_177_4_stop" ]
+        %degPerSec.6 = local;
+        symbol [ degPerSec %degPerSec.6 162 12 21 ];
+        %tmp.30 = 360.0;
+        %tmp.31 = lgetv %totalSec;
+        symbol [ totalSec %tmp.31 162 32 40 ];
+        symbol [ toFloat %tmp.32 162 41 48 ];
+        %tmp.32 = getv function %tmp.31 :toFloat;
+        %tmp.33 = invoke %tmp.31 %tmp.32();
+        %tmp.34 = div %tmp.30 %tmp.33;
+        lputv %degPerSec.6 %tmp.34;
+        symbol [ degPerSec %degPerSec.6 162 12 21 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 163 8 ]
+        for @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_163_8_175_8_for_test @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_163_8_175_8_for_incr @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_163_8_175_8_for_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_163_8_175_8_for_init:
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_163_8_175_8_for_begin" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_163_8_175_8_for_end" ]
+        %i.7 = local;
+        symbol [ i %i.7 163 17 18 ];
+        %tmp.35 = 0;
+        lputv %i.7 %tmp.35;
+        symbol [ i %i.7 163 17 18 ];
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_163_8_175_8_for_test:
+        %tmp.36 = lgetv %i.7;
+        symbol [ i %tmp.36 163 24 25 ];
+        %tmp.37 = lgetv %segs;
+        symbol [ segs %tmp.37 163 28 32 ];
+        symbol [ size %tmp.38 163 33 37 ];
+        %tmp.38 = getv function %tmp.37 :size;
+        %tmp.39 = invoke %tmp.37 %tmp.38();
+        %tmp.40 = lt %tmp.36 %tmp.39;
+        bf %tmp.40 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_163_8_175_8_for_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_163_8_175_8_for_begin:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_163_46_175_8_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 164 12 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_163_46_175_8_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_163_46_175_8_stop" ]
+        %color.8 = local;
+        symbol [ color %color.8 164 16 21 ];
+        %tmp.41 = lgetv %segs;
+        symbol [ segs %tmp.41 164 26 30 ];
+        %tmp.42 = lgetv %i.7;
+        symbol [ i %tmp.42 164 31 32 ];
+        %tmp.43 = agetv %tmp.41 %tmp.42;
+        %tmp.44 = 0;
+        %tmp.45 = agetv %tmp.43 %tmp.44;
+        lputv %color.8 %tmp.45;
+        symbol [ color %color.8 164 16 21 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 165 12 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_163_46_175_8_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_163_46_175_8_stop" ]
+        %secSpan.9 = local;
+        symbol [ secSpan %secSpan.9 165 16 23 ];
+        %tmp.46 = lgetv %segs;
+        symbol [ segs %tmp.46 165 26 30 ];
+        %tmp.47 = lgetv %i.7;
+        symbol [ i %tmp.47 165 31 32 ];
+        %tmp.48 = agetv %tmp.46 %tmp.47;
+        %tmp.49 = 1;
+        %tmp.50 = agetv %tmp.48 %tmp.49;
+        symbol [ toFloat %tmp.51 165 37 44 ];
+        %tmp.51 = getv function %tmp.50 :toFloat;
+        %tmp.52 = invoke %tmp.50 %tmp.51();
+        lputv %secSpan.9 %tmp.52;
+        symbol [ secSpan %secSpan.9 165 16 23 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 166 12 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_163_46_175_8_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_163_46_175_8_stop" ]
+        %span.10 = local;
+        symbol [ span %span.10 166 16 20 ];
+        %tmp.53 = lgetv %secSpan.9;
+        symbol [ secSpan %tmp.53 166 26 33 ];
+        %tmp.54 = lgetv %degPerSec.6;
+        symbol [ degPerSec %tmp.54 166 36 45 ];
+        %tmp.55 = mul %tmp.53 %tmp.54;
+        lputv %span.10 %tmp.55;
+        symbol [ span %span.10 166 16 20 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 167 12 ]
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_167_12_167_42_if_stmt:
+        %tmp.56 = lgetv %span.10;
+        symbol [ span %tmp.56 167 16 20 ];
+        %tmp.57 = 4.0;
+        %tmp.58 = lt %tmp.56 %tmp.57;
+        bf %tmp.58 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_167_12_167_42_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_167_12_167_42_if_true:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_167_28_167_42_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 167 30 ]
+        %tmp.59 = 4.0;
+        lputv %span.10 %tmp.59;
+        symbol [ span %span.10 167 30 34 ];
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_167_28_167_42_stop:
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_167_12_167_42_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_167_12_167_42_if_end:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 169 12 ]
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_169_12_169_46_if_stmt:
+        %tmp.60 = lgetv %span.10;
+        symbol [ span %tmp.60 169 16 20 ];
+        %tmp.61 = 359.0;
+        %tmp.62 = gt %tmp.60 %tmp.61;
+        bf %tmp.62 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_169_12_169_46_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_169_12_169_46_if_true:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_169_30_169_46_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 169 32 ]
+        %tmp.63 = 359.0;
+        lputv %span.10 %tmp.63;
+        symbol [ span %span.10 169 32 36 ];
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_169_30_169_46_stop:
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_169_12_169_46_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_169_12_169_46_if_end:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 170 12 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_163_46_175_8_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_163_46_175_8_stop" ]
+        %endDeg.11 = local;
+        symbol [ endDeg %endDeg.11 170 16 22 ];
+        %tmp.64 = lgetv %cursor.5;
+        symbol [ cursor %tmp.64 170 26 32 ];
+        %tmp.65 = lgetv %span.10;
+        symbol [ span %tmp.65 170 35 39 ];
+        %tmp.66 = sub %tmp.64 %tmp.65;
+        lputv %endDeg.11 %tmp.66;
+        symbol [ endDeg %endDeg.11 170 16 22 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 171 12 ]
+        %tmp.67 = lgetv %dc;
+        symbol [ dc %tmp.67 171 12 14 ];
+        symbol [ setColor %tmp.68 171 15 23 ];
+        %tmp.68 = getv function %tmp.67 :setColor;
+        %tmp.69 = lgetv %color.8;
+        symbol [ color %tmp.69 171 24 29 ];
+        symbol [ Graphics %tmp.70 171 31 39 ];
+        %tmp.70 = getm $.Toybox.Graphics;
+        symbol [ COLOR_TRANSPARENT %tmp.71 171 40 57 ];
+        %tmp.71 = getv %tmp.70 :COLOR_TRANSPARENT;
+        invoke %tmp.67 %tmp.68(%tmp.69, %tmp.71);
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 172 12 ]
+        %tmp.72 = lgetv %dc;
+        symbol [ dc %tmp.72 172 12 14 ];
+        symbol [ drawArc %tmp.73 172 15 22 ];
+        %tmp.73 = getv function %tmp.72 :drawArc;
+        %tmp.74 = lgetv %cx.1;
+        symbol [ cx %tmp.74 172 23 25 ];
+        %tmp.75 = lgetv %cy.2;
+        symbol [ cy %tmp.75 172 27 29 ];
+        %tmp.76 = lgetv %ringR.3;
+        symbol [ ringR %tmp.76 172 31 36 ];
+        symbol [ Graphics %tmp.77 172 38 46 ];
+        %tmp.77 = getm $.Toybox.Graphics;
+        symbol [ ARC_CLOCKWISE %tmp.78 172 47 60 ];
+        %tmp.78 = getv %tmp.77 :ARC_CLOCKWISE;
+        %tmp.79 = self;
+        symbol [ _norm360 %tmp.80 173 16 24 ];
+        %tmp.80 = getv function %tmp.79 :_norm360;
+        %tmp.81 = lgetv %cursor.5;
+        symbol [ cursor %tmp.81 173 25 31 ];
+        %tmp.82 = invoke %tmp.79 %tmp.80(%tmp.81);
+        symbol [ toNumber %tmp.83 173 33 41 ];
+        %tmp.83 = getv function %tmp.82 :toNumber;
+        %tmp.84 = invoke %tmp.82 %tmp.83();
+        %tmp.85 = self;
+        symbol [ _norm360 %tmp.86 173 45 53 ];
+        %tmp.86 = getv function %tmp.85 :_norm360;
+        %tmp.87 = lgetv %endDeg.11;
+        symbol [ endDeg %tmp.87 173 54 60 ];
+        %tmp.88 = invoke %tmp.85 %tmp.86(%tmp.87);
+        symbol [ toNumber %tmp.89 173 62 70 ];
+        %tmp.89 = getv function %tmp.88 :toNumber;
+        %tmp.90 = invoke %tmp.88 %tmp.89();
+        invoke %tmp.72 %tmp.73(%tmp.74, %tmp.75, %tmp.76, %tmp.78, %tmp.84, %tmp.90);
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 174 12 ]
+        %tmp.91 = lgetv %endDeg.11;
+        symbol [ endDeg %tmp.91 174 21 27 ];
+        lputv %cursor.5 %tmp.91;
+        symbol [ cursor %cursor.5 174 12 18 ];
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_163_46_175_8_stop:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_163_8_175_8_for_incr:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 163 ]
+        %tmp.94 = lgetv %i.7;
+        symbol [ i %tmp.94 163 41 42 ];
+        %tmp.95 = add %tmp.94 1;
+        lputv %i.7 %tmp.95;
+        symbol [ i %i.7 163 41 42 ];
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_163_8_175_8_for_test;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_163_8_175_8_for_end:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 176 8 ]
+        %tmp.96 = lgetv %dc;
+        symbol [ dc %tmp.96 176 8 10 ];
+        symbol [ setPenWidth %tmp.97 176 11 22 ];
+        %tmp.97 = getv function %tmp.96 :setPenWidth;
+        %tmp.98 = 1;
+        invoke %tmp.96 %tmp.97(%tmp.98);
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_154_50_177_4_stop:
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc"; @line = 180; @symbol_functiondef = [_drawNotch,180,13,23]; @symbol_param<0> = [dc,180,24,26]; @symbol_param<1> = [g,180,28,29]; ]
+    function _drawNotch(dc, g) {
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_180_31_186_4_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 181 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_180_31_186_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_180_31_186_4_stop" ]
+        %cx.1 = local;
+        symbol [ cx %cx.1 181 12 14 ];
+        %tmp.1 = lgetv %g;
+        symbol [ g %tmp.1 181 19 20 ];
+        %tmp.3 = const :cx;
+        symbol [ cx %tmp.3 181 22 24 const ];
+        %tmp.4 = agetv %tmp.1 %tmp.3;
+        lputv %cx.1 %tmp.4;
+        symbol [ cx %cx.1 181 12 14 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 182 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_180_31_186_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_180_31_186_4_stop" ]
+        %cy.2 = local;
+        symbol [ cy %cy.2 182 12 14 ];
+        %tmp.5 = lgetv %g;
+        symbol [ g %tmp.5 182 19 20 ];
+        %tmp.7 = const :cy;
+        symbol [ cy %tmp.7 182 22 24 const ];
+        %tmp.8 = agetv %tmp.5 %tmp.7;
+        lputv %cy.2 %tmp.8;
+        symbol [ cy %cy.2 182 12 14 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 183 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_180_31_186_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_180_31_186_4_stop" ]
+        %tipY.3 = local;
+        symbol [ tipY %tipY.3 183 12 16 ];
+        %tmp.9 = lgetv %cy.2;
+        symbol [ cy %tmp.9 183 19 21 ];
+        %tmp.10 = lgetv %g;
+        symbol [ g %tmp.10 183 24 25 ];
+        %tmp.12 = const :ringR;
+        symbol [ ringR %tmp.12 183 27 32 const ];
+        %tmp.13 = agetv %tmp.10 %tmp.12;
+        %tmp.14 = sub %tmp.9 %tmp.13;
+        %tmp.15 = lgetv %g;
+        symbol [ g %tmp.15 183 37 38 ];
+        %tmp.17 = const :penW;
+        symbol [ penW %tmp.17 183 40 44 const ];
+        %tmp.18 = agetv %tmp.15 %tmp.17;
+        %tmp.19 = 2;
+        %tmp.20 = div %tmp.18 %tmp.19;
+        symbol [ toNumber %tmp.21 183 51 59 ];
+        %tmp.21 = getv function %tmp.20 :toNumber;
+        %tmp.22 = invoke %tmp.20 %tmp.21();
+        %tmp.23 = sub %tmp.14 %tmp.22;
+        %tmp.24 = 3;
+        %tmp.25 = sub %tmp.23 %tmp.24;
+        lputv %tipY.3 %tmp.25;
+        symbol [ tipY %tipY.3 183 12 16 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 184 8 ]
+        %tmp.26 = lgetv %dc;
+        symbol [ dc %tmp.26 184 8 10 ];
+        symbol [ setColor %tmp.27 184 11 19 ];
+        %tmp.27 = getv function %tmp.26 :setColor;
+        symbol [ Graphics %tmp.28 184 20 28 ];
+        %tmp.28 = getm $.Toybox.Graphics;
+        symbol [ COLOR_WHITE %tmp.29 184 29 40 ];
+        %tmp.29 = getv %tmp.28 :COLOR_WHITE;
+        symbol [ Graphics %tmp.30 184 42 50 ];
+        %tmp.30 = getm $.Toybox.Graphics;
+        symbol [ COLOR_TRANSPARENT %tmp.31 184 51 68 ];
+        %tmp.31 = getv %tmp.30 :COLOR_TRANSPARENT;
+        invoke %tmp.26 %tmp.27(%tmp.29, %tmp.31);
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 185 8 ]
+        %tmp.32 = lgetv %dc;
+        symbol [ dc %tmp.32 185 8 10 ];
+        symbol [ fillPolygon %tmp.33 185 11 22 ];
+        %tmp.33 = getv function %tmp.32 :fillPolygon;
+        %tmp.34 = newa 3;
+        %tmp.35 = newa 2;
+        %tmp.36 = lgetv %cx.1;
+        symbol [ cx %tmp.36 185 25 27 ];
+        %tmp.37 = dup %tmp.35;
+        %tmp.38 = aputv %tmp.37 0 %tmp.36;
+        %tmp.39 = lgetv %tipY.3;
+        symbol [ tipY %tmp.39 185 29 33 ];
+        %tmp.40 = dup %tmp.38;
+        %tmp.41 = aputv %tmp.40 1 %tmp.39;
+        %tmp.42 = dup %tmp.34;
+        %tmp.43 = aputv %tmp.42 0 %tmp.41;
+        %tmp.44 = newa 2;
+        %tmp.45 = lgetv %cx.1;
+        symbol [ cx %tmp.45 185 37 39 ];
+        %tmp.46 = 5;
+        %tmp.47 = sub %tmp.45 %tmp.46;
+        %tmp.48 = dup %tmp.44;
+        %tmp.49 = aputv %tmp.48 0 %tmp.47;
+        %tmp.50 = lgetv %tipY.3;
+        symbol [ tipY %tmp.50 185 45 49 ];
+        %tmp.51 = 8;
+        %tmp.52 = add %tmp.50 %tmp.51;
+        %tmp.53 = dup %tmp.49;
+        %tmp.54 = aputv %tmp.53 1 %tmp.52;
+        %tmp.55 = dup %tmp.43;
+        %tmp.56 = aputv %tmp.55 1 %tmp.54;
+        %tmp.57 = newa 2;
+        %tmp.58 = lgetv %cx.1;
+        symbol [ cx %tmp.58 185 57 59 ];
+        %tmp.59 = 5;
+        %tmp.60 = add %tmp.58 %tmp.59;
+        %tmp.61 = dup %tmp.57;
+        %tmp.62 = aputv %tmp.61 0 %tmp.60;
+        %tmp.63 = lgetv %tipY.3;
+        symbol [ tipY %tmp.63 185 65 69 ];
+        %tmp.64 = 8;
+        %tmp.65 = add %tmp.63 %tmp.64;
+        %tmp.66 = dup %tmp.62;
+        %tmp.67 = aputv %tmp.66 1 %tmp.65;
+        %tmp.68 = dup %tmp.56;
+        %tmp.69 = aputv %tmp.68 2 %tmp.67;
+        invoke %tmp.32 %tmp.33(%tmp.69);
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_180_31_186_4_stop:
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc"; @line = 189; @symbol_functiondef = [_drawMarker,189,13,24]; @symbol_param<0> = [dc,189,25,27]; @symbol_param<1> = [g,189,29,30]; @symbol_param<2> = [angleDeg,189,32,40]; ]
+    function _drawMarker(dc, g, angleDeg) {
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_189_42_198_4_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 190 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_189_42_198_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_189_42_198_4_stop" ]
+        %cx.1 = local;
+        symbol [ cx %cx.1 190 12 14 ];
+        %tmp.1 = lgetv %g;
+        symbol [ g %tmp.1 190 20 21 ];
+        %tmp.3 = const :cx;
+        symbol [ cx %tmp.3 190 23 25 const ];
+        %tmp.4 = agetv %tmp.1 %tmp.3;
+        lputv %cx.1 %tmp.4;
+        symbol [ cx %cx.1 190 12 14 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 191 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_189_42_198_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_189_42_198_4_stop" ]
+        %cy.2 = local;
+        symbol [ cy %cy.2 191 12 14 ];
+        %tmp.5 = lgetv %g;
+        symbol [ g %tmp.5 191 20 21 ];
+        %tmp.7 = const :cy;
+        symbol [ cy %tmp.7 191 23 25 const ];
+        %tmp.8 = agetv %tmp.5 %tmp.7;
+        lputv %cy.2 %tmp.8;
+        symbol [ cy %cy.2 191 12 14 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 192 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_189_42_198_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_189_42_198_4_stop" ]
+        %ringR.3 = local;
+        symbol [ ringR %ringR.3 192 12 17 ];
+        %tmp.9 = lgetv %g;
+        symbol [ g %tmp.9 192 20 21 ];
+        %tmp.11 = const :ringR;
+        symbol [ ringR %tmp.11 192 23 28 const ];
+        %tmp.12 = agetv %tmp.9 %tmp.11;
+        lputv %ringR.3 %tmp.12;
+        symbol [ ringR %ringR.3 192 12 17 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 193 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_189_42_198_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_189_42_198_4_stop" ]
+        %rad.4 = local;
+        symbol [ rad %rad.4 193 12 15 ];
+        %tmp.13 = lgetv %angleDeg;
+        symbol [ angleDeg %tmp.13 193 20 28 ];
+        symbol [ toFloat %tmp.14 193 29 36 ];
+        %tmp.14 = getv function %tmp.13 :toFloat;
+        %tmp.15 = invoke %tmp.13 %tmp.14();
+        symbol [ Math %tmp.16 193 41 45 ];
+        %tmp.16 = getm $.Toybox.Math;
+        symbol [ PI %tmp.17 193 46 48 ];
+        %tmp.17 = getv %tmp.16 :PI;
+        %tmp.18 = mul %tmp.15 %tmp.17;
+        %tmp.19 = 180.0;
+        %tmp.20 = div %tmp.18 %tmp.19;
+        lputv %rad.4 %tmp.20;
+        symbol [ rad %rad.4 193 12 15 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 194 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_189_42_198_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_189_42_198_4_stop" ]
+        %mx.5 = local;
+        symbol [ mx %mx.5 194 12 14 ];
+        %tmp.21 = lgetv %cx.1;
+        symbol [ cx %tmp.21 194 20 22 ];
+        %tmp.22 = lgetv %ringR.3;
+        symbol [ ringR %tmp.22 194 26 31 ];
+        symbol [ toFloat %tmp.23 194 32 39 ];
+        %tmp.23 = getv function %tmp.22 :toFloat;
+        %tmp.24 = invoke %tmp.22 %tmp.23();
+        symbol [ Math %tmp.25 194 44 48 ];
+        %tmp.25 = getm $.Toybox.Math;
+        symbol [ cos %tmp.26 194 49 52 ];
+        %tmp.26 = getv function %tmp.25 :cos;
+        %tmp.27 = lgetv %rad.4;
+        symbol [ rad %tmp.27 194 53 56 ];
+        %tmp.28 = invoke %tmp.25 %tmp.26(%tmp.27);
+        %tmp.29 = mul %tmp.24 %tmp.28;
+        symbol [ toNumber %tmp.30 194 59 67 ];
+        %tmp.30 = getv function %tmp.29 :toNumber;
+        %tmp.31 = invoke %tmp.29 %tmp.30();
+        %tmp.32 = add %tmp.21 %tmp.31;
+        lputv %mx.5 %tmp.32;
+        symbol [ mx %mx.5 194 12 14 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 195 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_189_42_198_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_189_42_198_4_stop" ]
+        %my.6 = local;
+        symbol [ my %my.6 195 12 14 ];
+        %tmp.33 = lgetv %cy.2;
+        symbol [ cy %tmp.33 195 20 22 ];
+        %tmp.34 = lgetv %ringR.3;
+        symbol [ ringR %tmp.34 195 26 31 ];
+        symbol [ toFloat %tmp.35 195 32 39 ];
+        %tmp.35 = getv function %tmp.34 :toFloat;
+        %tmp.36 = invoke %tmp.34 %tmp.35();
+        symbol [ Math %tmp.37 195 44 48 ];
+        %tmp.37 = getm $.Toybox.Math;
+        symbol [ sin %tmp.38 195 49 52 ];
+        %tmp.38 = getv function %tmp.37 :sin;
+        %tmp.39 = lgetv %rad.4;
+        symbol [ rad %tmp.39 195 53 56 ];
+        %tmp.40 = invoke %tmp.37 %tmp.38(%tmp.39);
+        %tmp.41 = mul %tmp.36 %tmp.40;
+        symbol [ toNumber %tmp.42 195 59 67 ];
+        %tmp.42 = getv function %tmp.41 :toNumber;
+        %tmp.43 = invoke %tmp.41 %tmp.42();
+        %tmp.44 = sub %tmp.33 %tmp.43;
+        lputv %my.6 %tmp.44;
+        symbol [ my %my.6 195 12 14 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 196 8 ]
+        %tmp.45 = lgetv %dc;
+        symbol [ dc %tmp.45 196 8 10 ];
+        symbol [ setColor %tmp.46 196 11 19 ];
+        %tmp.46 = getv function %tmp.45 :setColor;
+        symbol [ Graphics %tmp.47 196 20 28 ];
+        %tmp.47 = getm $.Toybox.Graphics;
+        symbol [ COLOR_WHITE %tmp.48 196 29 40 ];
+        %tmp.48 = getv %tmp.47 :COLOR_WHITE;
+        symbol [ Graphics %tmp.49 196 42 50 ];
+        %tmp.49 = getm $.Toybox.Graphics;
+        symbol [ COLOR_TRANSPARENT %tmp.50 196 51 68 ];
+        %tmp.50 = getv %tmp.49 :COLOR_TRANSPARENT;
+        invoke %tmp.45 %tmp.46(%tmp.48, %tmp.50);
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 197 8 ]
+        %tmp.51 = lgetv %dc;
+        symbol [ dc %tmp.51 197 8 10 ];
+        symbol [ fillCircle %tmp.52 197 11 21 ];
+        %tmp.52 = getv function %tmp.51 :fillCircle;
+        %tmp.53 = lgetv %mx.5;
+        symbol [ mx %tmp.53 197 22 24 ];
+        %tmp.54 = lgetv %my.6;
+        symbol [ my %tmp.54 197 26 28 ];
+        %tmp.55 = 5;
+        invoke %tmp.51 %tmp.52(%tmp.53, %tmp.54, %tmp.55);
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_189_42_198_4_stop:
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc"; @line = 200; @symbol_functiondef = [_drawFallback,200,13,26]; @symbol_param<0> = [dc,200,27,29]; @symbol_param<1> = [g,200,31,32]; ]
+    function _drawFallback(dc, g) {
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_200_34_207_4_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 201 8 ]
+        %tmp.1 = lgetv %dc;
+        symbol [ dc %tmp.1 201 8 10 ];
+        symbol [ setPenWidth %tmp.2 201 11 22 ];
+        %tmp.2 = getv function %tmp.1 :setPenWidth;
+        %tmp.3 = lgetv %g;
+        symbol [ g %tmp.3 201 23 24 ];
+        %tmp.5 = const :penW;
+        symbol [ penW %tmp.5 201 26 30 const ];
+        %tmp.6 = agetv %tmp.3 %tmp.5;
+        invoke %tmp.1 %tmp.2(%tmp.6);
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 202 8 ]
+        %tmp.7 = lgetv %dc;
+        symbol [ dc %tmp.7 202 8 10 ];
+        symbol [ setColor %tmp.8 202 11 19 ];
+        %tmp.8 = getv function %tmp.7 :setColor;
+        symbol [ HEAT_COLOR %tmp.10 202 20 30 ];
+        %tmp.10 = getv ? :HEAT_COLOR;
+        symbol [ Graphics %tmp.11 202 32 40 ];
+        %tmp.11 = getm $.Toybox.Graphics;
+        symbol [ COLOR_TRANSPARENT %tmp.12 202 41 58 ];
+        %tmp.12 = getv %tmp.11 :COLOR_TRANSPARENT;
+        invoke %tmp.7 %tmp.8(%tmp.10, %tmp.12);
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 203 8 ]
+        %tmp.13 = lgetv %dc;
+        symbol [ dc %tmp.13 203 8 10 ];
+        symbol [ drawArc %tmp.14 203 11 18 ];
+        %tmp.14 = getv function %tmp.13 :drawArc;
+        %tmp.15 = lgetv %g;
+        symbol [ g %tmp.15 203 19 20 ];
+        %tmp.17 = const :cx;
+        symbol [ cx %tmp.17 203 22 24 const ];
+        %tmp.18 = agetv %tmp.15 %tmp.17;
+        %tmp.19 = lgetv %g;
+        symbol [ g %tmp.19 203 27 28 ];
+        %tmp.21 = const :cy;
+        symbol [ cy %tmp.21 203 30 32 const ];
+        %tmp.22 = agetv %tmp.19 %tmp.21;
+        %tmp.23 = lgetv %g;
+        symbol [ g %tmp.23 203 35 36 ];
+        %tmp.25 = const :ringR;
+        symbol [ ringR %tmp.25 203 38 43 const ];
+        %tmp.26 = agetv %tmp.23 %tmp.25;
+        symbol [ Graphics %tmp.27 203 46 54 ];
+        %tmp.27 = getm $.Toybox.Graphics;
+        symbol [ ARC_CLOCKWISE %tmp.28 203 55 68 ];
+        %tmp.28 = getv %tmp.27 :ARC_CLOCKWISE;
+        %tmp.29 = self;
+        symbol [ _norm360 %tmp.30 204 12 20 ];
+        %tmp.30 = getv function %tmp.29 :_norm360;
+        %tmp.31 = 90;
+        %tmp.32 = invoke %tmp.29 %tmp.30(%tmp.31);
+        symbol [ toNumber %tmp.33 204 25 33 ];
+        %tmp.33 = getv function %tmp.32 :toNumber;
+        %tmp.34 = invoke %tmp.32 %tmp.33();
+        %tmp.35 = self;
+        symbol [ _norm360 %tmp.36 204 37 45 ];
+        %tmp.36 = getv function %tmp.35 :_norm360;
+        %tmp.37 = 90;
+        %tmp.38 = 359;
+        %tmp.39 = sub %tmp.37 %tmp.38;
+        %tmp.40 = invoke %tmp.35 %tmp.36(%tmp.39);
+        symbol [ toNumber %tmp.41 204 56 64 ];
+        %tmp.41 = getv function %tmp.40 :toNumber;
+        %tmp.42 = invoke %tmp.40 %tmp.41();
+        invoke %tmp.13 %tmp.14(%tmp.18, %tmp.22, %tmp.26, %tmp.28, %tmp.34, %tmp.42);
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 205 8 ]
+        %tmp.43 = lgetv %dc;
+        symbol [ dc %tmp.43 205 8 10 ];
+        symbol [ setPenWidth %tmp.44 205 11 22 ];
+        %tmp.44 = getv function %tmp.43 :setPenWidth;
+        %tmp.45 = 1;
+        invoke %tmp.43 %tmp.44(%tmp.45);
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 206 8 ]
+        %tmp.46 = self;
+        symbol [ _drawNotch %tmp.47 206 8 18 ];
+        %tmp.47 = getv function %tmp.46 :_drawNotch;
+        %tmp.48 = lgetv %dc;
+        symbol [ dc %tmp.48 206 19 21 ];
+        %tmp.49 = lgetv %g;
+        symbol [ g %tmp.49 206 23 24 ];
+        invoke %tmp.46 %tmp.47(%tmp.48, %tmp.49);
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_200_34_207_4_stop:
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc"; @line = 210; @symbol_functiondef = [_norm360,210,13,21]; @symbol_param<0> = [deg,210,22,25]; ]
+    function _norm360(deg) {
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_210_27_215_4_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 211 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_210_27_215_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_210_27_215_4_stop" ]
+        %d.1 = local;
+        symbol [ d %d.1 211 12 13 ];
+        %tmp.1 = lgetv %deg;
+        symbol [ deg %tmp.1 211 16 19 ];
+        symbol [ toFloat %tmp.2 211 20 27 ];
+        %tmp.2 = getv function %tmp.1 :toFloat;
+        %tmp.3 = invoke %tmp.1 %tmp.2();
+        lputv %d.1 %tmp.3;
+        symbol [ d %d.1 211 12 13 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 212 8 ]
+        while @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_212_8_212_41_while_test @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_212_8_212_41_while_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_212_8_212_41_while_test:
+        %tmp.4 = lgetv %d.1;
+        symbol [ d %tmp.4 212 15 16 ];
+        %tmp.5 = 0.0;
+        %tmp.6 = lt %tmp.4 %tmp.5;
+        bf %tmp.6 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_212_8_212_41_while_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_212_8_212_41_while_begin:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_212_27_212_41_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 212 29 ]
+        %tmp.7 = lgetv %d.1;
+        symbol [ d %tmp.7 212 29 30 ];
+        %tmp.8 = 360.0;
+        %tmp.9 = add %tmp.7 %tmp.8;
+        lputv %d.1 %tmp.9;
+        symbol [ d %d.1 212 29 30 ];
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_212_27_212_41_stop:
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_212_8_212_41_while_test;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_212_8_212_41_while_end:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 213 8 ]
+        while @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_213_8_213_41_while_test @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_213_8_213_41_while_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_213_8_213_41_while_test:
+        %tmp.10 = lgetv %d.1;
+        symbol [ d %tmp.10 213 15 16 ];
+        %tmp.11 = 360.0;
+        %tmp.12 = gte %tmp.10 %tmp.11;
+        bf %tmp.12 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_213_8_213_41_while_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_213_8_213_41_while_begin:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_213_27_213_41_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 213 29 ]
+        %tmp.13 = lgetv %d.1;
+        symbol [ d %tmp.13 213 29 30 ];
+        %tmp.14 = 360.0;
+        %tmp.15 = sub %tmp.13 %tmp.14;
+        lputv %d.1 %tmp.15;
+        symbol [ d %d.1 213 29 30 ];
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_213_27_213_41_stop:
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_213_8_213_41_while_test;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_213_8_213_41_while_end:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc" 214 8 ]
+        %tmp.16 = lgetv %d.1;
+        symbol [ d %tmp.16 214 15 16 ];
+        ret %tmp.16;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_WorkoutRing_mc_210_27_215_4_stop:
+    }
+}
+[ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/WorkoutRing.mc"; @line = 1; ]
+<init> {
+}

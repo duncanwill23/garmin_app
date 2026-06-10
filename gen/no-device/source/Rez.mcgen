@@ -1,0 +1,36 @@
+import Toybox.Lang;
+using Toybox.WatchUi;
+using Toybox.WatchUi as Ui;
+using Toybox.Graphics;
+using Toybox.Graphics as Gfx;
+
+module Rez {
+    module Drawables {
+        (:initialized) var LauncherIcon as ResourceId;
+    } // Drawables
+
+    module Strings {
+        (:initialized) var MenuSave as ResourceId;
+        (:initialized) var SuggestionRace as ResourceId;
+        (:initialized) var MenuRaceDate as ResourceId;
+        (:initialized) var DoseLabel as ResourceId;
+        (:initialized) var MenuCustomBuild as ResourceId;
+        (:initialized) var ElapsedLabel as ResourceId;
+        (:initialized) var ModalitySteam as ResourceId;
+        (:initialized) var MenuRunDown as ResourceId;
+        (:initialized) var UseThisWorkout as ResourceId;
+        (:initialized) var MenuCancelWorkout as ResourceId;
+        (:initialized) var BuildingBaseline as ResourceId;
+        (:initialized) var SuggestionProgression as ResourceId;
+        (:initialized) var MenuOptions as ResourceId;
+        (:initialized) var AppName as ResourceId;
+        (:initialized) var HrLabel as ResourceId;
+        (:initialized) var MenuPaused as ResourceId;
+        (:initialized) var MenuResume as ResourceId;
+        (:initialized) var MenuDiscard as ResourceId;
+        (:initialized) var MenuSuggestion as ResourceId;
+        (:initialized) var InZoneLabel as ResourceId;
+        (:initialized) var MenuCustom as ResourceId;
+        (:initialized) var ModalityDry as ResourceId;
+    } // Strings
+} // Rez

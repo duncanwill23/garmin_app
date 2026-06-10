@@ -1,0 +1,348 @@
+[ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc"; @line = 7; @symbol_classdef = [WorkoutStep,7,6,17]; ]
+class WorkoutStep {
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc"; @line = 7; ]
+    <init> {
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc"; @line = 7; ]
+    static
+    <init> {
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc"; @line = 8; @position = 8; @symbol_vardef = [type,8,8,12]; ]
+    var type;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc"; @line = 9; @position = 8; @symbol_vardef = [durationSec,9,8,19]; ]
+    var durationSec;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc"; @line = 10; @position = 8; @symbol_vardef = [targetHrLowPct,10,8,22]; ]
+    var targetHrLowPct;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc"; @line = 11; @position = 8; @symbol_vardef = [targetHrHighPct,11,8,23]; ]
+    var targetHrHighPct;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc"; @line = 13; @symbol_functiondef = [initialize,13,13,23]; @symbol_param<0> = [t,13,24,25]; @symbol_param<1> = [dur,13,27,30]; @symbol_param<2> = [lo,13,32,34]; @symbol_param<3> = [hi,13,36,38]; ]
+    function initialize(t, dur, lo, hi) as Void {
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_13_40_18_4_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc" 14 8 ]
+        %tmp.1 = lgetv %t;
+        symbol [ t %tmp.1 14 26 27 ];
+        symbol [ type ? 14 8 12 ];
+        putv self :type %tmp.1;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc" 15 8 ]
+        %tmp.2 = lgetv %dur;
+        symbol [ dur %tmp.2 15 26 29 ];
+        symbol [ durationSec ? 15 8 19 ];
+        putv self :durationSec %tmp.2;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc" 16 8 ]
+        %tmp.3 = lgetv %lo;
+        symbol [ lo %tmp.3 16 26 28 ];
+        symbol [ targetHrLowPct ? 16 8 22 ];
+        putv self :targetHrLowPct %tmp.3;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc" 17 8 ]
+        %tmp.4 = lgetv %hi;
+        symbol [ hi %tmp.4 17 26 28 ];
+        symbol [ targetHrHighPct ? 17 8 23 ];
+        putv self :targetHrHighPct %tmp.4;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_13_40_18_4_stop:
+    }
+}
+[ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc"; @line = 21; @symbol_classdef = [Workout,21,6,13]; ]
+class Workout {
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc"; @line = 21; ]
+    <init> {
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc"; @line = 21; ]
+    static
+    <init> {
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc"; @line = 22; @position = 8; @symbol_vardef = [name,22,8,12]; ]
+    var name;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc"; @line = 23; @position = 8; @symbol_vardef = [modality,23,8,16]; ]
+    var modality;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc"; @line = 24; @position = 8; @symbol_vardef = [steps,24,8,13]; ]
+    var steps;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc"; @line = 25; @position = 8; @symbol_vardef = [kind,25,8,12]; ]
+    var kind;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc"; @line = 26; @position = 8; @symbol_vardef = [copyKey,26,8,15]; ]
+    var copyKey;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc"; @line = 27; @position = 8; @symbol_vardef = [rationale,27,8,17]; ]
+    var rationale;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc"; @line = 28; @position = 8; @symbol_vardef = [projectedGainPct,28,8,24]; ]
+    var projectedGainPct;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc"; @line = 30; @symbol_functiondef = [initialize,30,13,23]; @symbol_param<0> = [n,30,24,25]; @symbol_param<1> = [m,30,27,28]; @symbol_param<2> = [s,30,30,31]; @symbol_param<3> = [k,30,33,34]; @symbol_param<4> = [ck,30,36,38]; @symbol_param<5> = [rat,30,40,43]; @symbol_param<6> = [proj,30,45,49]; ]
+    function initialize(n, m, s, k, ck, rat, proj) as Void {
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_30_51_38_4_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc" 31 8 ]
+        %tmp.1 = lgetv %n;
+        symbol [ n %tmp.1 31 27 28 ];
+        symbol [ name ? 31 8 12 ];
+        putv self :name %tmp.1;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc" 32 8 ]
+        %tmp.2 = lgetv %m;
+        symbol [ m %tmp.2 32 27 28 ];
+        symbol [ modality ? 32 8 16 ];
+        putv self :modality %tmp.2;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc" 33 8 ]
+        %tmp.3 = lgetv %s;
+        symbol [ s %tmp.3 33 27 28 ];
+        symbol [ steps ? 33 8 13 ];
+        putv self :steps %tmp.3;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc" 34 8 ]
+        %tmp.4 = lgetv %k;
+        symbol [ k %tmp.4 34 27 28 ];
+        symbol [ kind ? 34 8 12 ];
+        putv self :kind %tmp.4;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc" 35 8 ]
+        %tmp.5 = lgetv %ck;
+        symbol [ ck %tmp.5 35 27 29 ];
+        symbol [ copyKey ? 35 8 15 ];
+        putv self :copyKey %tmp.5;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc" 36 8 ]
+        %tmp.6 = lgetv %rat;
+        symbol [ rat %tmp.6 36 27 30 ];
+        symbol [ rationale ? 36 8 17 ];
+        putv self :rationale %tmp.6;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc" 37 8 ]
+        %tmp.7 = lgetv %proj;
+        symbol [ proj %tmp.7 37 27 31 ];
+        symbol [ projectedGainPct ? 37 8 24 ];
+        putv self :projectedGainPct %tmp.7;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_30_51_38_4_stop:
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc"; @line = 41; @symbol_functiondef = [totalHeatSec,41,13,25]; ]
+    function totalHeatSec() {
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_41_28_51_4_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc" 42 8 ]
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_42_8_42_44_if_stmt:
+        symbol [ steps %tmp.2 42 14 19 ];
+        %tmp.2 = getv ? :steps;
+        %tmp.4 = const :size;
+        symbol [ size %tmp.4 42 25 29 const ];
+        %tmp.5 = canhazplz %tmp.2 %tmp.4;
+        %tmp.6 = not %tmp.5;
+        bf %tmp.6 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_42_8_42_44_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_42_8_42_44_if_true:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_42_32_42_44_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc" 42 34 ]
+        %tmp.7 = 0;
+        ret %tmp.7;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_42_32_42_44_stop:
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_42_8_42_44_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_42_8_42_44_if_end:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc" 43 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_41_28_51_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_41_28_51_4_stop" ]
+        %t.1 = local;
+        symbol [ t %t.1 43 12 13 ];
+        %tmp.8 = 0;
+        lputv %t.1 %tmp.8;
+        symbol [ t %t.1 43 12 13 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc" 44 8 ]
+        for @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_44_8_49_8_for_test @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_44_8_49_8_for_incr @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_44_8_49_8_for_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_44_8_49_8_for_init:
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_44_8_49_8_for_begin" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_44_8_49_8_for_end" ]
+        %i.2 = local;
+        symbol [ i %i.2 44 17 18 ];
+        %tmp.9 = 0;
+        lputv %i.2 %tmp.9;
+        symbol [ i %i.2 44 17 18 ];
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_44_8_49_8_for_test:
+        %tmp.10 = lgetv %i.2;
+        symbol [ i %tmp.10 44 24 25 ];
+        symbol [ steps %tmp.12 44 28 33 ];
+        %tmp.12 = getv ? :steps;
+        symbol [ size %tmp.13 44 34 38 ];
+        %tmp.13 = getv function %tmp.12 :size;
+        %tmp.14 = invoke %tmp.12 %tmp.13();
+        %tmp.15 = lt %tmp.10 %tmp.14;
+        bf %tmp.15 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_44_8_49_8_for_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_44_8_49_8_for_begin:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_44_47_49_8_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc" 45 12 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_44_47_49_8_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_44_47_49_8_stop" ]
+        %s.3 = local;
+        symbol [ s %s.3 45 16 17 ];
+        symbol [ steps %tmp.17 45 20 25 ];
+        %tmp.17 = getv ? :steps;
+        %tmp.18 = lgetv %i.2;
+        symbol [ i %tmp.18 45 26 27 ];
+        %tmp.19 = agetv %tmp.17 %tmp.18;
+        lputv %s.3 %tmp.19;
+        symbol [ s %s.3 45 16 17 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc" 46 12 ]
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_46_12_48_12_if_stmt:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_46_16_46_91_begin:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_46_16_46_61_begin:
+        %tmp.20 = lgetv %s.3;
+        symbol [ s %tmp.20 46 16 17 ];
+        symbol [ WorkoutStep %tmp.22 46 29 40 ];
+        %tmp.22 = getv ? :WorkoutStep;
+        %tmp.23 = isa %tmp.20 %tmp.22;
+        bf %tmp.23 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_46_12_48_12_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_46_44_46_61_true:
+        %tmp.24 = lgetv %s.3;
+        symbol [ s %tmp.24 46 44 45 ];
+        %tmp.25 = as %tmp.24 { (WorkoutStep) };
+        symbol [ type %tmp.26 46 46 50 ];
+        %tmp.26 = getv %tmp.25 :type;
+        symbol [ Config %tmp.28 46 54 60 ];
+        %tmp.28 = getv ? :Config;
+        symbol [ STEP_HEAT %tmp.29 46 61 70 ];
+        %tmp.29 = getv %tmp.28 :STEP_HEAT;
+        %tmp.30 = eq %tmp.26 %tmp.29;
+        push %tmp.30;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_46_44_46_61_end:
+        %tmp.31 = phi [%tmp.23 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_46_16_46_61_begin] [%tmp.30 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_46_44_46_61_true] [%tmp.31 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_46_44_46_61_end];
+        bf %tmp.31 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_46_12_48_12_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_46_74_46_91_true:
+        %tmp.32 = lgetv %s.3;
+        symbol [ s %tmp.32 46 74 75 ];
+        %tmp.33 = as %tmp.32 { (WorkoutStep) };
+        symbol [ durationSec %tmp.34 46 76 87 ];
+        %tmp.34 = getv %tmp.33 :durationSec;
+        %tmp.35 = null;
+        %tmp.36 = ne %tmp.34 %tmp.35;
+        push %tmp.36;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_46_74_46_91_end:
+        %tmp.37 = phi [%tmp.31 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_46_16_46_91_begin] [%tmp.36 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_46_74_46_91_true] [%tmp.37 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_46_74_46_91_end];
+        bf %tmp.37 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_46_12_48_12_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_46_12_48_12_if_true:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_46_97_48_12_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc" 47 16 ]
+        %tmp.38 = lgetv %t.1;
+        symbol [ t %tmp.38 47 16 17 ];
+        %tmp.39 = lgetv %s.3;
+        symbol [ s %tmp.39 47 21 22 ];
+        %tmp.40 = as %tmp.39 { (WorkoutStep) };
+        symbol [ durationSec %tmp.41 47 23 34 ];
+        %tmp.41 = getv %tmp.40 :durationSec;
+        %tmp.42 = add %tmp.38 %tmp.41;
+        lputv %t.1 %tmp.42;
+        symbol [ t %t.1 47 16 17 ];
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_46_97_48_12_stop:
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_46_12_48_12_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_46_12_48_12_if_end:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_44_47_49_8_stop:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_44_8_49_8_for_incr:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc" 44 ]
+        %tmp.45 = lgetv %i.2;
+        symbol [ i %tmp.45 44 42 43 ];
+        %tmp.46 = add %tmp.45 1;
+        lputv %i.2 %tmp.46;
+        symbol [ i %i.2 44 42 43 ];
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_44_8_49_8_for_test;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_44_8_49_8_for_end:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc" 50 8 ]
+        %tmp.47 = lgetv %t.1;
+        symbol [ t %tmp.47 50 15 16 ];
+        ret %tmp.47;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_41_28_51_4_stop:
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc"; @line = 54; @symbol_functiondef = [heatRounds,54,13,23]; ]
+    function heatRounds() {
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_54_26_62_4_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc" 55 8 ]
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_55_8_55_44_if_stmt:
+        symbol [ steps %tmp.2 55 14 19 ];
+        %tmp.2 = getv ? :steps;
+        %tmp.4 = const :size;
+        symbol [ size %tmp.4 55 25 29 const ];
+        %tmp.5 = canhazplz %tmp.2 %tmp.4;
+        %tmp.6 = not %tmp.5;
+        bf %tmp.6 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_55_8_55_44_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_55_8_55_44_if_true:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_55_32_55_44_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc" 55 34 ]
+        %tmp.7 = 0;
+        ret %tmp.7;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_55_32_55_44_stop:
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_55_8_55_44_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_55_8_55_44_if_end:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc" 56 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_54_26_62_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_54_26_62_4_stop" ]
+        %n.1 = local;
+        symbol [ n %n.1 56 12 13 ];
+        %tmp.8 = 0;
+        lputv %n.1 %tmp.8;
+        symbol [ n %n.1 56 12 13 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc" 57 8 ]
+        for @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_57_8_60_8_for_test @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_57_8_60_8_for_incr @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_57_8_60_8_for_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_57_8_60_8_for_init:
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_57_8_60_8_for_begin" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_57_8_60_8_for_end" ]
+        %i.2 = local;
+        symbol [ i %i.2 57 17 18 ];
+        %tmp.9 = 0;
+        lputv %i.2 %tmp.9;
+        symbol [ i %i.2 57 17 18 ];
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_57_8_60_8_for_test:
+        %tmp.10 = lgetv %i.2;
+        symbol [ i %tmp.10 57 24 25 ];
+        symbol [ steps %tmp.12 57 28 33 ];
+        %tmp.12 = getv ? :steps;
+        symbol [ size %tmp.13 57 34 38 ];
+        %tmp.13 = getv function %tmp.12 :size;
+        %tmp.14 = invoke %tmp.12 %tmp.13();
+        %tmp.15 = lt %tmp.10 %tmp.14;
+        bf %tmp.15 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_57_8_60_8_for_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_57_8_60_8_for_begin:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_57_47_60_8_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc" 58 12 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_57_47_60_8_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_57_47_60_8_stop" ]
+        %s.3 = local;
+        symbol [ s %s.3 58 16 17 ];
+        symbol [ steps %tmp.17 58 20 25 ];
+        %tmp.17 = getv ? :steps;
+        %tmp.18 = lgetv %i.2;
+        symbol [ i %tmp.18 58 26 27 ];
+        %tmp.19 = agetv %tmp.17 %tmp.18;
+        lputv %s.3 %tmp.19;
+        symbol [ s %s.3 58 16 17 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc" 59 12 ]
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_59_12_59_79_if_stmt:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_59_16_59_61_begin:
+        %tmp.20 = lgetv %s.3;
+        symbol [ s %tmp.20 59 16 17 ];
+        symbol [ WorkoutStep %tmp.22 59 29 40 ];
+        %tmp.22 = getv ? :WorkoutStep;
+        %tmp.23 = isa %tmp.20 %tmp.22;
+        bf %tmp.23 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_59_12_59_79_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_59_44_59_61_true:
+        %tmp.24 = lgetv %s.3;
+        symbol [ s %tmp.24 59 44 45 ];
+        %tmp.25 = as %tmp.24 { (WorkoutStep) };
+        symbol [ type %tmp.26 59 46 50 ];
+        %tmp.26 = getv %tmp.25 :type;
+        symbol [ Config %tmp.28 59 54 60 ];
+        %tmp.28 = getv ? :Config;
+        symbol [ STEP_HEAT %tmp.29 59 61 70 ];
+        %tmp.29 = getv %tmp.28 :STEP_HEAT;
+        %tmp.30 = eq %tmp.26 %tmp.29;
+        push %tmp.30;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_59_44_59_61_end:
+        %tmp.31 = phi [%tmp.23 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_59_16_59_61_begin] [%tmp.30 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_59_44_59_61_true] [%tmp.31 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_59_44_59_61_end];
+        bf %tmp.31 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_59_12_59_79_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_59_12_59_79_if_true:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_59_72_59_79_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc" 59 74 ]
+        %tmp.34 = lgetv %n.1;
+        symbol [ n %tmp.34 59 74 75 ];
+        %tmp.35 = add %tmp.34 1;
+        lputv %n.1 %tmp.35;
+        symbol [ n %n.1 59 74 75 ];
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_59_72_59_79_stop:
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_59_12_59_79_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_59_12_59_79_if_end:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_57_47_60_8_stop:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_57_8_60_8_for_incr:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc" 57 ]
+        %tmp.38 = lgetv %i.2;
+        symbol [ i %tmp.38 57 42 43 ];
+        %tmp.39 = add %tmp.38 1;
+        lputv %i.2 %tmp.39;
+        symbol [ i %i.2 57 42 43 ];
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_57_8_60_8_for_test;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_57_8_60_8_for_end:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc" 61 8 ]
+        %tmp.40 = lgetv %n.1;
+        symbol [ n %tmp.40 61 15 16 ];
+        ret %tmp.40;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_Workout_mc_54_26_62_4_stop:
+    }
+}
+[ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/Workout.mc"; @line = 7; ]
+<init> {
+}

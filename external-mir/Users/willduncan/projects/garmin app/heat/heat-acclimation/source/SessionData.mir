@@ -1,0 +1,849 @@
+[ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc"; @line = 1; @symbol_usingdef<0> = [Toybox,1,6,12]; @symbol_usingdef<1> = [WatchUi,1,13,20]; ]
+using Toybox.WatchUi;
+[ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc"; @line = 7; @symbol_classdef = [SessionData,7,6,17]; ]
+class SessionData {
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc"; @line = 7; ]
+    <init> {
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc"; @line = 7; ]
+    static
+    <init> {
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc"; @line = 8; @position = 8; @symbol_vardef = [dose,8,8,12]; ]
+    var dose;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc"; @line = 9; @position = 8; @symbol_vardef = [inZoneSec,9,8,17]; ]
+    var inZoneSec;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc"; @line = 10; @position = 8; @symbol_vardef = [rounds,10,8,14]; ]
+    var rounds;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc"; @line = 11; @position = 8; @symbol_vardef = [acclGain,11,8,16]; ]
+    var acclGain;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc"; @line = 12; @position = 8; @symbol_vardef = [acclTotal,12,8,17]; ]
+    var acclTotal;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc"; @line = 13; @position = 8; @symbol_vardef = [modality,13,8,16]; ]
+    var modality;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc"; @line = 14; @position = 8; @symbol_vardef = [sampleT,14,8,15]; ]
+    var sampleT;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc"; @line = 15; @position = 8; @symbol_vardef = [sampleHR,15,8,16]; ]
+    var sampleHR;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc"; @line = 16; @position = 8; @symbol_vardef = [sampleTemp,16,8,18]; ]
+    var sampleTemp;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc"; @line = 17; @position = 8; @symbol_vardef = [samplePhase,17,8,19]; ]
+    var samplePhase;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc"; @line = 18; @position = 8; @symbol_vardef = [workout,18,8,15]; ]
+    var workout;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc"; @line = 20; @symbol_functiondef = [initialize,20,13,23]; @symbol_param<0> = [dose,20,24,28]; @symbol_param<1> = [inZoneSec,20,30,39]; @symbol_param<2> = [rounds,20,41,47]; @symbol_param<3> = [acclGain,20,49,57]; @symbol_param<4> = [acclTotal,20,59,68]; @symbol_param<5> = [sampleT,21,24,31]; @symbol_param<6> = [sampleHR,21,33,41]; @symbol_param<7> = [sampleTemp,21,43,53]; @symbol_param<8> = [samplePhase,21,55,66]; @symbol_param<9> = [modality,21,68,76]; @symbol_param<10> = [workout,21,78,85]; ]
+    function initialize(dose, inZoneSec, rounds, acclGain, acclTotal, sampleT, sampleHR, sampleTemp, samplePhase, modality, workout) as Void {
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_21_87_33_4_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 22 8 ]
+        symbol [ self %self 22 8 12 ];
+        %tmp.1 = lgetv %dose;
+        symbol [ dose %tmp.1 22 27 31 ];
+        symbol [ dose ? 22 13 17 ];
+        putv self :dose %tmp.1;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 23 8 ]
+        symbol [ self %self 23 8 12 ];
+        %tmp.2 = lgetv %inZoneSec;
+        symbol [ inZoneSec %tmp.2 23 27 36 ];
+        symbol [ inZoneSec ? 23 13 22 ];
+        putv self :inZoneSec %tmp.2;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 24 8 ]
+        symbol [ self %self 24 8 12 ];
+        %tmp.3 = lgetv %rounds;
+        symbol [ rounds %tmp.3 24 27 33 ];
+        symbol [ rounds ? 24 13 19 ];
+        putv self :rounds %tmp.3;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 25 8 ]
+        symbol [ self %self 25 8 12 ];
+        %tmp.4 = lgetv %acclGain;
+        symbol [ acclGain %tmp.4 25 27 35 ];
+        symbol [ acclGain ? 25 13 21 ];
+        putv self :acclGain %tmp.4;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 26 8 ]
+        symbol [ self %self 26 8 12 ];
+        %tmp.5 = lgetv %acclTotal;
+        symbol [ acclTotal %tmp.5 26 27 36 ];
+        symbol [ acclTotal ? 26 13 22 ];
+        putv self :acclTotal %tmp.5;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 27 8 ]
+        symbol [ self %self 27 8 12 ];
+        %tmp.6 = lgetv %modality;
+        symbol [ modality %tmp.6 27 27 35 ];
+        symbol [ modality ? 27 13 21 ];
+        putv self :modality %tmp.6;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 28 8 ]
+        symbol [ self %self 28 8 12 ];
+        %tmp.7 = lgetv %sampleT;
+        symbol [ sampleT %tmp.7 28 27 34 ];
+        symbol [ sampleT ? 28 13 20 ];
+        putv self :sampleT %tmp.7;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 29 8 ]
+        symbol [ self %self 29 8 12 ];
+        %tmp.8 = lgetv %sampleHR;
+        symbol [ sampleHR %tmp.8 29 27 35 ];
+        symbol [ sampleHR ? 29 13 21 ];
+        putv self :sampleHR %tmp.8;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 30 8 ]
+        symbol [ self %self 30 8 12 ];
+        %tmp.9 = lgetv %sampleTemp;
+        symbol [ sampleTemp %tmp.9 30 27 37 ];
+        symbol [ sampleTemp ? 30 13 23 ];
+        putv self :sampleTemp %tmp.9;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 31 8 ]
+        symbol [ self %self 31 8 12 ];
+        %tmp.10 = lgetv %samplePhase;
+        symbol [ samplePhase %tmp.10 31 27 38 ];
+        symbol [ samplePhase ? 31 13 24 ];
+        putv self :samplePhase %tmp.10;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 32 8 ]
+        symbol [ self %self 32 8 12 ];
+        %tmp.11 = lgetv %workout;
+        symbol [ workout %tmp.11 32 27 34 ];
+        symbol [ workout ? 32 13 20 ];
+        putv self :workout %tmp.11;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_21_87_33_4_stop:
+    }
+}
+[ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc"; @line = 48; @symbol_classdef = [PostSessionDelegate,48,6,25]; @symbol_extends<0> = [WatchUi,48,34,41]; @symbol_extends<1> = [BehaviorDelegate,48,42,58]; ]
+class PostSessionDelegate extends WatchUi.BehaviorDelegate {
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc"; @line = 48; ]
+    <init> {
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc"; @line = 48; ]
+    static
+    <init> {
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc"; @line = 50; @position = 16; @symbol_vardef = [_page,50,16,21]; ]
+    private
+    var _page;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc"; @line = 51; @position = 16; @symbol_vardef = [_data,51,16,21]; ]
+    private
+    var _data;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc"; @line = 53; @symbol_functiondef = [initialize,53,13,23]; @symbol_param<0> = [page,53,24,28]; @symbol_param<1> = [data,53,30,34]; ]
+    function initialize(page, data) as Void {
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_53_36_57_4_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 54 8 ]
+        symbol [ BehaviorDelegate %tmp.2 54 8 24 ];
+        %tmp.2 = getv ? :BehaviorDelegate;
+        symbol [ initialize %tmp.3 54 25 35 ];
+        %tmp.3 = getv function %tmp.2 :initialize;
+        invoke %tmp.2 %tmp.3();
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 55 8 ]
+        %tmp.4 = lgetv %page;
+        symbol [ page %tmp.4 55 16 20 ];
+        symbol [ _page ? 55 8 13 ];
+        putv self :_page %tmp.4;
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 56 8 ]
+        %tmp.5 = lgetv %data;
+        symbol [ data %tmp.5 56 16 20 ];
+        symbol [ _data ? 56 8 13 ];
+        putv self :_data %tmp.5;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_53_36_57_4_stop:
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc"; @line = 59; @symbol_functiondef = [onSelect,59,13,21]; ]
+    function onSelect() {
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_59_24_63_4_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 60 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_59_24_63_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_59_24_63_4_stop" ]
+        %v.1 = local;
+        symbol [ v %v.1 60 12 13 ];
+        symbol [ HeatAccView %tmp.4 60 20 31 ];
+        %tmp.4 = getv ? :HeatAccView;
+        %tmp.1 = newc %tmp.4 ();
+        lputv %v.1 %tmp.1;
+        symbol [ v %v.1 60 12 13 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 61 8 ]
+        symbol [ WatchUi %tmp.5 61 8 15 ];
+        %tmp.5 = getm $.Toybox.WatchUi;
+        symbol [ switchToView %tmp.6 61 16 28 ];
+        %tmp.6 = getv function %tmp.5 :switchToView;
+        %tmp.7 = lgetv %v.1;
+        symbol [ v %tmp.7 61 29 30 ];
+        symbol [ HeatAccDelegate %tmp.11 61 36 51 ];
+        %tmp.11 = getv ? :HeatAccDelegate;
+        %tmp.12 = lgetv %v.1;
+        symbol [ v %tmp.12 61 52 53 ];
+        %tmp.8 = newc %tmp.11 (%tmp.12);
+        symbol [ WatchUi %tmp.13 61 56 63 ];
+        %tmp.13 = getm $.Toybox.WatchUi;
+        symbol [ SLIDE_LEFT %tmp.14 61 64 74 ];
+        %tmp.14 = getv %tmp.13 :SLIDE_LEFT;
+        invoke %tmp.5 %tmp.6(%tmp.7, %tmp.8, %tmp.14);
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 62 8 ]
+        %tmp.15 = true;
+        ret %tmp.15;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_59_24_63_4_stop:
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc"; @line = 65; @symbol_functiondef = [onKey,65,13,18]; @symbol_param<0> = [evt,65,19,22]; ]
+    function onKey(evt) {
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_65_24_79_4_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 66 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_65_24_79_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_65_24_79_4_stop" ]
+        %k.1 = local;
+        symbol [ k %k.1 66 12 13 ];
+        %tmp.1 = lgetv %evt;
+        symbol [ evt %tmp.1 66 16 19 ];
+        symbol [ getKey %tmp.2 66 20 26 ];
+        %tmp.2 = getv function %tmp.1 :getKey;
+        %tmp.3 = invoke %tmp.1 %tmp.2();
+        lputv %k.1 %tmp.3;
+        symbol [ k %k.1 66 12 13 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 67 8 ]
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_67_8_77_8_if_stmt:
+        %tmp.4 = lgetv %k.1;
+        symbol [ k %tmp.4 67 12 13 ];
+        symbol [ WatchUi %tmp.5 67 17 24 ];
+        %tmp.5 = getm $.Toybox.WatchUi;
+        symbol [ KEY_DOWN %tmp.6 67 25 33 ];
+        %tmp.6 = getv %tmp.5 :KEY_DOWN;
+        %tmp.7 = eq %tmp.4 %tmp.6;
+        bf %tmp.7 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_67_8_77_8_if_false;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_67_8_77_8_if_true:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_67_35_72_8_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 68 12 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_67_35_72_8_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_67_35_72_8_stop" ]
+        %next.2 = local;
+        symbol [ next %next.2 68 16 20 ];
+        symbol [ _page %tmp.9 68 24 29 ];
+        %tmp.9 = getv ? :_page;
+        %tmp.10 = 1;
+        %tmp.11 = add %tmp.9 %tmp.10;
+        %tmp.12 = 5;
+        %tmp.13 = mod %tmp.11 %tmp.12;
+        lputv %next.2 %tmp.13;
+        symbol [ next %next.2 68 16 20 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 69 12 ]
+        symbol [ WatchUi %tmp.14 69 12 19 ];
+        %tmp.14 = getm $.Toybox.WatchUi;
+        symbol [ switchToView %tmp.15 69 20 32 ];
+        %tmp.15 = getv function %tmp.14 :switchToView;
+        %tmp.16 = self;
+        symbol [ makeView %tmp.17 69 33 41 ];
+        %tmp.17 = getv function %tmp.16 :makeView;
+        %tmp.18 = lgetv %next.2;
+        symbol [ next %tmp.18 69 42 46 ];
+        %tmp.19 = invoke %tmp.16 %tmp.17(%tmp.18);
+        symbol [ PostSessionDelegate %tmp.23 70 20 39 ];
+        %tmp.23 = getv ? :PostSessionDelegate;
+        %tmp.24 = lgetv %next.2;
+        symbol [ next %tmp.24 70 40 44 ];
+        symbol [ _data %tmp.26 70 46 51 ];
+        %tmp.26 = getv ? :_data;
+        %tmp.20 = newc %tmp.23 (%tmp.24, %tmp.26);
+        symbol [ WatchUi %tmp.27 70 54 61 ];
+        %tmp.27 = getm $.Toybox.WatchUi;
+        symbol [ SLIDE_UP %tmp.28 70 62 70 ];
+        %tmp.28 = getv %tmp.27 :SLIDE_UP;
+        invoke %tmp.14 %tmp.15(%tmp.19, %tmp.20, %tmp.28);
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 71 12 ]
+        %tmp.29 = true;
+        ret %tmp.29;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_67_35_72_8_stop:
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_67_8_77_8_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_67_8_77_8_if_false:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 72 15 ]
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_72_15_77_8_if_stmt:
+        %tmp.30 = lgetv %k.1;
+        symbol [ k %tmp.30 72 19 20 ];
+        symbol [ WatchUi %tmp.31 72 24 31 ];
+        %tmp.31 = getm $.Toybox.WatchUi;
+        symbol [ KEY_UP %tmp.32 72 32 38 ];
+        %tmp.32 = getv %tmp.31 :KEY_UP;
+        %tmp.33 = eq %tmp.30 %tmp.32;
+        bf %tmp.33 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_72_15_77_8_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_72_15_77_8_if_true:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_72_40_77_8_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 73 12 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_72_40_77_8_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_72_40_77_8_stop" ]
+        %prev.3 = local;
+        symbol [ prev %prev.3 73 16 20 ];
+        symbol [ _page %tmp.35 73 24 29 ];
+        %tmp.35 = getv ? :_page;
+        %tmp.36 = 4;
+        %tmp.37 = add %tmp.35 %tmp.36;
+        %tmp.38 = 5;
+        %tmp.39 = mod %tmp.37 %tmp.38;
+        lputv %prev.3 %tmp.39;
+        symbol [ prev %prev.3 73 16 20 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 74 12 ]
+        symbol [ WatchUi %tmp.40 74 12 19 ];
+        %tmp.40 = getm $.Toybox.WatchUi;
+        symbol [ switchToView %tmp.41 74 20 32 ];
+        %tmp.41 = getv function %tmp.40 :switchToView;
+        %tmp.42 = self;
+        symbol [ makeView %tmp.43 74 33 41 ];
+        %tmp.43 = getv function %tmp.42 :makeView;
+        %tmp.44 = lgetv %prev.3;
+        symbol [ prev %tmp.44 74 42 46 ];
+        %tmp.45 = invoke %tmp.42 %tmp.43(%tmp.44);
+        symbol [ PostSessionDelegate %tmp.49 75 20 39 ];
+        %tmp.49 = getv ? :PostSessionDelegate;
+        %tmp.50 = lgetv %prev.3;
+        symbol [ prev %tmp.50 75 40 44 ];
+        symbol [ _data %tmp.52 75 46 51 ];
+        %tmp.52 = getv ? :_data;
+        %tmp.46 = newc %tmp.49 (%tmp.50, %tmp.52);
+        symbol [ WatchUi %tmp.53 75 54 61 ];
+        %tmp.53 = getm $.Toybox.WatchUi;
+        symbol [ SLIDE_DOWN %tmp.54 75 62 72 ];
+        %tmp.54 = getv %tmp.53 :SLIDE_DOWN;
+        invoke %tmp.40 %tmp.41(%tmp.45, %tmp.46, %tmp.54);
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 76 12 ]
+        %tmp.55 = true;
+        ret %tmp.55;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_72_40_77_8_stop:
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_72_15_77_8_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_72_15_77_8_if_end:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_67_8_77_8_if_end:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 78 8 ]
+        %tmp.56 = false;
+        ret %tmp.56;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_65_24_79_4_stop:
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc"; @line = 81; @symbol_functiondef = [onBack,81,13,19]; ]
+    function onBack() {
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_81_22_87_4_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 84 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_81_22_87_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_81_22_87_4_stop" ]
+        %v.1 = local;
+        symbol [ v %v.1 84 12 13 ];
+        symbol [ HeatAccView %tmp.4 84 20 31 ];
+        %tmp.4 = getv ? :HeatAccView;
+        %tmp.1 = newc %tmp.4 ();
+        lputv %v.1 %tmp.1;
+        symbol [ v %v.1 84 12 13 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 85 8 ]
+        symbol [ WatchUi %tmp.5 85 8 15 ];
+        %tmp.5 = getm $.Toybox.WatchUi;
+        symbol [ switchToView %tmp.6 85 16 28 ];
+        %tmp.6 = getv function %tmp.5 :switchToView;
+        %tmp.7 = lgetv %v.1;
+        symbol [ v %tmp.7 85 29 30 ];
+        symbol [ HeatAccDelegate %tmp.11 85 36 51 ];
+        %tmp.11 = getv ? :HeatAccDelegate;
+        %tmp.12 = lgetv %v.1;
+        symbol [ v %tmp.12 85 52 53 ];
+        %tmp.8 = newc %tmp.11 (%tmp.12);
+        symbol [ WatchUi %tmp.13 85 56 63 ];
+        %tmp.13 = getm $.Toybox.WatchUi;
+        symbol [ SLIDE_RIGHT %tmp.14 85 64 75 ];
+        %tmp.14 = getv %tmp.13 :SLIDE_RIGHT;
+        invoke %tmp.5 %tmp.6(%tmp.7, %tmp.8, %tmp.14);
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 86 8 ]
+        %tmp.15 = true;
+        ret %tmp.15;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_81_22_87_4_stop:
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc"; @line = 89; @symbol_functiondef = [makeView,89,21,29]; @symbol_param<0> = [page,89,30,34]; ]
+    private
+    function makeView(page) {
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_89_36_95_4_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 90 8 ]
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_90_8_90_56_if_stmt:
+        %tmp.1 = lgetv %page;
+        symbol [ page %tmp.1 90 12 16 ];
+        %tmp.2 = 0;
+        %tmp.3 = eq %tmp.1 %tmp.2;
+        bf %tmp.3 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_90_8_90_56_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_90_8_90_56_if_true:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_90_23_90_56_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 90 25 ]
+        symbol [ SummaryView %tmp.7 90 36 47 ];
+        %tmp.7 = getv ? :SummaryView;
+        symbol [ _data %tmp.9 90 48 53 ];
+        %tmp.9 = getv ? :_data;
+        %tmp.4 = newc %tmp.7 (%tmp.9);
+        ret %tmp.4;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_90_23_90_56_stop:
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_90_8_90_56_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_90_8_90_56_if_end:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 91 8 ]
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_91_8_91_55_if_stmt:
+        %tmp.10 = lgetv %page;
+        symbol [ page %tmp.10 91 12 16 ];
+        %tmp.11 = 1;
+        %tmp.12 = eq %tmp.10 %tmp.11;
+        bf %tmp.12 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_91_8_91_55_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_91_8_91_55_if_true:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_91_23_91_55_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 91 25 ]
+        symbol [ AcclimationView %tmp.16 91 36 51 ];
+        %tmp.16 = getv ? :AcclimationView;
+        %tmp.13 = newc %tmp.16 ();
+        ret %tmp.13;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_91_23_91_55_stop:
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_91_8_91_55_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_91_8_91_55_if_end:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 92 8 ]
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_92_8_92_67_if_stmt:
+        %tmp.17 = lgetv %page;
+        symbol [ page %tmp.17 92 12 16 ];
+        %tmp.18 = 2;
+        %tmp.19 = eq %tmp.17 %tmp.18;
+        bf %tmp.19 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_92_8_92_67_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_92_8_92_67_if_true:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_92_23_92_67_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 92 25 ]
+        symbol [ SessionGraphView %tmp.23 92 36 52 ];
+        %tmp.23 = getv ? :SessionGraphView;
+        symbol [ _data %tmp.25 92 53 58 ];
+        %tmp.25 = getv ? :_data;
+        %tmp.26 = true;
+        %tmp.20 = newc %tmp.23 (%tmp.25, %tmp.26);
+        ret %tmp.20;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_92_23_92_67_stop:
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_92_8_92_67_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_92_8_92_67_if_end:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 93 8 ]
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_93_8_93_68_if_stmt:
+        %tmp.27 = lgetv %page;
+        symbol [ page %tmp.27 93 12 16 ];
+        %tmp.28 = 3;
+        %tmp.29 = eq %tmp.27 %tmp.28;
+        bf %tmp.29 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_93_8_93_68_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_93_8_93_68_if_true:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_93_23_93_68_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 93 25 ]
+        symbol [ SessionGraphView %tmp.33 93 36 52 ];
+        %tmp.33 = getv ? :SessionGraphView;
+        symbol [ _data %tmp.35 93 53 58 ];
+        %tmp.35 = getv ? :_data;
+        %tmp.36 = false;
+        %tmp.30 = newc %tmp.33 (%tmp.35, %tmp.36);
+        ret %tmp.30;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_93_23_93_68_stop:
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_93_8_93_68_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_93_8_93_68_if_end:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 94 8 ]
+        symbol [ WorkoutRingView %tmp.40 94 19 34 ];
+        %tmp.40 = getv ? :WorkoutRingView;
+        symbol [ _data %tmp.42 94 35 40 ];
+        %tmp.42 = getv ? :_data;
+        %tmp.37 = newc %tmp.40 (%tmp.42);
+        ret %tmp.37;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_89_36_95_4_stop:
+    }
+}
+[ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc"; @line = 103; @symbol_classdef = [WorkoutRingView,103,6,21]; @symbol_extends<0> = [WatchUi,103,30,37]; @symbol_extends<1> = [View,103,38,42]; ]
+class WorkoutRingView extends WatchUi.View {
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc"; @line = 103; ]
+    <init> {
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc"; @line = 103; ]
+    static
+    <init> {
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc"; @line = 105; @position = 16; @symbol_vardef = [_data,105,16,21]; ]
+    private
+    var _data;
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc"; @line = 107; @symbol_functiondef = [initialize,107,13,23]; @symbol_param<0> = [data,107,24,28]; ]
+    function initialize(data) as Void {
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_107_30_110_4_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 108 8 ]
+        symbol [ View %tmp.2 108 8 12 ];
+        %tmp.2 = getv ? :View;
+        symbol [ initialize %tmp.3 108 13 23 ];
+        %tmp.3 = getv function %tmp.2 :initialize;
+        invoke %tmp.2 %tmp.3();
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 109 8 ]
+        %tmp.4 = lgetv %data;
+        symbol [ data %tmp.4 109 16 20 ];
+        symbol [ _data ? 109 8 13 ];
+        putv self :_data %tmp.4;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_107_30_110_4_stop:
+    }
+    [ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc"; @line = 112; @symbol_functiondef = [onUpdate,112,13,21]; @symbol_param<0> = [dc,112,22,24]; ]
+    function onUpdate(dc) {
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_112_26_156_4_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 113 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_112_26_156_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_112_26_156_4_stop" ]
+        %w.1 = local;
+        symbol [ w %w.1 113 12 13 ];
+        %tmp.1 = lgetv %dc;
+        symbol [ dc %tmp.1 113 17 19 ];
+        symbol [ getWidth %tmp.2 113 20 28 ];
+        %tmp.2 = getv function %tmp.1 :getWidth;
+        %tmp.3 = invoke %tmp.1 %tmp.2();
+        lputv %w.1 %tmp.3;
+        symbol [ w %w.1 113 12 13 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 114 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_112_26_156_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_112_26_156_4_stop" ]
+        %h.2 = local;
+        symbol [ h %h.2 114 12 13 ];
+        %tmp.4 = lgetv %dc;
+        symbol [ dc %tmp.4 114 17 19 ];
+        symbol [ getHeight %tmp.5 114 20 29 ];
+        %tmp.5 = getv function %tmp.4 :getHeight;
+        %tmp.6 = invoke %tmp.4 %tmp.5();
+        lputv %h.2 %tmp.6;
+        symbol [ h %h.2 114 12 13 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 115 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_112_26_156_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_112_26_156_4_stop" ]
+        %cx.3 = local;
+        symbol [ cx %cx.3 115 12 14 ];
+        %tmp.7 = lgetv %w.1;
+        symbol [ w %tmp.7 115 17 18 ];
+        %tmp.8 = 2;
+        %tmp.9 = div %tmp.7 %tmp.8;
+        lputv %cx.3 %tmp.9;
+        symbol [ cx %cx.3 115 12 14 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 116 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_112_26_156_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_112_26_156_4_stop" ]
+        %cy.4 = local;
+        symbol [ cy %cy.4 116 12 14 ];
+        %tmp.10 = lgetv %h.2;
+        symbol [ h %tmp.10 116 17 18 ];
+        %tmp.11 = 2;
+        %tmp.12 = div %tmp.10 %tmp.11;
+        lputv %cy.4 %tmp.12;
+        symbol [ cy %cy.4 116 12 14 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 118 8 ]
+        %tmp.13 = lgetv %dc;
+        symbol [ dc %tmp.13 118 8 10 ];
+        symbol [ setColor %tmp.14 118 11 19 ];
+        %tmp.14 = getv function %tmp.13 :setColor;
+        symbol [ Graphics %tmp.16 118 20 28 ];
+        %tmp.16 = getv ? :Graphics;
+        symbol [ COLOR_WHITE %tmp.17 118 29 40 ];
+        %tmp.17 = getv %tmp.16 :COLOR_WHITE;
+        symbol [ Graphics %tmp.19 118 42 50 ];
+        %tmp.19 = getv ? :Graphics;
+        symbol [ COLOR_BLACK %tmp.20 118 51 62 ];
+        %tmp.20 = getv %tmp.19 :COLOR_BLACK;
+        invoke %tmp.13 %tmp.14(%tmp.17, %tmp.20);
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 119 8 ]
+        %tmp.21 = lgetv %dc;
+        symbol [ dc %tmp.21 119 8 10 ];
+        symbol [ clear %tmp.22 119 11 16 ];
+        %tmp.22 = getv function %tmp.21 :clear;
+        invoke %tmp.21 %tmp.22();
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 122 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_112_26_156_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_112_26_156_4_stop" ]
+        %title.5 = local;
+        symbol [ title %title.5 122 12 17 ];
+        %tmp.23 = "Session";
+        lputv %title.5 %tmp.23;
+        symbol [ title %title.5 122 12 17 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 123 8 ]
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_123_8_125_8_if_stmt:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_123_12_123_61_begin:
+        symbol [ _data %tmp.25 123 12 17 ];
+        %tmp.25 = getv ? :_data;
+        symbol [ workout %tmp.26 123 18 25 ];
+        %tmp.26 = getv %tmp.25 :workout;
+        %tmp.27 = null;
+        %tmp.28 = ne %tmp.26 %tmp.27;
+        bf %tmp.28 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_123_8_125_8_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_123_37_123_61_true:
+        symbol [ _data %tmp.30 123 38 43 ];
+        %tmp.30 = getv ? :_data;
+        symbol [ workout %tmp.31 123 44 51 ];
+        %tmp.31 = getv %tmp.30 :workout;
+        %tmp.33 = const :name;
+        symbol [ name %tmp.33 123 57 61 const ];
+        %tmp.34 = canhazplz %tmp.31 %tmp.33;
+        push %tmp.34;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_123_37_123_61_end:
+        %tmp.35 = phi [%tmp.28 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_123_12_123_61_begin] [%tmp.34 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_123_37_123_61_true] [%tmp.35 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_123_37_123_61_end];
+        bf %tmp.35 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_123_8_125_8_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_123_8_125_8_if_true:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_123_64_125_8_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 124 12 ]
+        symbol [ _data %tmp.37 124 20 25 ];
+        %tmp.37 = getv ? :_data;
+        symbol [ workout %tmp.38 124 26 33 ];
+        %tmp.38 = getv %tmp.37 :workout;
+        symbol [ name %tmp.39 124 34 38 ];
+        %tmp.39 = getv %tmp.38 :name;
+        lputv %title.5 %tmp.39;
+        symbol [ title %title.5 124 12 17 ];
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_123_64_125_8_stop:
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_123_8_125_8_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_123_8_125_8_if_end:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 126 8 ]
+        %tmp.40 = lgetv %dc;
+        symbol [ dc %tmp.40 126 8 10 ];
+        symbol [ setColor %tmp.41 126 11 19 ];
+        %tmp.41 = getv function %tmp.40 :setColor;
+        symbol [ Graphics %tmp.43 126 20 28 ];
+        %tmp.43 = getv ? :Graphics;
+        symbol [ COLOR_LT_GRAY %tmp.44 126 29 42 ];
+        %tmp.44 = getv %tmp.43 :COLOR_LT_GRAY;
+        symbol [ Graphics %tmp.46 126 44 52 ];
+        %tmp.46 = getv ? :Graphics;
+        symbol [ COLOR_TRANSPARENT %tmp.47 126 53 70 ];
+        %tmp.47 = getv %tmp.46 :COLOR_TRANSPARENT;
+        invoke %tmp.40 %tmp.41(%tmp.44, %tmp.47);
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 127 8 ]
+        %tmp.48 = lgetv %dc;
+        symbol [ dc %tmp.48 127 8 10 ];
+        symbol [ drawText %tmp.49 127 11 19 ];
+        %tmp.49 = getv function %tmp.48 :drawText;
+        %tmp.50 = lgetv %cx.3;
+        symbol [ cx %tmp.50 127 20 22 ];
+        %tmp.51 = lgetv %h.2;
+        symbol [ h %tmp.51 127 25 26 ];
+        %tmp.52 = 0.02;
+        %tmp.53 = mul %tmp.51 %tmp.52;
+        symbol [ toNumber %tmp.54 127 35 43 ];
+        %tmp.54 = getv function %tmp.53 :toNumber;
+        %tmp.55 = invoke %tmp.53 %tmp.54();
+        symbol [ Graphics %tmp.57 127 47 55 ];
+        %tmp.57 = getv ? :Graphics;
+        symbol [ FONT_XTINY %tmp.58 127 56 66 ];
+        %tmp.58 = getv %tmp.57 :FONT_XTINY;
+        %tmp.59 = lgetv %title.5;
+        symbol [ title %tmp.59 128 12 17 ];
+        symbol [ Graphics %tmp.61 128 19 27 ];
+        %tmp.61 = getv ? :Graphics;
+        symbol [ TEXT_JUSTIFY_CENTER %tmp.62 128 28 47 ];
+        %tmp.62 = getv %tmp.61 :TEXT_JUSTIFY_CENTER;
+        invoke %tmp.48 %tmp.49(%tmp.50, %tmp.55, %tmp.58, %tmp.59, %tmp.62);
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 131 8 ]
+        symbol [ WorkoutRing %tmp.64 131 8 19 ];
+        %tmp.64 = getv ? :WorkoutRing;
+        symbol [ drawSession %tmp.65 131 20 31 ];
+        %tmp.65 = getv function %tmp.64 :drawSession;
+        %tmp.66 = lgetv %dc;
+        symbol [ dc %tmp.66 131 32 34 ];
+        symbol [ _data %tmp.68 131 36 41 ];
+        %tmp.68 = getv ? :_data;
+        invoke %tmp.64 %tmp.65(%tmp.66, %tmp.68);
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 134 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_112_26_156_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_112_26_156_4_stop" ]
+        %totalSec.6 = local;
+        symbol [ totalSec %totalSec.6 134 12 20 ];
+        %tmp.69 = 0;
+        lputv %totalSec.6 %tmp.69;
+        symbol [ totalSec %totalSec.6 134 12 20 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 135 8 ]
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_135_8_137_8_if_stmt:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_135_12_135_89_begin:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_135_12_135_61_begin:
+        symbol [ _data %tmp.71 135 12 17 ];
+        %tmp.71 = getv ? :_data;
+        symbol [ sampleT %tmp.72 135 18 25 ];
+        %tmp.72 = getv %tmp.71 :sampleT;
+        %tmp.73 = null;
+        %tmp.74 = ne %tmp.72 %tmp.73;
+        bf %tmp.74 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_135_8_137_8_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_135_37_135_61_true:
+        symbol [ _data %tmp.76 135 38 43 ];
+        %tmp.76 = getv ? :_data;
+        symbol [ sampleT %tmp.77 135 44 51 ];
+        %tmp.77 = getv %tmp.76 :sampleT;
+        %tmp.79 = const :size;
+        symbol [ size %tmp.79 135 57 61 const ];
+        %tmp.80 = canhazplz %tmp.77 %tmp.79;
+        push %tmp.80;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_135_37_135_61_end:
+        %tmp.81 = phi [%tmp.74 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_135_12_135_61_begin] [%tmp.80 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_135_37_135_61_true] [%tmp.81 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_135_37_135_61_end];
+        bf %tmp.81 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_135_8_137_8_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_135_66_135_89_true:
+        symbol [ _data %tmp.83 135 66 71 ];
+        %tmp.83 = getv ? :_data;
+        symbol [ sampleT %tmp.84 135 72 79 ];
+        %tmp.84 = getv %tmp.83 :sampleT;
+        symbol [ size %tmp.85 135 80 84 ];
+        %tmp.85 = getv function %tmp.84 :size;
+        %tmp.86 = invoke %tmp.84 %tmp.85();
+        %tmp.87 = 0;
+        %tmp.88 = gt %tmp.86 %tmp.87;
+        push %tmp.88;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_135_66_135_89_end:
+        %tmp.89 = phi [%tmp.81 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_135_12_135_89_begin] [%tmp.88 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_135_66_135_89_true] [%tmp.89 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_135_66_135_89_end];
+        bf %tmp.89 @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_135_8_137_8_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_135_8_137_8_if_true:
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_135_92_137_8_start:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 136 12 ]
+        symbol [ _data %tmp.91 136 23 28 ];
+        %tmp.91 = getv ? :_data;
+        symbol [ sampleT %tmp.92 136 29 36 ];
+        %tmp.92 = getv %tmp.91 :sampleT;
+        symbol [ _data %tmp.94 136 37 42 ];
+        %tmp.94 = getv ? :_data;
+        symbol [ sampleT %tmp.95 136 43 50 ];
+        %tmp.95 = getv %tmp.94 :sampleT;
+        symbol [ size %tmp.96 136 51 55 ];
+        %tmp.96 = getv function %tmp.95 :size;
+        %tmp.97 = invoke %tmp.95 %tmp.96();
+        %tmp.98 = 1;
+        %tmp.99 = sub %tmp.97 %tmp.98;
+        %tmp.100 = agetv %tmp.92 %tmp.99;
+        lputv %totalSec.6 %tmp.100;
+        symbol [ totalSec %totalSec.6 136 12 20 ];
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_135_92_137_8_stop:
+        goto @_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_135_8_137_8_if_end;
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_135_8_137_8_if_end:
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 138 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_112_26_156_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_112_26_156_4_stop" ]
+        %totMin.7 = local;
+        symbol [ totMin %totMin.7 138 12 18 ];
+        %tmp.101 = lgetv %totalSec.6;
+        symbol [ totalSec %tmp.101 138 21 29 ];
+        %tmp.102 = 60;
+        %tmp.103 = div %tmp.101 %tmp.102;
+        lputv %totMin.7 %tmp.103;
+        symbol [ totMin %totMin.7 138 12 18 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 139 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_112_26_156_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_112_26_156_4_stop" ]
+        %totS.8 = local;
+        symbol [ totS %totS.8 139 12 16 ];
+        %tmp.104 = lgetv %totalSec.6;
+        symbol [ totalSec %tmp.104 139 21 29 ];
+        %tmp.105 = 60;
+        %tmp.106 = mod %tmp.104 %tmp.105;
+        lputv %totS.8 %tmp.106;
+        symbol [ totS %totS.8 139 12 16 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 140 8 ]
+        %tmp.107 = lgetv %dc;
+        symbol [ dc %tmp.107 140 8 10 ];
+        symbol [ setColor %tmp.108 140 11 19 ];
+        %tmp.108 = getv function %tmp.107 :setColor;
+        symbol [ Graphics %tmp.110 140 20 28 ];
+        %tmp.110 = getv ? :Graphics;
+        symbol [ COLOR_WHITE %tmp.111 140 29 40 ];
+        %tmp.111 = getv %tmp.110 :COLOR_WHITE;
+        symbol [ Graphics %tmp.113 140 42 50 ];
+        %tmp.113 = getv ? :Graphics;
+        symbol [ COLOR_TRANSPARENT %tmp.114 140 51 68 ];
+        %tmp.114 = getv %tmp.113 :COLOR_TRANSPARENT;
+        invoke %tmp.107 %tmp.108(%tmp.111, %tmp.114);
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 141 8 ]
+        %tmp.115 = lgetv %dc;
+        symbol [ dc %tmp.115 141 8 10 ];
+        symbol [ drawText %tmp.116 141 11 19 ];
+        %tmp.116 = getv function %tmp.115 :drawText;
+        %tmp.117 = lgetv %cx.3;
+        symbol [ cx %tmp.117 141 20 22 ];
+        %tmp.118 = lgetv %cy.4;
+        symbol [ cy %tmp.118 141 24 26 ];
+        %tmp.119 = lgetv %h.2;
+        symbol [ h %tmp.119 141 30 31 ];
+        %tmp.120 = 0.06;
+        %tmp.121 = mul %tmp.119 %tmp.120;
+        symbol [ toNumber %tmp.122 141 40 48 ];
+        %tmp.122 = getv function %tmp.121 :toNumber;
+        %tmp.123 = invoke %tmp.121 %tmp.122();
+        %tmp.124 = sub %tmp.118 %tmp.123;
+        symbol [ Graphics %tmp.126 142 12 20 ];
+        %tmp.126 = getv ? :Graphics;
+        symbol [ FONT_MEDIUM %tmp.127 142 21 32 ];
+        %tmp.127 = getv %tmp.126 :FONT_MEDIUM;
+        %tmp.128 = lgetv %totMin.7;
+        symbol [ totMin %tmp.128 143 12 18 ];
+        %tmp.129 = "m ";
+        %tmp.130 = add %tmp.128 %tmp.129;
+        %tmp.131 = lgetv %totS.8;
+        symbol [ totS %tmp.131 143 28 32 ];
+        %tmp.132 = add %tmp.130 %tmp.131;
+        %tmp.133 = "s";
+        %tmp.134 = add %tmp.132 %tmp.133;
+        symbol [ Graphics %tmp.136 144 12 20 ];
+        %tmp.136 = getv ? :Graphics;
+        symbol [ TEXT_JUSTIFY_CENTER %tmp.137 144 21 40 ];
+        %tmp.137 = getv %tmp.136 :TEXT_JUSTIFY_CENTER;
+        invoke %tmp.115 %tmp.116(%tmp.117, %tmp.124, %tmp.127, %tmp.134, %tmp.137);
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 147 8 ]
+        [ "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_112_26_156_4_start" "_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_112_26_156_4_stop" ]
+        %inZoneMin.9 = local;
+        symbol [ inZoneMin %inZoneMin.9 147 12 21 ];
+        symbol [ _data %tmp.139 147 25 30 ];
+        %tmp.139 = getv ? :_data;
+        symbol [ inZoneSec %tmp.140 147 31 40 ];
+        %tmp.140 = getv %tmp.139 :inZoneSec;
+        %tmp.141 = 60;
+        %tmp.142 = div %tmp.140 %tmp.141;
+        symbol [ format %tmp.143 147 47 53 ];
+        %tmp.143 = getv function %tmp.142 :format;
+        %tmp.144 = "%.0f";
+        %tmp.145 = invoke %tmp.142 %tmp.143(%tmp.144);
+        lputv %inZoneMin.9 %tmp.145;
+        symbol [ inZoneMin %inZoneMin.9 147 12 21 ];
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 148 8 ]
+        %tmp.146 = lgetv %dc;
+        symbol [ dc %tmp.146 148 8 10 ];
+        symbol [ setColor %tmp.147 148 11 19 ];
+        %tmp.147 = getv function %tmp.146 :setColor;
+        symbol [ Graphics %tmp.149 148 20 28 ];
+        %tmp.149 = getv ? :Graphics;
+        symbol [ COLOR_LT_GRAY %tmp.150 148 29 42 ];
+        %tmp.150 = getv %tmp.149 :COLOR_LT_GRAY;
+        symbol [ Graphics %tmp.152 148 44 52 ];
+        %tmp.152 = getv ? :Graphics;
+        symbol [ COLOR_TRANSPARENT %tmp.153 148 53 70 ];
+        %tmp.153 = getv %tmp.152 :COLOR_TRANSPARENT;
+        invoke %tmp.146 %tmp.147(%tmp.150, %tmp.153);
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 149 8 ]
+        %tmp.154 = lgetv %dc;
+        symbol [ dc %tmp.154 149 8 10 ];
+        symbol [ drawText %tmp.155 149 11 19 ];
+        %tmp.155 = getv function %tmp.154 :drawText;
+        %tmp.156 = lgetv %cx.3;
+        symbol [ cx %tmp.156 149 20 22 ];
+        %tmp.157 = lgetv %cy.4;
+        symbol [ cy %tmp.157 149 24 26 ];
+        %tmp.158 = lgetv %h.2;
+        symbol [ h %tmp.158 149 30 31 ];
+        %tmp.159 = 0.10;
+        %tmp.160 = mul %tmp.158 %tmp.159;
+        symbol [ toNumber %tmp.161 149 40 48 ];
+        %tmp.161 = getv function %tmp.160 :toNumber;
+        %tmp.162 = invoke %tmp.160 %tmp.161();
+        %tmp.163 = add %tmp.157 %tmp.162;
+        symbol [ Graphics %tmp.165 149 52 60 ];
+        %tmp.165 = getv ? :Graphics;
+        symbol [ FONT_XTINY %tmp.166 149 61 71 ];
+        %tmp.166 = getv %tmp.165 :FONT_XTINY;
+        %tmp.167 = lgetv %inZoneMin.9;
+        symbol [ inZoneMin %tmp.167 150 12 21 ];
+        %tmp.168 = " min in zone";
+        %tmp.169 = add %tmp.167 %tmp.168;
+        symbol [ Graphics %tmp.171 150 40 48 ];
+        %tmp.171 = getv ? :Graphics;
+        symbol [ TEXT_JUSTIFY_CENTER %tmp.172 150 49 68 ];
+        %tmp.172 = getv %tmp.171 :TEXT_JUSTIFY_CENTER;
+        invoke %tmp.154 %tmp.155(%tmp.156, %tmp.163, %tmp.166, %tmp.169, %tmp.172);
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 153 8 ]
+        %tmp.173 = lgetv %dc;
+        symbol [ dc %tmp.173 153 8 10 ];
+        symbol [ setColor %tmp.174 153 11 19 ];
+        %tmp.174 = getv function %tmp.173 :setColor;
+        symbol [ Graphics %tmp.176 153 20 28 ];
+        %tmp.176 = getv ? :Graphics;
+        symbol [ COLOR_DK_GRAY %tmp.177 153 29 42 ];
+        %tmp.177 = getv %tmp.176 :COLOR_DK_GRAY;
+        symbol [ Graphics %tmp.179 153 44 52 ];
+        %tmp.179 = getv ? :Graphics;
+        symbol [ COLOR_TRANSPARENT %tmp.180 153 53 70 ];
+        %tmp.180 = getv %tmp.179 :COLOR_TRANSPARENT;
+        invoke %tmp.173 %tmp.174(%tmp.177, %tmp.180);
+[ "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc" 154 8 ]
+        %tmp.181 = lgetv %dc;
+        symbol [ dc %tmp.181 154 8 10 ];
+        symbol [ drawText %tmp.182 154 11 19 ];
+        %tmp.182 = getv function %tmp.181 :drawText;
+        %tmp.183 = lgetv %cx.3;
+        symbol [ cx %tmp.183 154 20 22 ];
+        %tmp.184 = lgetv %h.2;
+        symbol [ h %tmp.184 154 25 26 ];
+        %tmp.185 = 0.94;
+        %tmp.186 = mul %tmp.184 %tmp.185;
+        symbol [ toNumber %tmp.187 154 35 43 ];
+        %tmp.187 = getv function %tmp.186 :toNumber;
+        %tmp.188 = invoke %tmp.186 %tmp.187();
+        symbol [ Graphics %tmp.190 154 47 55 ];
+        %tmp.190 = getv ? :Graphics;
+        symbol [ FONT_XTINY %tmp.191 154 56 66 ];
+        %tmp.191 = getv %tmp.190 :FONT_XTINY;
+        %tmp.192 = "5 / 5";
+        symbol [ Graphics %tmp.194 155 21 29 ];
+        %tmp.194 = getv ? :Graphics;
+        symbol [ TEXT_JUSTIFY_CENTER %tmp.195 155 30 49 ];
+        %tmp.195 = getv %tmp.194 :TEXT_JUSTIFY_CENTER;
+        invoke %tmp.181 %tmp.182(%tmp.183, %tmp.188, %tmp.191, %tmp.192, %tmp.195);
+_Users_willduncan_projects_garmin_app_heat_heat_acclimation_source_SessionData_mc_112_26_156_4_stop:
+    }
+}
+[ @file = "/Users/willduncan/projects/garmin app/heat/heat-acclimation/source/SessionData.mc"; @line = 1; ]
+<init> {
+}

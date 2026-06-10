@@ -109,13 +109,17 @@ class RaceDateDelegate extends WatchUi.BehaviorDelegate {
         if (v instanceof RaceDateView) { v.increment(); }
         return true;
     }
-    function onSelect() {
-        var v = WatchUi.getCurrentView()[0];
-        if (v instanceof RaceDateView) {
-            v.save();
-            WatchUi.popView(WatchUi.SLIDE_RIGHT);
+    function onKey(keyEvent) {
+        var key = keyEvent.getKey();
+        if (key == WatchUi.KEY_ENTER || key == WatchUi.KEY_START) {
+            var v = WatchUi.getCurrentView()[0];
+            if (v instanceof RaceDateView) {
+                v.save();
+                WatchUi.popView(WatchUi.SLIDE_RIGHT);
+            }
+            return true;
         }
-        return true;
+        return false;
     }
     function onBack() {
         WatchUi.switchToView(new IdleMenu(_mainView), new IdleMenuDelegate(_mainView),

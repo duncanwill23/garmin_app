@@ -30,15 +30,19 @@ class HeatAccDelegate extends WatchUi.BehaviorDelegate {
         _view = view;
     }
 
-    // START/STOP: start from idle, open pause menu during session.
-    function onSelect() {
-        var state = _view.getState();
-        if (state == Config.STATE_IDLE) {
-            _view.startSession();
-        } else if (state == Config.STATE_HEAT || state == Config.STATE_REST) {
-            _view.pauseSession();
+    // START/STOP physical button only — onKey is never fired by a screen tap.
+    function onKey(keyEvent) {
+        var key = keyEvent.getKey();
+        if (key == WatchUi.KEY_ENTER || key == WatchUi.KEY_START) {
+            var state = _view.getState();
+            if (state == Config.STATE_IDLE) {
+                _view.startSession();
+            } else if (state == Config.STATE_HEAT || state == Config.STATE_REST) {
+                _view.pauseSession();
+            }
+            return true;
         }
-        return true;
+        return false;
     }
 
     // BehaviorDelegate routes the UP key to onPreviousPage() and the DOWN key

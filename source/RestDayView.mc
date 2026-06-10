@@ -29,8 +29,15 @@ class RestDayDelegate extends WatchUi.BehaviorDelegate {
     function onTap(evt)   { return true; }
     function onHold(evt)  { return true; }
     function onSwipe(evt) { return true; }
-    function onBack()   { _goBack(); return true; }
-    function onSelect() { _goBack(); return true; }
+    function onBack() { _goBack(); return true; }
+    function onKey(keyEvent) {
+        var key = keyEvent.getKey();
+        if (key == WatchUi.KEY_ENTER || key == WatchUi.KEY_START) {
+            _goBack();
+            return true;
+        }
+        return false;
+    }
     private function _goBack() {
         WatchUi.switchToView(new IdleMenu(_mainView), new IdleMenuDelegate(_mainView),
             WatchUi.SLIDE_RIGHT);

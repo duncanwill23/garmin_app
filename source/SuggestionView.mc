@@ -286,12 +286,15 @@ class SuggestionDelegate extends WatchUi.BehaviorDelegate {
         return true;
     }
 
-    // SELECT: arm and return to idle. Stack is always at depth 2 (switchToView
-    // throughout), so one pop lands cleanly on the idle screen.
-    function onSelect() {
-        _mainView.armWorkout(_workout);
-        WatchUi.popView(WatchUi.SLIDE_RIGHT);
-        return true;
+    // START physical button: arm workout and return to idle.
+    function onKey(keyEvent) {
+        var key = keyEvent.getKey();
+        if (key == WatchUi.KEY_ENTER || key == WatchUi.KEY_START) {
+            _mainView.armWorkout(_workout);
+            WatchUi.popView(WatchUi.SLIDE_RIGHT);
+            return true;
+        }
+        return false;
     }
 
     // BACK: rebuild whichever screen preceded this one.

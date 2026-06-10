@@ -60,15 +60,13 @@ class PostSessionDelegate extends WatchUi.BehaviorDelegate {
     function onHold(evt)  { return true; }
     function onSwipe(evt) { return true; }
 
-    function onSelect() {
-        var v = new HeatAccView();
-        WatchUi.switchToView(v, new HeatAccDelegate(v), WatchUi.SLIDE_LEFT);
-        return true;
-    }
-
     function onKey(evt) {
         var k = evt.getKey();
-        if (k == WatchUi.KEY_DOWN) {
+        if (k == WatchUi.KEY_ENTER || k == WatchUi.KEY_START) {
+            var v = new HeatAccView();
+            WatchUi.switchToView(v, new HeatAccDelegate(v), WatchUi.SLIDE_LEFT);
+            return true;
+        } else if (k == WatchUi.KEY_DOWN) {
             var next = (_page + 1) % 5;
             WatchUi.switchToView(makeView(next),
                 new PostSessionDelegate(next, _data), WatchUi.SLIDE_UP);
