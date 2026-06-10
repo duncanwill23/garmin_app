@@ -11,10 +11,10 @@ using Toybox.WatchUi;
 // ---------------------------------------------------------------------------
 class StopMenu extends WatchUi.Menu2 {
     function initialize() {
-        Menu2.initialize({ :title => Rez.Strings.MenuPaused });
-        addItem(new WatchUi.MenuItem(Rez.Strings.MenuResume,  null, :resume,  null));
-        addItem(new WatchUi.MenuItem(Rez.Strings.MenuSave,    null, :save,    null));
-        addItem(new WatchUi.MenuItem(Rez.Strings.MenuDiscard, null, :discard, null));
+        Menu2.initialize({ :title => WatchUi.loadResource(Rez.Strings.MenuPaused) });
+        addItem(new WatchUi.MenuItem(WatchUi.loadResource(Rez.Strings.MenuResume),  null, :resume,  null));
+        addItem(new WatchUi.MenuItem(WatchUi.loadResource(Rez.Strings.MenuSave),    null, :save,    null));
+        addItem(new WatchUi.MenuItem(WatchUi.loadResource(Rez.Strings.MenuDiscard), null, :discard, null));
     }
 }
 

@@ -2,25 +2,27 @@
 <!--
   Heat Acclimation - Connect IQ watch app
 
-  Target: Forerunner 955 (device id "fr955", CIQ System 7 / API 5.0.0).
-  minApiLevel is set to the lowest the features actually require so the project
-  stays portable if more devices are added later. SpO2 (currentOxygenSaturation)
-  is the highest-level optional read at 3.2.0; everything else (HR, FitContributor,
-  ActivityRecording, UserProfile) is older. Device-specific reads are still
-  guarded with `info has :field` in code.
+  Target: Forerunner 955 (device id "fr955").
+  minApiLevel=3.4.0 is the lowest the features actually require, keeping the
+  project portable if more devices are added later. Menu2 / ToggleMenuItem
+  (~3.4.0) are the highest-level APIs in use; SensorHistory Body Battery /
+  Stress (~3.3.0) is also required. Permissions in use: Fit (record activity),
+  FitContributor (custom FIT fields), SensorHistory (Body Battery / Stress),
+  UserProfile (HR zones, age-based HRmax fallback). Device-specific reads are
+  still guarded with `info has :field` in code.
 -->
 <iq:manifest xmlns:iq="http://www.garmin.com/xml/connectiq" version="3">
-    <iq:application entry="HeatAccApp" id="e450b0ee6f144c29b728beb962f53c5f" launcherIcon="@Drawables.LauncherIcon" minApiLevel="5.2.0" name="@Strings.AppName" type="watch-app">
+    <iq:application entry="HeatAccApp" id="e450b0ee6f144c29b728beb962f53c5f" launcherIcon="@Drawables.LauncherIcon" minApiLevel="3.4.0" name="@Strings.AppName" type="watch-app">
         <iq:products>
             <iq:product id="fr955"/>
         </iq:products>
         <iq:permissions>
             <!-- Record native activity + custom FIT fields -->
+            <!-- Body Battery, Stress, skin temp via SensorHistory -->
+            <!-- HR zones and age-based HRmax fallback -->
             <iq:uses-permission id="Fit"/>
             <iq:uses-permission id="FitContributor"/>
-            <!-- Body Battery, Stress, skin temp via SensorHistory -->
             <iq:uses-permission id="SensorHistory"/>
-            <!-- HR zones and age-based HRmax fallback -->
             <iq:uses-permission id="UserProfile"/>
         </iq:permissions>
         <iq:languages>

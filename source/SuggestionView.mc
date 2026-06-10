@@ -63,9 +63,52 @@ class SuggestionView extends WatchUi.View {
     private function _getExplainLines() {
         if (_explainLines == null) {
             var text = WorkoutSuggester.buildExplanation(_workout);
-            _explainLines = _splitLines(text);
+            // fr955: round screen, text starts at h*0.10 (y≈26px).
+            // At that y the chord is ~156px; FONT_XTINY ≈7px/char → 22-char limit.
+            _explainLines = _wrapText(text, 22);
         }
         return _explainLines;
+    }
+
+    // Word-wrap: honours hard \n breaks, then splits long lines on spaces.
+    // Monkey C's % is integer-only so we use string length, not pixel width.
+    private function _wrapText(text, maxChars) {
+        var result = [];
+        var hardLines = _splitLines(text);
+        for (var li = 0; li < hardLines.size(); li++) {
+            var line = hardLines[li];
+            if (line.length() <= maxChars) {
+                result.add(line);
+                continue;
+            }
+            // Tokenise on spaces
+            var words = [];
+            var wStart = 0;
+            for (var j = 0; j < line.length(); j++) {
+                if (line.substring(j, j + 1).equals(" ")) {
+                    if (j > wStart) { words.add(line.substring(wStart, j)); }
+                    wStart = j + 1;
+                }
+            }
+            if (wStart < line.length()) {
+                words.add(line.substring(wStart, line.length()));
+            }
+            // Pack words into lines ≤ maxChars
+            var cur = "";
+            for (var k = 0; k < words.size(); k++) {
+                var word = words[k];
+                if (cur.length() == 0) {
+                    cur = word;
+                } else if ((cur + " " + word).length() <= maxChars) {
+                    cur = cur + " " + word;
+                } else {
+                    result.add(cur);
+                    cur = word;
+                }
+            }
+            if (cur.length() > 0) { result.add(cur); }
+        }
+        return result;
     }
 
     // -----------------------------------------------------------------------
@@ -168,7 +211,7 @@ class SuggestionView extends WatchUi.View {
         dc.drawText(cx, (h * 0.52).toNumber(), Graphics.FONT_XTINY,
             "projected acclimation gain", Graphics.TEXT_JUSTIFY_CENTER);
         dc.drawText(cx, (h * 0.60).toNumber(), Graphics.FONT_XTINY,
-            "(estimate — full dose in target band)", Graphics.TEXT_JUSTIFY_CENTER);
+            "(full dose, in target HR band)", Graphics.TEXT_JUSTIFY_CENTER);
 
         dc.setColor(Graphics.COLOR_GREEN, Graphics.COLOR_TRANSPARENT);
         dc.drawText(cx, (h * 0.76).toNumber(), Graphics.FONT_SMALL,
@@ -197,11 +240,20 @@ class SuggestionView extends WatchUi.View {
 class SuggestionDelegate extends WatchUi.BehaviorDelegate {
     private var _workout;
     private var _mainView;
+    // Origin context — tells onBack() which screen to rebuild.
+    private var _progWorkout;   // non-null only when arrived via the suggestion chooser
+    private var _raceWorkout;
+    private var _daysToRace;
+    private var _fromCustom;    // true when arrived from CustomListMenu
 
-    function initialize(workout, mainView) {
+    function initialize(workout, mainView, progWorkout, raceWorkout, daysToRace, fromCustom) {
         BehaviorDelegate.initialize();
-        _workout  = workout;
-        _mainView = mainView;
+        _workout     = workout;
+        _mainView    = mainView;
+        _progWorkout = progWorkout;
+        _raceWorkout = raceWorkout;
+        _daysToRace  = daysToRace;
+        _fromCustom  = fromCustom;
     }
 
     // DOWN: scroll explanation text if overflowing, otherwise advance page.
@@ -230,18 +282,36 @@ class SuggestionDelegate extends WatchUi.BehaviorDelegate {
         return true;
     }
 
-    // SELECT: arm the workout then pop back to idle. The menu flow now uses
-    // switchToView throughout so there is only one view above root; pop goes
-    // cleanly back to the idle screen which shows the armed workout.
+    // SELECT: arm and return to idle. Stack is always at depth 2 (switchToView
+    // throughout), so one pop lands cleanly on the idle screen.
     function onSelect() {
         _mainView.armWorkout(_workout);
         WatchUi.popView(WatchUi.SLIDE_RIGHT);
         return true;
     }
 
-    // BACK: pop back to idle (menus above root have already been replaced).
+    // BACK: rebuild whichever screen preceded this one.
     function onBack() {
-        WatchUi.popView(WatchUi.SLIDE_RIGHT);
+        if (_progWorkout != null && _raceWorkout != null) {
+            // Arrived via suggestion chooser — rebuild it.
+            var menu = new WatchUi.Menu2({ :title => "Suggestion" });
+            menu.addItem(new WatchUi.MenuItem(
+                WatchUi.loadResource(Rez.Strings.SuggestionProgression), null, :prog, null));
+            menu.addItem(new WatchUi.MenuItem(
+                WatchUi.loadResource(Rez.Strings.SuggestionRace) + " · " + _daysToRace + "d",
+                null, :race, null));
+            WatchUi.switchToView(menu,
+                new SuggestionChooserDelegate(_mainView, _progWorkout, _raceWorkout, _daysToRace),
+                WatchUi.SLIDE_RIGHT);
+        } else if (_fromCustom) {
+            // Arrived from custom slot list — rebuild it.
+            WatchUi.switchToView(new CustomListMenu(),
+                new CustomListDelegate(_mainView), WatchUi.SLIDE_RIGHT);
+        } else {
+            // Arrived directly from IdleMenu — rebuild it.
+            WatchUi.switchToView(new IdleMenu(_mainView), new IdleMenuDelegate(_mainView),
+                WatchUi.SLIDE_RIGHT);
+        }
         return true;
     }
 }

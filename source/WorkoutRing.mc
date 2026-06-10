@@ -165,11 +165,13 @@ module WorkoutRing {
             var secSpan = segs[i][1].toFloat();
             var span    = secSpan * degPerSec;
             if (span < 4.0) { span = 4.0; }
+            // Cap to 359° so _norm360 never produces start == end for drawArc.
+            if (span > 359.0) { span = 359.0; }
             var endDeg  = cursor - span;
             dc.setColor(color, Graphics.COLOR_TRANSPARENT);
             dc.drawArc(cx, cy, ringR, Graphics.ARC_CLOCKWISE,
-                cursor.toNumber(), endDeg.toNumber());
-            cursor = endDeg;
+                _norm360(cursor).toNumber(), _norm360(endDeg).toNumber());
+            cursor = endDeg;   // keep un-normalized for the next segment
         }
         dc.setPenWidth(1);
     }
@@ -198,8 +200,17 @@ module WorkoutRing {
     function _drawFallback(dc, g) {
         dc.setPenWidth(g[:penW]);
         dc.setColor(HEAT_COLOR, Graphics.COLOR_TRANSPARENT);
-        dc.drawArc(g[:cx], g[:cy], g[:ringR], Graphics.ARC_CLOCKWISE, 90, 90 - 359);
+        dc.drawArc(g[:cx], g[:cy], g[:ringR], Graphics.ARC_CLOCKWISE,
+            _norm360(90).toNumber(), _norm360(90 - 359).toNumber());
         dc.setPenWidth(1);
         _drawNotch(dc, g);
+    }
+
+    // Monkey C's % operator is integer-only; use loops for float normalization.
+    function _norm360(deg) {
+        var d = deg.toFloat();
+        while (d < 0.0)    { d += 360.0; }
+        while (d >= 360.0) { d -= 360.0; }
+        return d;
     }
 }

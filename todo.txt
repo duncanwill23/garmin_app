@@ -1,90 +1,137 @@
-# Spec: arc-ring workout display (preview + live progress)
+# Pre-wrist fixes (against the current repo) — ALL DONE ✅
 
-Replaces the bar-chart visual in the workout flow with a segmented ring around the
-bezel. Refines `BUILD_TODO.md` §7 (suggestion screen 1), §8 (custom preview), and
-§12 (auto-run screens). Keep rendering resolution-relative.
+Four fixes before real-world testing. Items are independent; do them in any order.
 
-## Concept
-The workout is drawn as a single ring near the watch bezel, broken into segments
-proportional to each step's duration — red for HEAT, blue for REST, gray for an
-optional COOLDOWN — starting at the top (12 o'clock) and running clockwise. A small
-white notch/triangle marks the 12 o'clock start. The center holds the headline.
+NOTE: the missing steam/HR-proxy honesty labels and the unused `WorkoutRing.drawLive`
+are LEFT AS-IS ON PURPOSE. Do not re-enable the commented-out ProxyNote/SteamNote
+code, and do not wire the live ring in. Only the four items below.
 
-The big win: the **same ring is reused live during the workout** as the progress
-indicator, so "here's your workout" and "here's where you are" share one visual.
+---
 
-## Where it's used
-- **Suggestion screen 1** (was the bar chart) — preview ring + center headline.
-- **Custom preview** (`CustomView` selection) — same preview ring.
-- **Live HEAT/REST screens during a structured workout** — same ring, now showing
-  progress (see Live mode).
-- **NOT in free mode** — free sessions have no known durations, so the existing
-  count-up screen stays as-is (no ring).
+## 1. Lower `minApiLevel` so the watch can install the app
+File: `manifest.xml`
 
-## Geometry (resolution-relative)
+`minApiLevel` is currently `5.2.0`, which is higher than the firmware level noted in
+the manifest comment ("API 5.0.0") and higher than anything the code needs. The newest
+APIs in use are Menu2 / ToggleMenuItem (~3.4.0) and SensorHistory Body Battery / Stress
+(~3.3.0); `drawArc`, FitContributor, and ActivityRecording are all older.
+
+- Change `minApiLevel="5.2.0"` → `minApiLevel="3.4.0"`.
+- Update the stale comment block: it still describes SpO2 / 3.2.0, but the SpO2
+  permission was already removed. Make the comment match the actual permissions
+  (Fit, FitContributor, SensorHistory, UserProfile) and the new minApiLevel.
+- Sanity-check that `3.4.0` is ≤ the fr955's supported API level (it is, comfortably).
+
+## 2. Load string resources in the pause menu
+File: `source/StopMenuDelegate.mc`, class `StopMenu.initialize()`
+
+`StopMenu` passes raw `Rez.Strings.*` symbols as the title and item labels, unlike
+`IdleMenu` and `CustomListMenu`, which both call `WatchUi.loadResource(...)`. The pause
+menu opens every session, so this is worth fixing. Wrap all four:
+
 ```
-cx = w/2;  cy = h/2
-ringR = (min(w,h) * 0.40)        // radius to the ring centerline
-penW  = (min(w,h) * 0.075)       // ring thickness
-totalSec  = sum of every step.durationSec (heat + rest + cooldown)
-degPerSec = 360.0 / totalSec
-```
-
-## Drawing the segments (Monkey C)
-Use `dc.setPenWidth(penW)` + `dc.drawArc(cx, cy, ringR, Graphics.ARC_CLOCKWISE,
-startDeg, endDeg)` per segment. Garmin's drawArc uses degrees measured
-counter-clockwise from 3 o'clock (0=E, 90=N/top), so start at 90 and sweep clockwise
-by decreasing the angle:
-```
-var cursor = 90.0;                       // top
-for each step in workout.steps {
-    var span  = step.durationSec * degPerSec;
-    var end   = cursor - span;           // clockwise
-    dc.setColor(colorFor(step.type), Graphics.COLOR_TRANSPARENT);
-    dc.drawArc(cx, cy, ringR, Graphics.ARC_CLOCKWISE, cursor, end);
-    cursor = end;
+function initialize() {
+    Menu2.initialize({ :title => WatchUi.loadResource(Rez.Strings.MenuPaused) });
+    addItem(new WatchUi.MenuItem(WatchUi.loadResource(Rez.Strings.MenuResume),  null, :resume,  null));
+    addItem(new WatchUi.MenuItem(WatchUi.loadResource(Rez.Strings.MenuSave),    null, :save,    null));
+    addItem(new WatchUi.MenuItem(WatchUi.loadResource(Rez.Strings.MenuDiscard), null, :discard, null));
 }
 ```
-- `colorFor`: HEAT → `0xE0392C`, REST → `0x3E8FD0`, COOLDOWN → `0x7d8088`.
-- Draw the start notch: a small white triangle at `(cx, cy - ringR - penW/2 - 3)`.
-- **Verify sweep direction in the simulator once** — if it runs counter-clockwise,
-  swap to `Graphics.ARC_COUNTER_CLOCKWISE` or negate the span. (drawArc orientation is
-  the one thing worth eyeballing.)
-- Tiny segments: enforce a minimum visible span (e.g. clamp each segment to ≥ ~4°) so
-  a very short rest still shows.
 
-## Preview center content
-- Line 1 (large): "N × H" (rounds × heat minutes), e.g. "3 × 12".
-- Line 2 (muted): "min in heat".
-- Line 3 (muted): total minutes (e.g. "36 min total").
-- For the Race kind, the kind badge / "Race prep" can sit just under the headline.
+## 3. Normalize arc angles before `drawArc` (and verify sweep direction)
+File: `source/WorkoutRing.mc`
 
-## Live mode (during a structured workout)
-Reuse the ring on the HEAT/REST screens instead of a bare countdown:
-- Draw all segments at full color so the whole shape stays visible.
-- Compute progress: `elapsedInWorkout = (sum of completed steps' durationSec) +
-  _phaseElapsed`; `progressDeg = elapsedInWorkout * degPerSec`.
-- Draw a **white position marker** (a short radial tick or a filled dot) on the ring at
-  angle `90 - progressDeg`. Optionally dim already-completed segments.
-- Center shows: the **current block's remaining time counting DOWN**
-  (`step.durationSec - _phaseElapsed`), "Round N of M", and a one-line next-block
-  preview — same data as BUILD_TODO §12, just framed by the ring.
-- On auto-advance or a LAP skip, the marker jumps to the new segment automatically
-  (it's derived from elapsed time + `_stepIndex`, so no extra wiring).
-- **Over-run:** once past the final step, the workout is complete — show the ring full
-  and fall through to the free count-up screen per BUILD_TODO §12.
+`_drawSegments()` walks `cursor` from 90° downward, so `endDeg` goes negative (down to
+about −270 for a 3-round workout). `drawArc` measures degrees counter-clockwise from
+3 o'clock and may not accept negative values, which would mis-render the ring after the
+first segment. Normalize the two values passed to `drawArc` to `[0,360)` while keeping
+`cursor` accumulating un-normalized for the next subtraction.
 
-## Edge cases
-- A step with `durationSec == null` (manual) has no proportional span — structured
-  workouts shouldn't contain manual steps, but if one appears, give it a small fixed
-  span and advance only on LAP.
-- One-round / very short workouts still render (the ring just has fewer segments).
+Add a helper to the module:
+```
+function _norm360(deg) {
+    var d = deg.toFloat() % 360.0;
+    if (d < 0.0) { d += 360.0; }
+    return d;
+}
+```
+In `_drawSegments()`, change the draw call:
+```
+var endDeg = cursor - span;
+dc.setColor(color, Graphics.COLOR_TRANSPARENT);
+dc.drawArc(cx, cy, ringR, Graphics.ARC_CLOCKWISE,
+    _norm360(cursor).toNumber(), _norm360(endDeg).toNumber());
+cursor = endDeg;   // keep un-normalized for the next segment
+```
+In `_drawFallback()`, normalize the same way:
+```
+dc.drawArc(g[:cx], g[:cy], g[:ringR], Graphics.ARC_CLOCKWISE,
+    _norm360(90).toNumber(), _norm360(90 - 359).toNumber());
+```
+`_drawMarker()` already uses `Math.cos/sin`, which handle negative angles, so leave it.
 
-## Acceptance criteria
-- Suggestion screen 1 and the custom preview show the segmented ring (red heat / blue
-  rest), a start notch at the top, and the centered headline — no bar chart.
-- During a structured workout the same ring shows a moving position marker, the current
-  block counts down in the center with "round N of M", and LAP/auto-advance moves the
-  marker correctly.
-- Free sessions are unaffected (no ring; existing count-up screen).
-- All geometry is fractions of `min(w,h)` so it scales across devices.
+Then in the simulator, confirm the preview ring sweeps CLOCKWISE starting at 12 o'clock
+(heat segment first). If it sweeps the wrong way, swap `Graphics.ARC_CLOCKWISE` for
+`Graphics.ARC_COUNTER_CLOCKWISE` in `_drawSegments` and `_drawFallback`.
+
+## 4. Give "Suggestion" a real result when readiness says REST
+File: `source/HeatAccDelegate.mc` (`IdleMenuDelegate.pushSuggestionChooser`) + a small
+new view.
+
+Right now, when both the progression and race suggestions are null (readiness band ==
+REST), `pushSuggestionChooser` does nothing — so tapping "Suggestion" looks like a dead
+button. Show a short rest-day message instead.
+
+In `pushSuggestionChooser`, replace the trailing "do nothing" comment with:
+```
+if (progWorkout == null && raceWorkout == null) {
+    WatchUi.switchToView(new RestDayView(readiness[:reason]),
+        new RestDayDelegate(), WatchUi.SLIDE_LEFT);
+    return;
+}
+```
+Add a new file `source/RestDayView.mc`:
+```
+using Toybox.WatchUi;
+using Toybox.Graphics;
+
+class RestDayView extends WatchUi.View {
+    private var _reason;
+    function initialize(reason) { View.initialize(); _reason = reason; }
+    function onUpdate(dc) {
+        var w = dc.getWidth(); var h = dc.getHeight(); var cx = w / 2;
+        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK); dc.clear();
+        dc.setColor(Graphics.COLOR_ORANGE, Graphics.COLOR_TRANSPARENT);
+        dc.drawText(cx, (h * 0.28).toNumber(), Graphics.FONT_MEDIUM,
+            "Rest today", Graphics.TEXT_JUSTIFY_CENTER);
+        dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+        dc.drawText(cx, (h * 0.48).toNumber(), Graphics.FONT_XTINY,
+            "Recovery beats heat on a", Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(cx, (h * 0.56).toNumber(), Graphics.FONT_XTINY,
+            "depleted day.", Graphics.TEXT_JUSTIFY_CENTER);
+        if (_reason != null) {
+            dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(cx, (h * 0.70).toNumber(), Graphics.FONT_XTINY,
+                _reason, Graphics.TEXT_JUSTIFY_CENTER);
+        }
+    }
+}
+
+class RestDayDelegate extends WatchUi.BehaviorDelegate {
+    function initialize() { BehaviorDelegate.initialize(); }
+    function onBack()   { WatchUi.popView(WatchUi.SLIDE_RIGHT); return true; }
+    function onSelect() { WatchUi.popView(WatchUi.SLIDE_RIGHT); return true; }
+}
+```
+Using `switchToView` (not `pushView`) keeps the stack consistent with the rest of the
+menu flow: it replaces the open IdleMenu, so `popView` returns cleanly to the idle screen.
+
+---
+
+## Acceptance
+- App installs and launches on the fr955 (minApiLevel no longer blocks it).
+- The pause menu shows readable "Resume / Save / Discard" text.
+- The suggestion preview ring renders as clean clockwise red/blue segments from
+  12 o'clock, with no broken arcs past the first segment.
+- With readiness forced to REST, tapping "Suggestion" shows a "Rest today" screen that
+  backs out to idle, instead of doing nothing.

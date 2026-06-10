@@ -167,6 +167,9 @@ class IdleMenuDelegate extends WatchUi.Menu2InputDelegate {
     }
 
     // Build and push the suggestion chooser (or direct to the only available suggestion).
+    // All transitions use switchToView so the stack stays at depth 2 (IdleMenu replaced).
+    // That means armWorkout + a single popView always returns cleanly to idle.
+    // Back-navigation is handled by rebuilding the previous screen via switchToView.
     private function pushSuggestionChooser() {
         var readiness = Readiness.assess();
         var modality  = _view.modality();
@@ -177,8 +180,6 @@ class IdleMenuDelegate extends WatchUi.Menu2InputDelegate {
             ? WorkoutSuggester.suggestRace(modality, readiness, daysToRace) : null;
 
         if (raceWorkout != null && progWorkout != null) {
-            // Offer both; build a chooser menu — switchToView replaces IdleMenu so it
-            // doesn't stay on the stack when we later arm and return to idle.
             var menu = new WatchUi.Menu2({ :title => "Suggestion" });
             menu.addItem(new WatchUi.MenuItem(
                 WatchUi.loadResource(Rez.Strings.SuggestionProgression), null, :prog, null));
@@ -186,16 +187,20 @@ class IdleMenuDelegate extends WatchUi.Menu2InputDelegate {
                 WatchUi.loadResource(Rez.Strings.SuggestionRace) + " · " + daysToRace + "d",
                 null, :race, null));
             WatchUi.switchToView(menu,
-                new SuggestionChooserDelegate(_view, progWorkout, raceWorkout),
+                new SuggestionChooserDelegate(_view, progWorkout, raceWorkout, daysToRace),
                 WatchUi.SLIDE_LEFT);
         } else if (raceWorkout != null) {
             WatchUi.switchToView(new SuggestionView(raceWorkout),
-                new SuggestionDelegate(raceWorkout, _view), WatchUi.SLIDE_LEFT);
+                new SuggestionDelegate(raceWorkout, _view, null, null, null, false),
+                WatchUi.SLIDE_LEFT);
         } else if (progWorkout != null) {
             WatchUi.switchToView(new SuggestionView(progWorkout),
-                new SuggestionDelegate(progWorkout, _view), WatchUi.SLIDE_LEFT);
+                new SuggestionDelegate(progWorkout, _view, null, null, null, false),
+                WatchUi.SLIDE_LEFT);
+        } else {
+            WatchUi.switchToView(new RestDayView(readiness[:reason]),
+                new RestDayDelegate(_view), WatchUi.SLIDE_LEFT);
         }
-        // If both null (READINESS_REST), do nothing — stay on idle
     }
 
     private function daysToRaceNum() {
@@ -211,18 +216,24 @@ class SuggestionChooserDelegate extends WatchUi.Menu2InputDelegate {
     private var _view;
     private var _prog;
     private var _race;
-    function initialize(view, prog, race) {
+    private var _daysToRace;
+    function initialize(view, prog, race, daysToRace) {
         Menu2InputDelegate.initialize();
-        _view = view;
-        _prog = prog;
-        _race = race;
+        _view       = view;
+        _prog       = prog;
+        _race       = race;
+        _daysToRace = daysToRace;
     }
     function onSelect(item) {
         var workout = (item.getId() == :race) ? _race : _prog;
+        // Pass the chooser context so SuggestionDelegate can rebuild this screen on BACK.
         WatchUi.switchToView(new SuggestionView(workout),
-            new SuggestionDelegate(workout, _view), WatchUi.SLIDE_LEFT);
+            new SuggestionDelegate(workout, _view, _prog, _race, _daysToRace, false),
+            WatchUi.SLIDE_LEFT);
     }
     function onBack() {
-        WatchUi.popView(WatchUi.SLIDE_DOWN);
+        // Rebuild IdleMenu — stack stays at depth 2 so popView from IdleMenu returns to idle.
+        WatchUi.switchToView(new IdleMenu(_view), new IdleMenuDelegate(_view),
+            WatchUi.SLIDE_RIGHT);
     }
 }

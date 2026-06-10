@@ -115,7 +115,8 @@ class RaceDateDelegate extends WatchUi.BehaviorDelegate {
         return true;
     }
     function onBack() {
-        WatchUi.popView(WatchUi.SLIDE_RIGHT);
+        WatchUi.switchToView(new IdleMenu(_mainView), new IdleMenuDelegate(_mainView),
+            WatchUi.SLIDE_RIGHT);
         return true;
     }
 }

@@ -60,13 +60,14 @@ class CustomListDelegate extends WatchUi.Menu2InputDelegate {
             var workout  = _buildSlotWorkout(prefix);
             if (workout != null) {
                 WatchUi.switchToView(new SuggestionView(workout),
-                    new SuggestionDelegate(workout, _mainView), WatchUi.SLIDE_LEFT);
+                    new SuggestionDelegate(workout, _mainView, null, null, null, true), WatchUi.SLIDE_LEFT);
             }
         }
     }
 
     function onBack() {
-        WatchUi.popView(WatchUi.SLIDE_DOWN);
+        WatchUi.switchToView(new IdleMenu(_mainView), new IdleMenuDelegate(_mainView),
+            WatchUi.SLIDE_RIGHT);
     }
 
     private function _buildSlotWorkout(prefix) {
@@ -252,8 +253,10 @@ class CustomView extends WatchUi.View {
 }
 
 class CustomDelegate extends WatchUi.BehaviorDelegate {
+    private var _mainView;
     function initialize(mainView) {
         BehaviorDelegate.initialize();
+        _mainView = mainView;
     }
     function onNextPage() {
         var v = WatchUi.getCurrentView()[0];
@@ -271,7 +274,8 @@ class CustomDelegate extends WatchUi.BehaviorDelegate {
         return true;
     }
     function onBack() {
-        WatchUi.popView(WatchUi.SLIDE_RIGHT);
+        WatchUi.switchToView(new CustomListMenu(), new CustomListDelegate(_mainView),
+            WatchUi.SLIDE_RIGHT);
         return true;
     }
 }
