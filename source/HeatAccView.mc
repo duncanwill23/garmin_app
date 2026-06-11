@@ -256,7 +256,6 @@ class HeatAccView extends WatchUi.View {
             _workoutMode = false;
             _workout     = null;
             _alertBanner = "Done · free mode";
-            vibrateOnce();
             WatchUi.requestUpdate();
             return;
         }
@@ -280,7 +279,6 @@ class HeatAccView extends WatchUi.View {
             _state = Config.STATE_REST;
             _alertBanner = "Rest";
         }
-        vibrateOnce();
         WatchUi.requestUpdate();
     }
 
