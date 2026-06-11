@@ -110,6 +110,9 @@ module Config {
     // --- Silence / vibration toggle ---
     const STORAGE_KEY_SILENT = "silentMode";
 
+    // --- Race date storage key ---
+    const KEY_RACE_DATE = "race_date_epoch";
+
     // --- Modality accent colors (IDLE screen carousel) ---
     // Sauna (dry) — warm
     const COLOR_DRY_PRIMARY   = 0xF2A623;  // amber

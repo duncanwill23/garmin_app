@@ -139,7 +139,8 @@ class IdleMenuDelegate extends WatchUi.Menu2InputDelegate {
         } else if (id == :custom) {
             WatchUi.switchToView(new CustomListMenu(), new CustomListDelegate(_view), WatchUi.SLIDE_LEFT);
         } else if (id == :race_date) {
-            WatchUi.switchToView(new RaceDateView(_view), new RaceDateDelegate(_view), WatchUi.SLIDE_LEFT);
+            WatchUi.switchToView(new RaceDateMenu(_view),
+                new RaceDateMenuDelegate(_view), WatchUi.SLIDE_LEFT);
         } else if (id == :rundown) {
             // ToggleMenuItem handles its own visual state; we just persist the value.
             Readiness.setManualLow(!Readiness.getManualLow());
@@ -195,7 +196,7 @@ class IdleMenuDelegate extends WatchUi.Menu2InputDelegate {
     }
 
     private function daysToRaceNum() {
-        var rd = Storage.getValue("race_date_epoch");
+        var rd = Storage.getValue(Config.KEY_RACE_DATE);
         if (rd == null) { return null; }
         var diff = (rd - TrendStore.nowEpoch()) / 86400;
         return (diff < 0) ? null : diff;

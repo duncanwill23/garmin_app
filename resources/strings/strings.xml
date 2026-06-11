@@ -35,6 +35,9 @@
   <!-- Readiness toggle (idle menu) -->
   <string id="MenuRunDown">Run down today</string>
   <string id="MenuSilent">Mute app cues</string>
+  <string id="RaceSet">Set race date</string>
+  <string id="RaceChange">Change date</string>
+  <string id="RaceClear">Clear race date</string>
   <string id="SystemTonesNote">Lap tones: watch Settings &gt; System &gt; Sounds</string>
 
   <!-- Custom workout list -->

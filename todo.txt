@@ -1,121 +1,159 @@
-# Fix: remove fake enableAlerts + soften same-day rest-day trigger
+# Race date UI redo — Menu2 first, picker second (matches IdleMenu pattern)
 
-Two unrelated fixes.
+Replaces the single cramped picker screen with the app's standard two-step pattern:
+a `Menu2` that adapts to saved state, then the UP/DOWN picker. This removes the
+button conflict (LAP-to-delete vs. how-to-go-back) entirely.
+
+Key in `Config.mc` (define once, reference everywhere):
+```monkeyc
+const KEY_RACE_DATE = "race_date_epoch";
+```
+Use `Config.KEY_RACE_DATE` in RaceDateView and HeatAccDelegate so writer/reader match.
 
 ---
 
-## PART 1 — Vibration/sound: remove the misleading `:enableAlerts`
+## Flow
 
-`:enableAlerts` is NOT a real `createSession` option in Garmin's ActivityRecording
-API — it compiles but is silently ignored, so it does nothing. The tones/vibrations
-heard at session start/stop and on each lap are the WATCH'S OWN activity alerts,
-controlled by a device setting, not by app code. An app cannot suppress them.
-
-### 1a. `source/SessionManager.mc` — drop the dead option
-FIND:
-```monkeyc
-function start(modality, silent) {
-    _session = ActivityRecording.createSession({
-        :name         => "Heat Acclimation",
-        :sport        => Config.REC_SPORT,
-        :subSport     => Config.REC_SUB_SPORT,
-        :enableAlerts => !silent
-    });
 ```
-REPLACE WITH:
-```monkeyc
-function start(modality) {
-    _session = ActivityRecording.createSession({
-        :name     => "Heat Acclimation",
-        :sport    => Config.REC_SPORT,
-        :subSport => Config.REC_SUB_SPORT
-    });
+Idle options menu  ──(Set race date)──►  RaceDateMenu (Menu2)
+                                          │
+   if NO date saved:                      ├─ "Set race date"   ──► RaceDatePicker
+                                          └─ (BACK → idle options)
+                                          │
+   if date saved (title = "Race in Nd"):  ├─ "Change date"     ──► RaceDatePicker
+                                          ├─ "Clear race date" ──► delete + back to idle
+                                          └─ (BACK → idle options)
 ```
-(The `silent` param is no longer needed here.)
-
-### 1b. `source/HeatAccView.mc` — revert the call
-FIND:
-```monkeyc
-_session.start(_modality, _silent);
-```
-REPLACE WITH:
-```monkeyc
-_session.start(_modality);
-```
-
-### 1c. Keep the in-app silence toggle — it still mutes the APP'S OWN cues
-The `_silent` flag and `vibrateOnce()` gating are still useful: they mute the app's
-own `Attention.vibrate` calls (HR alerts, step-advance cues). Leave all of that as-is.
-Only the fake `:enableAlerts` is being removed.
-
-### 1d. Clarify the menu label so users know its scope
-`resources/strings/strings.xml` — change:
-```xml
-<string id="MenuSilent">Silence alerts</string>
-```
-to:
-```xml
-<string id="MenuSilent">Mute app cues</string>
-```
-And add a new string for an on-screen note:
-```xml
-<string id="SystemTonesNote">Lap tones: watch Settings &gt; System &gt; Sounds</string>
-```
-Optionally display `SystemTonesNote` as a small footer line on the idle screen (or in
-the menu) so the user knows the lap/start/stop tones are silenced via the watch's own
-Sounds &amp; Vibration setting, not the app. (fr955: Settings &gt; System &gt; Sounds
-and Vibration — turn off Tones/Vibration, or set per-activity.)
+Picker buttons: UP/DOWN adjust, START save+return to idle, BACK cancel→RaceDateMenu.
+No LAP overload anywhere.
 
 ---
 
-## PART 2 — Stop a same-day session from forcing a REST day
+## 1. New `RaceDateMenu` (Menu2) + delegate
 
-### The cause
-In `Readiness.assess()`, BB 39 starts at SHORT (band 2). If a heat session was already
-done today (`daysSinceLast() == 0`), the same-day knockdown bumps SHORT → REST (band 3),
-producing a rest-day suggestion. The threshold itself is fine; it's the stacked
-same-day knockdown that tips it over.
+Add to `source/RaceDateView.mc` (or a new file). Mirrors `IdleMenu`/`IdleMenuDelegate`.
 
-### The fix — cap the same-day-session knockdown at SHORT
-The same-day session should never, on its own, push a user all the way to a full REST
-day — it should at most land them at SHORT. Change that one knockdown so it can't
-exceed SHORT.
-
-`source/Readiness.mc` — FIND:
 ```monkeyc
-// Same-day heat session: slight knockdown (< 24 h recovery)
-var dsl = TrendStore.daysSinceLast();
-if (dsl != null && dsl == 0) {
-    band   = bandDown(band);
-    reason = reason + " · session today";
+class RaceDateMenu extends WatchUi.Menu2 {
+    function initialize(view) {
+        var saved = Storage.getValue(Config.KEY_RACE_DATE);
+        var days  = null;
+        if (saved != null) {
+            var d = (saved - TrendStore.nowEpoch()) / 86400;
+            if (d > 0) { days = d; }
+        }
+
+        var title = (days != null)
+            ? "Race in " + days + "d"
+            : WatchUi.loadResource(Rez.Strings.MenuRaceDate);
+        Menu2.initialize({ :title => title });
+
+        if (days != null) {
+            addItem(new WatchUi.MenuItem(
+                WatchUi.loadResource(Rez.Strings.RaceChange), null, :change, null));
+            addItem(new WatchUi.MenuItem(
+                WatchUi.loadResource(Rez.Strings.RaceClear), null, :clear, null));
+        } else {
+            addItem(new WatchUi.MenuItem(
+                WatchUi.loadResource(Rez.Strings.RaceSet), null, :change, null));
+        }
+    }
+}
+
+class RaceDateMenuDelegate extends WatchUi.Menu2InputDelegate {
+    private var _mainView;
+    function initialize(mainView) {
+        Menu2InputDelegate.initialize();
+        _mainView = mainView;
+    }
+    function onTap(evt)   { return true; }
+    function onHold(evt)  { return true; }
+    function onSwipe(evt) { return true; }
+
+    function onSelect(item) {
+        var id = item.getId();
+        if (id == :change) {
+            WatchUi.switchToView(new RaceDatePicker(_mainView),
+                new RaceDatePickerDelegate(_mainView), WatchUi.SLIDE_LEFT);
+        } else if (id == :clear) {
+            Storage.deleteValue(Config.KEY_RACE_DATE);
+            // back to idle options menu
+            WatchUi.switchToView(new IdleMenu(_mainView),
+                new IdleMenuDelegate(_mainView), WatchUi.SLIDE_RIGHT);
+        }
+    }
+    function onBack() {
+        WatchUi.switchToView(new IdleMenu(_mainView),
+            new IdleMenuDelegate(_mainView), WatchUi.SLIDE_RIGHT);
+        return true;
+    }
 }
 ```
-REPLACE WITH:
+
+New strings in `strings.xml`:
+```xml
+<string id="RaceSet">Set race date</string>
+<string id="RaceChange">Change date</string>
+<string id="RaceClear">Clear race date</string>
+```
+
+---
+
+## 2. Rename the existing view to `RaceDatePicker` and simplify it
+
+The current `RaceDateView` becomes `RaceDatePicker` — same UP/DOWN/START picker, but:
+- Remove the LAP/clear responsibility entirely (clear now lives in the menu).
+- Bottom help line becomes just: `"UP/DOWN adjust · START save"`.
+- `save()` unchanged (writes `Config.KEY_RACE_DATE`).
+- `initialize` still preloads the saved days so "Change date" opens on the current value.
+
+Picker delegate (`RaceDatePickerDelegate`):
 ```monkeyc
-// Same-day heat session: nudge down, but never past SHORT on its own.
-// (Doing a second session same-day adds strain, but shouldn't force a full
-//  rest day unless Body Battery is already very low.)
-var dsl = TrendStore.daysSinceLast();
-if (dsl != null && dsl == 0) {
-    var nudged = bandDown(band);
-    band   = (nudged > Config.READINESS_SHORT) ? Config.READINESS_SHORT : nudged;
-    reason = reason + " · session today";
+function onTap(evt)   { return true; }
+function onHold(evt)  { return true; }
+function onSwipe(evt) { return true; }
+function onNextPage()     { /* decrement */ ... return true; }
+function onPreviousPage()  { /* increment */ ... return true; }
+function onKey(keyEvent) {
+    var key = keyEvent.getKey();
+    if (key == WatchUi.KEY_ENTER || key == WatchUi.KEY_START) {
+        var v = WatchUi.getCurrentView()[0];
+        if (v instanceof RaceDatePicker) { v.save(); }
+        // return to idle in one step
+        WatchUi.switchToView(_mainView, new HeatAccDelegate(_mainView), WatchUi.SLIDE_RIGHT);
+        return true;
+    }
+    return false;
+}
+function onBack() {
+    // cancel — back to the race menu, not idle
+    WatchUi.switchToView(new RaceDateMenu(_mainView),
+        new RaceDateMenuDelegate(_mainView), WatchUi.SLIDE_RIGHT);
+    return true;
 }
 ```
 
-### Result
-- BB 39 + session today → SHORT (a short session), not REST.
-- BB < 25 (very low) still yields REST directly from Body Battery, regardless.
-- Genuine multi-factor depletion (e.g. low BB + high stress + heavy activity) can still
-  reach REST through the other knockdowns — only the same-day-session one is capped.
+---
+
+## 3. Point the idle menu at the new menu, not the old picker
+
+`HeatAccDelegate.mc`, `IdleMenuDelegate.onSelect`, change the `:race_date` branch:
+```monkeyc
+} else if (id == :race_date) {
+    WatchUi.switchToView(new RaceDateMenu(_view),
+        new RaceDateMenuDelegate(_view), WatchUi.SLIDE_LEFT);
+}
+```
 
 ---
 
 ## Acceptance criteria
-- No `:enableAlerts` anywhere in the codebase; `start()` takes only `modality`.
-- The app's own HR/step cues still respect the silence toggle.
-- The menu/idle communicates that lap tones are a watch setting.
-- With BB 39 and a session already completed today, "Suggestion" returns a SHORT
-  workout, not a rest day.
-- A rest day still appears for very low Body Battery (<25) or multiple stacked
-  knockdowns.
+- Selecting "Set race date" with no race saved shows a one-item menu → picker.
+- Selecting it with a race saved shows a menu titled "Race in Nd" with "Change date"
+  and "Clear race date".
+- "Clear race date" deletes the date and the race suggestion stops appearing.
+- Picker uses UP/DOWN to adjust, START to save+return to idle, BACK to return to the
+  race menu. LAP does nothing on the picker.
+- BACK from the race menu returns to the idle options menu, consistent with every
+  other sub-menu.
+- The saved date persists across app open/close and watch restart.

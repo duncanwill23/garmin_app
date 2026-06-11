@@ -3,22 +3,76 @@ using Toybox.Graphics;
 using Toybox.Application.Storage;
 
 // ---------------------------------------------------------------------------
-// RaceDateView: UP/DOWN picker for days-to-race (1–RACE_WINDOW_DAYS).
-// START saves. If no race is set, shows the picker starting at 14 days.
-// Stored as a future epoch: now + days * 86400.
+// RaceDateMenu: Menu2 entry point for race-date management.
+// Shows a dynamic title ("Race in Nd" or "Set race date") and offers
+// Set/Change and Clear items depending on whether a date is saved.
 // ---------------------------------------------------------------------------
-class RaceDateView extends WatchUi.View {
+class RaceDateMenu extends WatchUi.Menu2 {
+    function initialize(view) {
+        var saved = Storage.getValue(Config.KEY_RACE_DATE);
+        var days  = null;
+        if (saved != null) {
+            var d = (saved - TrendStore.nowEpoch()) / 86400;
+            if (d > 0) { days = d; }
+        }
 
+        var title = (days != null)
+            ? "Race in " + days + "d"
+            : WatchUi.loadResource(Rez.Strings.MenuRaceDate);
+        Menu2.initialize({ :title => title });
+
+        if (days != null) {
+            addItem(new WatchUi.MenuItem(
+                WatchUi.loadResource(Rez.Strings.RaceChange), null, :change, null));
+            addItem(new WatchUi.MenuItem(
+                WatchUi.loadResource(Rez.Strings.RaceClear), null, :clear, null));
+        } else {
+            addItem(new WatchUi.MenuItem(
+                WatchUi.loadResource(Rez.Strings.RaceSet), null, :change, null));
+        }
+    }
+}
+
+class RaceDateMenuDelegate extends WatchUi.Menu2InputDelegate {
     private var _mainView;
+    function initialize(mainView) {
+        Menu2InputDelegate.initialize();
+        _mainView = mainView;
+    }
+    function onTap(evt)   { return true; }
+    function onHold(evt)  { return true; }
+    function onSwipe(evt) { return true; }
+
+    function onSelect(item) {
+        var id = item.getId();
+        if (id == :change) {
+            WatchUi.switchToView(new RaceDatePicker(_mainView),
+                new RaceDatePickerDelegate(_mainView), WatchUi.SLIDE_LEFT);
+        } else if (id == :clear) {
+            Storage.deleteValue(Config.KEY_RACE_DATE);
+            WatchUi.switchToView(new IdleMenu(_mainView),
+                new IdleMenuDelegate(_mainView), WatchUi.SLIDE_RIGHT);
+        }
+    }
+    function onBack() {
+        WatchUi.switchToView(new IdleMenu(_mainView),
+            new IdleMenuDelegate(_mainView), WatchUi.SLIDE_RIGHT);
+    }
+}
+
+// ---------------------------------------------------------------------------
+// RaceDatePicker: UP/DOWN picker for days-to-race (1–90).
+// START saves and returns to idle. BACK cancels and returns to RaceDateMenu.
+// ---------------------------------------------------------------------------
+class RaceDatePicker extends WatchUi.View {
+
     private var _days;
 
-    const KEY_RACE_DATE = "race_date_epoch";
+    const MAX_ENTRY_DAYS = 90;
 
     function initialize(mainView) {
         View.initialize();
-        _mainView = mainView;
-        // Load existing saved days-to-race, or default to 14
-        var saved = Storage.getValue(KEY_RACE_DATE);
+        var saved = Storage.getValue(Config.KEY_RACE_DATE);
         if (saved != null) {
             var diff = (saved - TrendStore.nowEpoch()) / 86400;
             _days = (diff > 0 && diff <= MAX_ENTRY_DAYS) ? diff : 14;
@@ -27,15 +81,12 @@ class RaceDateView extends WatchUi.View {
         }
     }
 
-    const MAX_ENTRY_DAYS = 90;  // allow entry up to ~3 months; race plan activates inside RACE_WINDOW_DAYS
-
     function increment() { if (_days < MAX_ENTRY_DAYS) { _days++; WatchUi.requestUpdate(); } }
     function decrement() { if (_days > 1)               { _days--; WatchUi.requestUpdate(); } }
 
     function save() {
         var epoch = TrendStore.nowEpoch() + _days * 86400;
-        Storage.setValue(KEY_RACE_DATE, epoch);
-        // Navigation is handled by RaceDateDelegate (switchToView → idle)
+        Storage.setValue(Config.KEY_RACE_DATE, epoch);
     }
 
     function onUpdate(dc) {
@@ -69,7 +120,7 @@ class RaceDateView extends WatchUi.View {
         var downY = (h * 0.70).toNumber();
         dc.fillPolygon([[cx, downY + 8], [cx - 8, downY - 4], [cx + 8, downY - 4]]);
 
-        // Activation note: tells the user when the race suggestion will appear
+        // Activation note
         var activationNote;
         if (_days > Config.RACE_WINDOW_DAYS) {
             var daysUntilActive = _days - Config.RACE_WINDOW_DAYS;
@@ -81,14 +132,12 @@ class RaceDateView extends WatchUi.View {
         dc.drawText(cx, (h * 0.78).toNumber(), Graphics.FONT_XTINY,
             activationNote, Graphics.TEXT_JUSTIFY_CENTER);
 
-        // Range note
         dc.drawText(cx, (h * 0.88).toNumber(), Graphics.FONT_XTINY,
-            "1-90  ·  START to save",
-            Graphics.TEXT_JUSTIFY_CENTER);
+            "UP/DOWN adjust · START save", Graphics.TEXT_JUSTIFY_CENTER);
     }
 }
 
-class RaceDateDelegate extends WatchUi.BehaviorDelegate {
+class RaceDatePickerDelegate extends WatchUi.BehaviorDelegate {
     private var _mainView;
 
     function initialize(mainView) {
@@ -99,31 +148,31 @@ class RaceDateDelegate extends WatchUi.BehaviorDelegate {
     function onTap(evt)   { return true; }
     function onHold(evt)  { return true; }
     function onSwipe(evt) { return true; }
+
     function onNextPage() {
         var v = WatchUi.getCurrentView()[0];
-        if (v instanceof RaceDateView) { v.decrement(); }
+        if (v instanceof RaceDatePicker) { v.decrement(); }
         return true;
     }
     function onPreviousPage() {
         var v = WatchUi.getCurrentView()[0];
-        if (v instanceof RaceDateView) { v.increment(); }
+        if (v instanceof RaceDatePicker) { v.increment(); }
         return true;
     }
     function onKey(keyEvent) {
         var key = keyEvent.getKey();
         if (key == WatchUi.KEY_ENTER || key == WatchUi.KEY_START) {
             var v = WatchUi.getCurrentView()[0];
-            if (v instanceof RaceDateView) {
-                v.save();
-                WatchUi.popView(WatchUi.SLIDE_RIGHT);
-            }
+            if (v instanceof RaceDatePicker) { v.save(); }
+            WatchUi.switchToView(_mainView,
+                new HeatAccDelegate(_mainView), WatchUi.SLIDE_RIGHT);
             return true;
         }
         return false;
     }
     function onBack() {
-        WatchUi.switchToView(new IdleMenu(_mainView), new IdleMenuDelegate(_mainView),
-            WatchUi.SLIDE_RIGHT);
+        WatchUi.switchToView(new RaceDateMenu(_mainView),
+            new RaceDateMenuDelegate(_mainView), WatchUi.SLIDE_RIGHT);
         return true;
     }
 }
