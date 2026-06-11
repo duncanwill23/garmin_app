@@ -131,7 +131,7 @@ class HeatAccView extends WatchUi.View {
         _dose    = new DoseEngine(_hrMax, _modality);
         _dose.startNewRound();
         _session = new SessionManager();
-        _session.start(_modality, _silent);
+        _session.start(_modality);
         _sessionElapsed = 0;
         _phaseElapsed   = 0;
         _round          = 1;
@@ -585,6 +585,14 @@ class HeatAccView extends WatchUi.View {
             dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
             dc.drawText(cx, (h * 0.93).toNumber(), Graphics.FONT_XTINY,
                 "~" + decayPct + "% decayed",
+                Graphics.TEXT_JUSTIFY_CENTER);
+        }
+
+        // When app cues are muted, remind the user that lap tones are a watch setting.
+        if (_silent) {
+            dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(cx, (h * 0.99).toNumber(), Graphics.FONT_XTINY,
+                WatchUi.loadResource(Rez.Strings.SystemTonesNote),
                 Graphics.TEXT_JUSTIFY_CENTER);
         }
     }

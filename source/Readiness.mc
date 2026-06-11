@@ -58,10 +58,11 @@ module Readiness {
             reason = reason + " · feeling run down";
         }
 
-        // Same-day heat session: slight knockdown (< 24 h recovery)
+        // Same-day heat session: nudge down, but never past SHORT on its own.
         var dsl = TrendStore.daysSinceLast();
         if (dsl != null && dsl == 0) {
-            band   = bandDown(band);
+            var nudged = bandDown(band);
+            band   = (nudged > Config.READINESS_SHORT) ? Config.READINESS_SHORT : nudged;
             reason = reason + " · session today";
         }
 

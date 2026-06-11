@@ -34,7 +34,8 @@
 
   <!-- Readiness toggle (idle menu) -->
   <string id="MenuRunDown">Run down today</string>
-  <string id="MenuSilent">Silence alerts</string>
+  <string id="MenuSilent">Mute app cues</string>
+  <string id="SystemTonesNote">Lap tones: watch Settings &gt; System &gt; Sounds</string>
 
   <!-- Custom workout list -->
   <string id="MenuCustomBuild">Build new…</string>

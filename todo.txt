@@ -1,62 +1,121 @@
-# Fix: readiness reason string formatting + REST threshold
+# Fix: remove fake enableAlerts + soften same-day rest-day trigger
 
-## 1. Float formatting in reason string — `source/Readiness.mc`
-
-`sample.data` returns a Float, so `"BB " + bb` prints as "BB 39.000000".
-Cast to integer before building any reason string.
-
-FIND the `bodyBattery()` function return line:
-```monkeyc
-return sample.data;
-```
-REPLACE WITH:
-```monkeyc
-return sample.data.toNumber();
-```
-
-That's it — `bb` is now an Integer everywhere it's used in `assess()` and
-the reason string prints "BB 39 low" as intended.
+Two unrelated fixes.
 
 ---
 
-## 2. REST threshold is too aggressive — `source/Readiness.mc` + `source/Config.mc`
+## PART 1 — Vibration/sound: remove the misleading `:enableAlerts`
 
-Current logic: BB 20–39 = SHORT, then a single knockdown (stress / activity /
-manual / same-day session) pushes SHORT → REST. At BB 39 that's very easy to
-trigger. Two options — pick one:
+`:enableAlerts` is NOT a real `createSession` option in Garmin's ActivityRecording
+API — it compiles but is silently ignored, so it does nothing. The tones/vibrations
+heard at session start/stop and on each lap are the WATCH'S OWN activity alerts,
+controlled by a device setting, not by app code. An app cannot suppress them.
 
-### Option A (recommended): require BB < 25 before REST is reachable from knockdowns
-Change the SHORT band threshold so only very low BB puts you close to REST:
+### 1a. `source/SessionManager.mc` — drop the dead option
+FIND:
 ```monkeyc
-// FIND:
-} else if (bb >= 20) {
-    band     = Config.READINESS_SHORT;
-    bbReason = "BB " + bb + " low";
-} else {
-    band     = Config.READINESS_REST;
-    bbReason = "BB " + bb + " very low";
-}
-// REPLACE WITH:
-} else if (bb >= 25) {
-    band     = Config.READINESS_SHORT;
-    bbReason = "BB " + bb + " low";
-} else {
-    band     = Config.READINESS_REST;
-    bbReason = "BB " + bb + " very low";
+function start(modality, silent) {
+    _session = ActivityRecording.createSession({
+        :name         => "Heat Acclimation",
+        :sport        => Config.REC_SPORT,
+        :subSport     => Config.REC_SUB_SPORT,
+        :enableAlerts => !silent
+    });
+```
+REPLACE WITH:
+```monkeyc
+function start(modality) {
+    _session = ActivityRecording.createSession({
+        :name     => "Heat Acclimation",
+        :sport    => Config.REC_SPORT,
+        :subSport => Config.REC_SUB_SPORT
+    });
+```
+(The `silent` param is no longer needed here.)
+
+### 1b. `source/HeatAccView.mc` — revert the call
+FIND:
+```monkeyc
+_session.start(_modality, _silent);
+```
+REPLACE WITH:
+```monkeyc
+_session.start(_modality);
+```
+
+### 1c. Keep the in-app silence toggle — it still mutes the APP'S OWN cues
+The `_silent` flag and `vibrateOnce()` gating are still useful: they mute the app's
+own `Attention.vibrate` calls (HR alerts, step-advance cues). Leave all of that as-is.
+Only the fake `:enableAlerts` is being removed.
+
+### 1d. Clarify the menu label so users know its scope
+`resources/strings/strings.xml` — change:
+```xml
+<string id="MenuSilent">Silence alerts</string>
+```
+to:
+```xml
+<string id="MenuSilent">Mute app cues</string>
+```
+And add a new string for an on-screen note:
+```xml
+<string id="SystemTonesNote">Lap tones: watch Settings &gt; System &gt; Sounds</string>
+```
+Optionally display `SystemTonesNote` as a small footer line on the idle screen (or in
+the menu) so the user knows the lap/start/stop tones are silenced via the watch's own
+Sounds &amp; Vibration setting, not the app. (fr955: Settings &gt; System &gt; Sounds
+and Vibration — turn off Tones/Vibration, or set per-activity.)
+
+---
+
+## PART 2 — Stop a same-day session from forcing a REST day
+
+### The cause
+In `Readiness.assess()`, BB 39 starts at SHORT (band 2). If a heat session was already
+done today (`daysSinceLast() == 0`), the same-day knockdown bumps SHORT → REST (band 3),
+producing a rest-day suggestion. The threshold itself is fine; it's the stacked
+same-day knockdown that tips it over.
+
+### The fix — cap the same-day-session knockdown at SHORT
+The same-day session should never, on its own, push a user all the way to a full REST
+day — it should at most land them at SHORT. Change that one knockdown so it can't
+exceed SHORT.
+
+`source/Readiness.mc` — FIND:
+```monkeyc
+// Same-day heat session: slight knockdown (< 24 h recovery)
+var dsl = TrendStore.daysSinceLast();
+if (dsl != null && dsl == 0) {
+    band   = bandDown(band);
+    reason = reason + " · session today";
 }
 ```
-With this change, BB 39 = SHORT and would need TWO knockdowns to reach REST
-(SHORT → TRIM → REST), which is much harder to hit accidentally.
+REPLACE WITH:
+```monkeyc
+// Same-day heat session: nudge down, but never past SHORT on its own.
+// (Doing a second session same-day adds strain, but shouldn't force a full
+//  rest day unless Body Battery is already very low.)
+var dsl = TrendStore.daysSinceLast();
+if (dsl != null && dsl == 0) {
+    var nudged = bandDown(band);
+    band   = (nudged > Config.READINESS_SHORT) ? Config.READINESS_SHORT : nudged;
+    reason = reason + " · session today";
+}
+```
 
-### Option B: require two knockdowns to reach REST
-Change `bandDown` so it only nudges by 1, and only send REST when band
-is already SHORT AND there are 2+ knockdown conditions. This is more
-complex — Option A is simpler and achieves the same thing.
+### Result
+- BB 39 + session today → SHORT (a short session), not REST.
+- BB < 25 (very low) still yields REST directly from Body Battery, regardless.
+- Genuine multi-factor depletion (e.g. low BB + high stress + heavy activity) can still
+  reach REST through the other knockdowns — only the same-day-session one is capped.
 
 ---
 
 ## Acceptance criteria
-- Reason string shows "BB 39 low" not "BB 39.000000 low".
-- A BB of 39 with a single knockdown (e.g. same-day session) shows
-  SHORT suggestion rather than a rest day.
-- REST day is reserved for BB < 25 or multiple simultaneous knockdowns.
+- No `:enableAlerts` anywhere in the codebase; `start()` takes only `modality`.
+- The app's own HR/step cues still respect the silence toggle.
+- The menu/idle communicates that lap tones are a watch setting.
+- With BB 39 and a session already completed today, "Suggestion" returns a SHORT
+  workout, not a rest day.
+- A rest day still appears for very low Body Battery (<25) or multiple stacked
+  knockdowns.
